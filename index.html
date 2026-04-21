@@ -275,6 +275,12 @@ canvas{display:block;width:100%;}
 .kaza-badge{display:inline-block;font-family:var(--mono);font-size:10px;color:#fb923c;background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:4px;padding:2px 8px;margin-top:4px;}
 .dash-sayac{background:var(--surf);border-bottom:1px solid var(--bdr);}
 
+.sozler-bar{padding:10px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;}
+.sozler-icon{font-size:14px;flex-shrink:0;color:var(--grn);opacity:0.6;}
+.sozler-text{font-size:12px;font-style:italic;color:var(--dim);line-height:1.5;flex:1;}
+.reklam-bar{padding:10px 20px;background:var(--surf);border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;}
+.reklam-link{font-family:var(--mono);font-size:11px;color:var(--mut);text-decoration:none;opacity:0.6;transition:opacity .2s;}
+.reklam-link:hover{opacity:1;color:var(--grn);}
 </style>
 </head>
 <body>
@@ -284,6 +290,10 @@ canvas{display:block;width:100%;}
     <div class="logo-main">Trafik Ceza Rehberi</div>
     <div class="logo-sub">EGM &nbsp;·&nbsp; KTK 2918 &nbsp;·&nbsp; 2026</div>
   </div>
+<div class="sozler-bar" id="sozlerBar">
+  <span class="sozler-icon">❝</span>
+  <span class="sozler-text" id="sozlerText">Yükleniyor...</span>
+</div>
   <div class="search-wrap">
     <input class="search-input" id="query" type="text"
       placeholder="İhlali yazın... (Örn: emniyet kemeri takmıyor)"
@@ -384,6 +394,9 @@ canvas{display:block;width:100%;}
   Ölümlü + yaralanmalı kaza sayıları · Kaza yerinde tespit edilen ölüler
 </div>
 </div><!-- /tab-dashboard -->
+<div class="reklam-bar">
+  <a class="reklam-link" href="https://www.axasigorta.com.tr/arac-sigortasi/zorunlu-trafik-sigortasi" target="_blank" rel="noopener">Zorunlu Trafik Sigortası için AXA’dan şimdi teklif al →</a>
+</div>
 <div class="footer">
   <a href="https://trafik.gov.tr/0255" target="_blank">trafik.gov.tr/0255</a> &nbsp;&middot;&nbsp;
   EGM 2026 Trafik İdari Para Ceza Rehberi &nbsp;&middot;&nbsp;
@@ -1523,6 +1536,16 @@ initDashboard = function() {
   buildStatsGrid(secilenAy);
 };
 
+fetch(GITHUB_BASE+'data/sozler.json')
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var list=d.sozler;
+    if(!list||!list.length)return;
+    var el=document.getElementById('sozlerText');
+    if(!el)return;
+    el.textContent=list[Math.floor(Math.random()*list.length)];
+  })
+  .catch(function(){});
 </script>
 </body>
 </html>
