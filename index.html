@@ -930,7 +930,25 @@ function switchTab(name) {
   });
   if(name==='dashboard' && !window._dashInited) {
     window._dashInited = true;
-    setTimeout(initDashboard, 50);
+    setTimeout(function() {
+      buildMonthInsight();
+      drawTrend();
+      drawKusur(secilenAy);
+      drawKorelasyon();
+      drawIller(secilenAy);
+      buildStatsGrid(secilenAy);
+      var btnWrap=document.getElementById('ayBtnlar');
+      if(btnWrap && btnWrap.children.length === 0) {
+        EGM.aylar.forEach(function(a){
+          var btn=document.createElement('button');
+          btn.className='ay-btn'+(a.kod===secilenAy?' active':'');
+          btn.dataset.kod=a.kod;
+          btn.textContent=a.ad;
+          btn.onclick=function(){selectAy(a.kod);};
+          btnWrap.appendChild(btn);
+        });
+      }
+    }, 50);
   }
 }
 
@@ -1362,8 +1380,6 @@ initDashboard = function() {
   _origInit();
   buildStatsGrid(secilenAy);
 };
-
-initDashboard();
 
 </script>
 </body>
