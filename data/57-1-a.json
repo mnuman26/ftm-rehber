@@ -1,0 +1,102 @@
+{
+  "madde_no": "57/1-a",
+  "baslik": "Kavşaklara yaklaşırken kurallara uymamak",
+  "kanun_metni": "Kavşaklara yaklaşırken kavşaktaki şartlara uyacak şekilde yavaşlamamak, dikkatli olmamak, geçiş hakkı olan araçlara ilk geçiş hakkını vermemek",
+  "ozet": "Kavşağa yaklaşan her sürücü hızını azaltmak, çevresini gözlemlemek ve geçiş hakkı olan araçlara önce geçme hakkı tanımak zorundadır. Bu madde kavşak yaklaşımındaki genel yükümlülüğü kapsar; ışıklı işaret veya levha olup olmadığından bağımsız uygulanır.",
+
+  "ceza": {
+    "para_tl": 1246,
+    "indirimli_tl": 934,
+    "indirim_aciklamasi": "%25 peşin ödeme indirimi",
+    "ceza_puani": 20,
+    "kime_uygulanir": "Sürücülere",
+    "yetkili_birim": "Trafik kolluğu ve Fahri Trafik Müfettişleri"
+  },
+
+  "istatistikler": {
+    "kaza_kusur_2025_yillik": 51479,
+    "kaza_kusur_2025_aralik": 4021,
+    "kaza_kusur_aciklamasi": "Kavşak/geçit ve dar yerlerde geçiş önceliğine uymamak — ölümlü-yaralanmalı kazalara neden olan sürücü kusurları sıralamasında 2. sıra",
+    "kaynak": "EGM Trafik İstatistik Bülteni, Aralık 2025"
+  },
+
+  "uygulama_alani": [
+    {
+      "durum": "Işıksız kavşağa hızla girip sağdan gelen araca yol vermemek",
+      "uygulanir": true,
+      "aciklama": "57/1-a'nın temel uygulama alanı. Işık veya levha yokken bile yavaşlama ve dikkat yükümlülüğü devam eder."
+    },
+    {
+      "durum": "Dönel kavşağa (gobekli kavşak) hızla girmek",
+      "uygulanir": true,
+      "aciklama": "Dönel kavşakta içerideki araçlara önce geçiş hakkı verilmesi zorunludur. 57/1-a ve 53/1-c birlikte uygulanabilir."
+    },
+    {
+      "durum": "Ana yola çıkarken tali yolda dur işareti görmezden gelmek",
+      "uygulanir": true,
+      "aciklama": "57/1-a genel yükümlülüğü, 57/1-b ise bu durumun özel hâlini düzenler; ikisi birlikte uygulanabilir."
+    },
+    {
+      "durum": "Sıkışık trafikte kavşağı bloke edecek şekilde kavşağa girmek",
+      "uygulanir": "kosullu",
+      "aciklama": "Bu durum ağırlıklı olarak 57/1-d kapsamına girer; ancak dikkat yükümlülüğü ihlali nedeniyle 57/1-a da eklenebilir."
+    },
+    {
+      "durum": "Işıklı kavşakta yeşil ışıkta geçmek ancak yavaşlamamak",
+      "uygulanir": true,
+      "aciklama": "Yeşil ışık geçiş izni verir, yüksek hızla geçme iznini değil. Kavşak şartlarına uygun yavaşlama yükümlülüğü devam eder."
+    },
+    {
+      "durum": "Kırmızı ışıkta geçmek",
+      "uygulanir": false,
+      "aciklama": "Bu doğrudan 47/1-b kapsamına girer. İki madde aynı anda uygulanmaz."
+    }
+  ],
+
+  "sorumluluk": [
+    {
+      "taraf": "Sürücü",
+      "durum": "Her zaman",
+      "sonuc": "Ceza doğrudan araç sürücüsüne uygulanır. Araç sahibi farklı kişiyse sadece sürücü sorumludur."
+    },
+    {
+      "taraf": "FTM",
+      "durum": "Tutanak yetkisi",
+      "sonuc": "Fahri Trafik Müfettişi bu madde kapsamında tutanak düzenleyebilir. Tutanak trafik kolluğuna iletilir, cezayı kolluk uygular."
+    }
+  ],
+
+  "fiil_tanimlari": [
+    {
+      "fiil": "Yavaşlamamak",
+      "tanim": "Kavşağa yaklaşırken hızı kavşak şartlarına göre düşürmemek",
+      "ornekler": ["Yüksek hızla kavşağa dalmak", "Fren yapmadan kavşağa girmek"]
+    },
+    {
+      "fiil": "Dikkatli olmamak",
+      "tanim": "Kavşaktaki diğer araç ve yayaları gözlemlemeden geçmek",
+      "ornekler": ["Telefona bakarken kavşaktan geçmek", "Körlere bakış açısını kontrol etmemek"]
+    },
+    {
+      "fiil": "Geçiş hakkı vermemek",
+      "tanim": "Önce geçme hakkı olan araca yol vermemek",
+      "ornekler": ["Sağdan gelen araca yol vermemek", "Ana yoldaki araca çıkış yapmak"]
+    }
+  ],
+
+  "uygulanmadigi_haller": [
+    "Kırmızı ışıkta geçiş (47/1-b kapsamına girer)",
+    "Kavşak içinde gereksiz duraklamak (57/1-e kapsamına girer)",
+    "Raylı araçlara geçiş hakkı vermemek (57/1-f kapsamına girer)"
+  ],
+
+  "ilgili_maddeler": ["57/1-b", "57/1-c", "57/1-d", "47/1-b", "53/1-c"],
+
+  "gorseller": [],
+
+  "kaynaklar": [
+    "Karayolları Trafik Kanunu Madde 57/1-a",
+    "EGM Trafik İstatistik Bülteni Aralık 2025 — 51.479 kaza (2025 yılı)",
+    "trafik.gov.tr/0255"
+  ]
+}

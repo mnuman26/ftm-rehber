@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Trafik Ceza Rehberi 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0f0e;--surf:#141714;--surf2:#1c201c;--surf3:#222822;
+  --bdr:#2a2f2a;--bdr2:#3a4a3a;--txt:#e8ede8;--mut:#7a897a;--dim:#4a584a;
+  --grn:#4cff91;--grn-dk:#182e1f;--grn-md:#2d7a50;
+  --amb:#ffc94a;--red:#ff6b6b;--red-dk:#2a1010;
+  --blu:#60a5fa;--blu-dk:#0f1f3a;--ora:#fb923c;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;}
+.hero{display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem 1.5rem;transition:padding .3s;}
+.hero.compact{padding:1rem 1.5rem .75rem;}
+.logo{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--grn);letter-spacing:.12em;margin-bottom:.5rem;transition:all .3s;}
+.hero.compact .logo{opacity:0;height:0;margin:0;overflow:hidden;}
+.wordmark{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:-.03em;margin-bottom:1.5rem;transition:all .3s;}
+.hero.compact .wordmark{font-size:0;height:0;margin:0;overflow:hidden;}
+.search-wrap{width:100%;max-width:640px;position:relative;}
+.search-input{width:100%;padding:14px 52px 14px 18px;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:28px;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.4;outline:none;transition:border-color .15s,box-shadow .15s;}
+.search-input:focus{border-color:var(--grn-md);box-shadow:0 0 0 3px rgba(76,255,145,.08);}
+.search-input::placeholder{color:var(--dim);}
+.search-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--grn);color:#000;border:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:600;transition:opacity .15s;}
+.search-btn:hover{opacity:.88;}
+.search-btn:disabled{opacity:.4;cursor:not-allowed;}
+.chips-wrap{width:100%;max-width:640px;margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.chip{background:var(--surf);border:1px solid var(--bdr);color:var(--mut);font-size:12px;padding:5px 11px;border-radius:16px;cursor:pointer;transition:all .12s;white-space:nowrap;}
+.chip:hover{border-color:var(--grn-md);color:var(--grn);background:var(--grn-dk);}
+.results{padding:0 1rem 3rem;max-width:720px;margin:0 auto;}
+.r-empty{text-align:center;padding:4rem 1rem;color:var(--dim);font-family:var(--mono);font-size:13px;line-height:2;}
+.r-empty .icon{font-size:32px;display:block;margin-bottom:12px;opacity:.25;}
+.loading{display:flex;flex-direction:column;align-items:center;padding:3rem;gap:14px;}
+.spinner{width:28px;height:28px;border:2px solid var(--bdr2);border-top-color:var(--grn);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.load-txt{font-family:var(--mono);font-size:13px;color:var(--mut);}
+.error-box{background:var(--red-dk);border:1px solid #5a2020;border-radius:10px;padding:14px 18px;font-size:13px;color:var(--red);font-family:var(--mono);line-height:1.6;}
+.cnt-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--bdr);}
+.cnt-num{font-family:var(--mono);font-size:12px;color:var(--dim);}
+.cnt-num strong{color:var(--mut);}
+.cnt-pills{display:flex;gap:6px;margin-left:auto;}
+.cnt-pill{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid;}
+.cnt-pill.ftm{color:var(--grn);border-color:rgba(76,255,145,.3);background:rgba(76,255,145,.06);}
+.cnt-pill.kol{color:var(--ora);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06);}
+.rcard{border-radius:12px;margin-bottom:10px;overflow:hidden;animation:slideIn .2s ease;transition:transform .12s,box-shadow .12s;}
+.rcard:hover{transform:translateY(-1px);}
+@keyframes slideIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.rcard.ftm{background:var(--grn-dk);border:1.5px solid rgba(76,255,145,.25);}
+.rcard.ftm:hover{border-color:var(--grn-md);box-shadow:0 4px 20px rgba(76,255,145,.08);}
+.rcard.kol{background:var(--surf);border:1px solid var(--bdr);}
+.rcard.kol:hover{border-color:var(--bdr2);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.rcard.ftm.hi{border-color:rgba(76,255,145,.5);}
+.card-strip{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.05);}
+.rcard.ftm .card-strip{background:rgba(76,255,145,.06);}
+.rcard.kol .card-strip{background:rgba(255,255,255,.02);}
+.auth{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;}
+.auth-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;}
+.auth.ftm .auth-icon{background:var(--grn);color:#000;}
+.auth.kol .auth-icon{background:var(--ora);color:#000;}
+.auth.ftm{color:var(--grn);}
+.auth.kol{color:var(--ora);}
+.strip-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.pct-badge{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;font-weight:600;}
+.rcard.ftm .pct-badge{background:rgba(76,255,145,.15);color:var(--grn);}
+.rcard.kol .pct-badge{background:rgba(255,201,74,.1);color:var(--amb);}
+.madde-no{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--mut);}
+.card-body{padding:12px 14px;}
+.gerekce{font-size:14px;line-height:1.6;margin-bottom:10px;}
+.rcard.ftm .gerekce{color:#c8ebd4;}
+.rcard.kol .gerekce{color:var(--mut);}
+.kanun{font-size:12px;font-style:italic;line-height:1.6;color:var(--dim);border-left:2px solid;padding:6px 10px;border-radius:0 4px 4px 0;background:rgba(0,0,0,.2);margin-bottom:10px;}
+.rcard.ftm .kanun{border-left-color:var(--grn-md);}
+.rcard.kol .kanun{border-left-color:var(--bdr2);}
+.fine-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.fp{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid;}
+.fp.tl.ftm{background:rgba(76,255,145,.07);color:#6dddaa;border-color:rgba(76,255,145,.2);}
+.fp.tl.kol{background:rgba(251,146,60,.07);color:#fba46c;border-color:rgba(251,146,60,.2);}
+.fp.puan{background:rgba(255,201,74,.07);color:var(--amb);border-color:rgba(255,201,74,.2);}
+.fp.kime{background:rgba(255,255,255,.04);color:var(--dim);border-color:var(--bdr);}
+.prog{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-bottom:10px;}
+.bar{height:3px;border-radius:2px;}
+.rcard.ftm .bar{background:var(--grn);}
+.rcard.kol .bar{background:var(--amb);}
+.card-acts{display:flex;gap:8px;}
+.btn-copy,.btn-det{font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid;transition:all .12s;background:transparent;}
+.btn-copy{color:var(--dim);border-color:var(--bdr);}
+.btn-copy:hover{color:var(--txt);border-color:var(--bdr2);}
+.rcard.ftm .btn-det{color:var(--grn);border-color:rgba(76,255,145,.3);}
+.rcard.ftm .btn-det:hover{background:rgba(76,255,145,.08);}
+.rcard.kol .btn-det{color:var(--mut);border-color:var(--bdr);}
+.rcard.kol .btn-det:hover{background:var(--surf2);color:var(--txt);}
+.sec-sep{display:flex;align-items:center;gap:10px;margin:20px 0 14px;}
+.sec-sep-line{flex:1;height:1px;background:var(--bdr);}
+.sec-sep-lbl{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.1em;white-space:nowrap;}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;opacity:0;transition:opacity .25s;pointer-events:none;}
+.ov.open{opacity:1;pointer-events:all;}
+.drw{position:fixed;bottom:0;left:0;right:0;max-height:90vh;background:var(--surf);border-top:1.5px solid var(--bdr2);border-radius:20px 20px 0 0;z-index:101;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);overflow-y:auto;}
+.drw.open{transform:translateY(0);}
+.dh{width:40px;height:4px;background:var(--bdr2);border-radius:2px;margin:12px auto 0;}
+.dhdr{padding:16px 20px 12px;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--surf);z-index:1;}
+.dno{font-family:var(--mono);font-size:12px;color:var(--grn);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.dtit{font-size:16px;font-weight:600;line-height:1.3;}
+.dcls{position:absolute;top:14px;right:16px;background:var(--surf2);border:1px solid var(--bdr);color:var(--mut);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;}
+.dcls:hover{color:var(--txt);}
+.dbdy{padding:20px;}
+.dsec{margin-bottom:24px;}
+.dstit{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.dstit::after{content:"";flex:1;height:1px;background:var(--bdr);}
+.dozet{font-size:14px;color:var(--mut);line-height:1.7;background:var(--surf2);padding:12px 14px;border-radius:8px;border-left:2px solid var(--grn-md);}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cbox{background:var(--surf2);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;}
+.cfull{grid-column:1/-1;}
+.clbl{font-size:10px;font-family:var(--mono);color:var(--dim);letter-spacing:.08em;margin-bottom:4px;}
+.cval{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--grn);}
+.cval.a{color:var(--amb);}.cval.m{color:var(--mut);font-size:13px;}
+.uat{width:100%;border-collapse:collapse;}
+.uar{border-bottom:1px solid var(--bdr);}
+.uar:last-child{border-bottom:none;}
+.uai{width:90px;padding:10px 8px 10px 0;vertical-align:top;}
+.uad{padding:10px 0;font-size:13px;color:var(--txt);line-height:1.5;vertical-align:top;}
+.uaa{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.5;}
+.tev{display:inline-block;font-family:var(--mono);font-size:10px;color:#4cff91;background:rgba(76,255,145,.08);border:1px solid rgba(76,255,145,.25);padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.tha{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--red);background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.25);padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.tko{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--amb);background:rgba(255,201,74,.08);border:1px solid rgba(255,201,74,.25);padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.slist{display:flex;flex-direction:column;gap:8px;}
+.si{background:var(--surf2);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline;}
+.star{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--grn);}
+.sdum{font-size:12px;color:var(--dim);}
+.sson{grid-column:2;font-size:13px;color:var(--txt);line-height:1.5;}
+.flist{display:flex;flex-direction:column;gap:8px;}
+.fi{background:var(--surf2);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;}
+.fibl{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--amb);margin-bottom:3px;}
+.fitm{font-size:13px;color:var(--txt);margin-bottom:6px;}
+.fior{display:flex;flex-wrap:wrap;gap:5px;}
+.fio{font-size:11px;color:var(--mut);background:var(--surf3);border:1px solid var(--bdr);padding:2px 8px;border-radius:10px;}
+.uhl{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.uhl li{font-size:13px;color:var(--mut);line-height:1.5;padding-left:18px;position:relative;}
+.uhl li::before{content:"\2715";position:absolute;left:0;font-size:11px;color:var(--red);font-family:var(--mono);}
+.ggrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.gi{background:var(--surf2);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;aspect-ratio:1;display:flex;align-items:center;justify-content:center;}
+.gi img{width:100%;height:100%;object-fit:contain;}
+.ilist{display:flex;flex-wrap:wrap;gap:6px;}
+.itag{font-family:var(--mono);font-size:12px;color:var(--blu);background:var(--blu-dk);border:1px solid rgba(96,165,250,.2);padding:4px 12px;border-radius:6px;cursor:pointer;}
+.itag:hover{background:rgba(15,31,58,.9);}
+.dnd{padding:2rem 1.5rem;text-align:center;color:var(--dim);font-size:13px;line-height:1.7;}
+.dload{display:flex;align-items:center;justify-content:center;padding:3rem;gap:12px;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--grn);color:#000;font-family:var(--mono);font-weight:600;font-size:13px;padding:9px 18px;border-radius:20px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:200;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.footer{text-align:center;padding:1rem;font-size:11px;color:var(--dim);font-family:var(--mono);line-height:1.8;}
+.footer a{color:var(--grn-md);text-decoration:none;}
+
+.sbar{background:var(--surf);border-bottom:1px solid var(--bdr);padding:10px 1.5rem;}
+.sbar-inner{display:flex;align-items:center;gap:0;flex-wrap:wrap;max-width:720px;margin:0 auto;}
+.sbar-item{display:flex;flex-direction:column;align-items:center;flex:1;min-width:80px;padding:4px 8px;}
+.sbar-num{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--grn);line-height:1.2;}
+.sbar-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;margin-top:2px;text-align:center;}
+.sbar-div{width:1px;height:32px;background:var(--bdr);flex-shrink:0;}
+.sbar-src{width:100%;text-align:center;font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:6px;padding-top:6px;border-top:1px solid var(--bdr);}
+
+.tab-bar{display:flex;background:var(--surf);border-bottom:1px solid var(--bdr);}
+.tab-btn{flex:1;padding:10px 8px;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.04em;border:none;background:transparent;color:var(--dim);
+  cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.tab-btn.active{color:var(--grn);border-bottom-color:var(--grn);}
+.tab-btn:hover:not(.active){color:var(--txt);}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+
+:root{
+  --bg:#0d0f0e;--surf:#141714;--surf2:#1c201c;--bdr:#2a2f2a;--bdr2:#3a4a3a;
+  --txt:#e8ede8;--mut:#7a897a;--dim:#4a584a;
+  --grn:#4cff91;--grn-dk:#182e1f;--grn-md:#2d7a50;
+  --amb:#ffc94a;--red:#E24B4A;--ora:#fb923c;--blu:#60a5fa;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;}
+
+.dash-header{background:var(--surf);border-bottom:1px solid var(--bdr);padding:14px 20px;display:flex;align-items:center;gap:12px;}
+.dash-header-badge{background:var(--red);color:#fff;font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;letter-spacing:.06em;}
+.dash-header-title{font-family:var(--mono);font-size:14px;font-weight:600;}
+.dash-header-sub{font-size:11px;color:var(--mut);margin-top:2px;}
+
+/* Bu ay insight */
+.month-insight{margin:16px;padding:14px 16px;background:var(--surf);border:1px solid var(--bdr2);border-radius:10px;display:flex;align-items:flex-start;gap:12px;}
+.mi-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
+.mi-baslik{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--grn);margin-bottom:4px;}
+.mi-metin{font-size:12px;color:var(--mut);line-height:1.6;}
+
+/* Ay seçici */
+.ay-strip{padding:0 16px 12px;display:flex;gap:6px;}
+.ay-btn{font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--bdr);background:var(--surf);color:var(--mut);cursor:pointer;transition:all .15s;}
+.ay-btn.active{background:var(--grn-dk);color:var(--grn);border-color:var(--grn-md);}
+.ay-btn:hover:not(.active){color:var(--txt);border-color:var(--bdr2);}
+
+/* Section */
+.section{margin:0 16px 20px;}
+.sec-title{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.12em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--bdr);}
+.sec-sub{font-size:11px;color:var(--dim);font-family:var(--mono);margin-bottom:8px;}
+.dash-card{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;overflow:hidden;}
+
+/* Canvas */
+canvas{display:block;width:100%;}
+
+/* Korelasyon insight */
+.korel-note{margin-top:8px;padding:8px 12px;background:rgba(255,201,74,.06);border:1px solid rgba(255,201,74,.2);border-radius:6px;font-size:11px;color:var(--mut);line-height:1.6;}
+.korel-note strong{color:var(--amb);}
+
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 16px 20px;}
+.stat-card{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:12px;}
+.stat-lbl{font-size:10px;font-family:var(--mono);color:var(--dim);letter-spacing:.08em;margin-bottom:4px;}
+.stat-val{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--grn);}
+.stat-val.red{color:var(--red);}
+.stat-val.amb{color:var(--amb);}
+.stat-val.ora{color:var(--ora);}
+.stat-delta{font-size:10px;font-family:var(--mono);margin-top:2px;}
+.delta-up{color:var(--red);}
+.delta-dn{color:var(--grn);}
+
+/* Ay bazlı ihlal uyarısı */
+.ay-uyari{margin:0 16px 16px;padding:12px 14px;border-radius:8px;border:1px solid;}
+.ay-uyari.aralik{background:rgba(96,165,250,.06);border-color:rgba(96,165,250,.2);}
+.ay-uyari.ocak{background:rgba(96,165,250,.06);border-color:rgba(96,165,250,.2);}
+.ay-uyari.subat{background:rgba(96,165,250,.06);border-color:rgba(96,165,250,.2);}
+.ay-uyari.mart{background:rgba(76,255,145,.05);border-color:rgba(76,255,145,.15);}
+.uyari-title{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--blu);margin-bottom:5px;}
+.uyari-text{font-size:12px;color:var(--mut);line-height:1.6;}
+
+.dash-footer{text-align:center;padding:16px;font-size:10px;color:var(--dim);font-family:var(--mono);line-height:1.8;border-top:1px solid var(--bdr);margin-top:8px;}
+
+</style>
+</head>
+<body>
+<div class="hero" id="hero">
+  <div class="logo">KTK &middot; 2026</div>
+  <div class="wordmark">Trafik Ceza Rehberi</div>
+  <div class="search-wrap">
+    <input class="search-input" id="query" type="text"
+      placeholder="İhlali yazın... (Örn: emniyet kemeri takmıyor)"
+      oninput="onInput()"
+      onkeydown="if(event.key==='Enter')doSearch()"/>
+    <button class="search-btn" id="searchBtn" onclick="doSearch()">&#x2192;</button>
+  </div>
+  <div class="chips-wrap">
+    <div class="chip" data-q="seyir halinde cep telefonu kullanarak araç sürdü" onclick="setEx(this.dataset.q)">Telefon kullanıyor</div>
+    <div class="chip" data-q="emniyet şeridini ve banketi yasadışı kullandı" onclick="setEx(this.dataset.q)">Emniyet şeridi</div>
+    <div class="chip" data-q="trafik işaret levhasına ve yer işaretlemesine uymadı" onclick="setEx(this.dataset.q)">Trafik işaretine uymamak</div>
+    <div class="chip" data-q="trafiği tehlikeye düşürecek şekilde şerit değiştirdi" onclick="setEx(this.dataset.q)">Şerit ihlali</div>
+    <div class="chip" data-q="kırmızı ışıkta geçti" onclick="setEx(this.dataset.q)">Kırmızı ışık</div>
+    <div class="chip" data-q="tek yönlü yolda ters istikamette araç sürdü" onclick="setEx(this.dataset.q)">Ters yön</div>
+    <div class="chip" data-q="emniyet kemerini takmıyor" onclick="setEx(this.dataset.q)">Emniyet kemeri</div>
+    <div class="chip" data-q="geçmenin yasak olduğu yerde sollama yaptı" onclick="setEx(this.dataset.q)">Yasak sollama</div>
+    <div class="chip" data-q="yaya geçidinde yayalara geçiş hakkı vermedi" onclick="setEx(this.dataset.q)">Yaya geçidi</div>
+    <div class="chip" data-q="motosiklet sürücüsü kask takmıyor" onclick="setEx(this.dataset.q)">Kask takmıyor</div>
+    <div class="chip" data-q="araçtan sigara izmariti ve çöp attı" onclick="setEx(this.dataset.q)">Araçtan atma</div>
+    <div class="chip" data-q="araçta yüksek sesle müzik çalarak kamuyu rahatsız etti" onclick="setEx(this.dataset.q)">Gürültü / müzik</div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('madde')">🔍 Madde Bulucu</button>
+  <button class="tab-btn" onclick="switchTab('dashboard')">📊 İstatistik</button>
+</div>
+<div id="tab-madde" class="tab-pane active">
+<div class="sbar" id="statsBar"></div>
+<div class="results" id="results">
+  <div class="r-empty">
+    <span class="icon">&#x2696;</span>
+    İhlali Türkçe yazın<br>
+    FTM yetkisi olan ve olmayan tüm ceza maddelerini görün
+  </div>
+</div>
+</div><!-- /tab-madde -->
+<div id="tab-dashboard" class="tab-pane">
+<div class="dash-header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="dash-header-badge">EGM</div>
+      <div class="dash-header-title">Trafik Analitik Dashboard</div>
+    </div>
+    <div class="dash-header-sub">Ara 2025 · Oca 2026 · Şub 2026 · Mar 2026 &nbsp;|&nbsp; Ülke Geneli</div>
+  </div>
+</div>
+
+<!-- Bu ay özel uyarı -->
+<div class="month-insight" id="monthInsight">
+  <div class="mi-icon">📊</div>
+  <div><div class="mi-baslik">Yükleniyor...</div></div>
+</div>
+
+<!-- Özet sayaçlar (seçili ay) -->
+<div id="ayBtnlar" class="ay-strip"></div>
+<div class="stats-grid" id="statsGrid"></div>
+
+<!-- Grafik 1: Trend -->
+<div class="section">
+  <div class="sec-title">4 AYLIK KAZA TRENDİ</div>
+  <div class="dash-card" style="padding:12px">
+    <canvas id="cTrend" height="160"></canvas>
+  </div>
+</div>
+
+<!-- Grafik 2: Sürücü kusurları -->
+<div class="section">
+  <div class="sec-title" id="ayLabel">SÜRÜCÜ KUSURLARI</div>
+  <div class="dash-card" style="padding:10px 12px">
+    <canvas id="cKusur" height="220"></canvas>
+  </div>
+</div>
+
+<!-- Grafik 3: Korelasyon -->
+<div class="section">
+  <div class="sec-title">KAZA — CEZA KORELASYONU</div>
+  <div class="dash-card" style="padding:12px">
+    <canvas id="cKorel" height="200"></canvas>
+  </div>
+  <div class="korel-note">
+    <strong>Caydırıcılık analizi:</strong> Şubat en az ceza ve en az kaza ayı.
+    Mart'ta ceza azalmasına rağmen kaza arttı — mevsimsel trafik artışı ceza etkisini geride bıraktı.
+    Nokta büyüklüğü o aydaki ölü sayısına orantılıdır.
+  </div>
+</div>
+
+<!-- Grafik 4: İl Top 15 -->
+<div class="section">
+  <div class="sec-title">İL BAZLI KAZA — TOP 15</div>
+  <div class="dash-card" style="padding:10px 12px">
+    <canvas id="cIller" height="240"></canvas>
+  </div>
+</div>
+
+<div class="dash-footer">
+  Kaynak: EGM Trafik İstatistik Bültenleri &nbsp;·&nbsp; Aralık 2025 – Mart 2026<br>
+  Ölümlü + yaralanmalı kaza sayıları · Kaza yerinde tespit edilen ölüler
+</div>
+</div><!-- /tab-dashboard -->
+<div class="footer">
+  <a href="https://trafik.gov.tr/0255" target="_blank">trafik.gov.tr/0255</a> &nbsp;&middot;&nbsp;
+  EGM 2026 Trafik İdari Para Ceza Rehberi &nbsp;&middot;&nbsp;
+  İstanbul 2025 FTM istatistikleri
+</div>
+<div class="ov" id="ov" onclick="closeDrw()"></div>
+<div class="drw" id="drw">
+  <div class="dh"></div>
+  <div class="dhdr">
+    <div class="dno" id="dNo"></div>
+    <div class="dtit" id="dTit"></div>
+    <button class="dcls" onclick="closeDrw()">&#xD7;</button>
+  </div>
+  <div class="dbdy" id="dBdy"><div class="dload"><div class="spinner"></div></div></div>
+</div>
+<div class="toast" id="toast">&#x2713; Kopyalandı</div>
+<script>
+const CEZA_DATA = {
+  '13':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yolun yapımı ve bakımı ile görevli kuruluştan izin almadan ve trafik akımı ile güvenliğini bozacak, karayolunu kullananlara ve araçlara zarar verecek '},
+  '14/1-a':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Karayolu yapısı üzerine (yaya yolları ve bisiklet yolları dahil), araç veya yaya trafiğini güçleştirecek, tehlikeye sokacak veya engel yaratacak, traf'},
+  '14/1-b':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Karayolu yapısı ve güvenlik tesisleri ile trafik işaretlerine zarar vermek, yerlerini değiştirmek veya ortadan kaldırmak,'},
+  '16':{tl:58945,puan:0,ftm:false,kime:'Uymayanlara',konu:'Karayolu dışında, kenarında veya karayolu sınırı içinde izin almadan, trafik işaretlerinin görünmelerini engelleyecek, anlamlarını değiştirecek veya g'},
+  '17':{tl:58945,puan:0,ftm:false,kime:'Uymayanlara',konu:'Belediye sınırları dışındaki karayolu kenarında her iki taraftan sınır çizgisine elli metre mesafe içinde, karayolunun yapım ve bakımı ile sorumlu kur'},
+  '18':{tl:58945,puan:0,ftm:false,kime:'Uymayanlara',konu:'Belediye sınırları içindeki karayolu kenarında ilgili belediyeden izin almadan yapı ve tesis yapmak,'},
+  '20/1-a/1':{tl:2719,puan:0,ftm:false,kime:'Araç sahiplerine',konu:'Tescili zorunlu ve ilk tescili yapılacak olan aracın satın alma veya gümrükten çekme tarihinden itibaren üç ay içinde tescili için; hurdaya çıkarılma '},
+  '20/1-d':{tl:21301,puan:0,ftm:false,kime:'Noterlere',konu:'Satış ve devir işlemini, siciline işlenmek üzere üç iş günü içerisinde ilgili tescil kuruluşuilevergidairesinebildirmemek,yenimalikadınabiraysüreylege'},
+  '20/1-d-8':{tl:2719,puan:0,ftm:false,kime:'Alıcısına',konu:'İcra müdürlükleri, vergi dairesi müdürlükleri, milli emlak müdürlükleri ile diğer yetkili kamu kurum ve kuruluşları tarafından satışı yapılan araçları'},
+  '21/1':{tl:11629,puan:10,ftm:false,kime:'Sürücülere',konu:'Tescil edilen araçları tescil belgesi ve tescil plakası almadan karayoluna çıkarmak,'},
+  '21/5':{tl:23437,puan:0,ftm:false,kime:'Sürücülere',konu:'Hurdaya çıkarılmış aracı karayolunda sürmek,'},
+  '22':{tl:198324,puan:0,ftm:false,kime:'Yetkilendirilmiş kişilere',konu:'Genel hükümlerden kaynaklanan sorumlulukları saklı kalmak üzere, ilk tescili yapılacak araçların tesciline esas teşkil edecek işlemleri elektronik ort'},
+  '23/2-a':{tl:1057,puan:10,ftm:false,kime:'Sürücülere',konu:'Araç tescil belgesini araçta bulundurmamak,'},
+  '23/2-b':{tl:1057,puan:15,ftm:false,kime:'Sürücülere',konu:'Tescil plakasını monte edilmesi gereken yerin dışında farklı bir yere takmak,'},
+  '23/3-a-1':{tl:4779,puan:20,ftm:false,kime:'Araç sahiplerine',konu:'Yönetmelikte belirtilen nitelik veya ölçülere aykırı plaka takmak,'},
+  '23/3-a-2':{tl:9798,puan:0,ftm:false,kime:'Araç sahiplerine',konu:'23/3-a-1 madde hükümlerine göre işlem yapılan ve verilen 7 günlük sürenin sonuna kadar Yönetmelikte belirtilen nitelik veya ölçülere uygun plaka takma'},
+  '23/3-b-1':{tl:4779,puan:15,ftm:false,kime:'Araç sahiplerine',konu:'Tescilli araca Yönetmelikte öngörülen sayıda tescil plakası takmamak,'},
+  '23/3-b-2':{tl:9798,puan:0,ftm:false,kime:'Araç sahiplerine',konu:'23/3-b-1 madde hükümlerine göre işlem yapılan ve verilen 7 günlük sürenin sonuna kadar tescilli araca Yönetmelikte öngörülen sayıda tescil plakası tak'},
+  '23/3-c-1':{tl:4779,puan:15,ftm:false,kime:'Araç sahiplerine',konu:'Farklı okunması veya okunamamasını sağlayacak şekilde tescil plakasında değişiklik yapmak,'},
+  '23/3-c-2':{tl:9798,puan:0,ftm:false,kime:'Araç sahiplerine',konu:'Farklı okunması veya okunamamasını sağlayacak şekilde tescil plakasında değişiklik yapmak nedeniyle hakkında işlem yapılarak verilen 7 günlüksürenin s'},
+  '23/4':{tl:19716,puan:20,ftm:false,kime:'Sürücülere',konu:'Tescilli aracı plakasız kullanmak,'},
+  '23/5-a':{tl:58104,puan:20,ftm:false,kime:'Takana veya kullananlara',konu:'Başka bir araca tescilli plakayı takmak veya kullanmak,'},
+  '23/5-b':{tl:58104,puan:20,ftm:false,kime:'Takana veya kullananlara',konu:'Araca sahte plaka takmak veya kullanmak,'},
+  '25':{tl:2719,puan:10,ftm:false,kime:'Uymayanlara',konu:'Tescili zorunlu ve karayolunda geçici olarak kullanılacak aracı, geçici trafik belgesi ve geçici tescil plakası almadan trafiğe çıkarmak, bu belge ve '},
+  '26/1':{tl:1246,puan:5,ftm:false,kime:'Sürücülere',konu:'Araçlarda, bulundurulması mecburi olan (çalışma yerini ve şeklini, kapasite ile diğer niteliklerini belirleyen plaka, ışık, renk, şekil, sembol veyazı'},
+  '26/2':{tl:173392,puan:0,ftm:false,kime:'Sürücülere',konu:'Mevzuatta belirtilen ışıklı ve/veya sesli uyarı işareti veren cihazları mevzuatta izin verilmeyen araçlara takmak ve kullanmak,'},
+  '26/3':{tl:1246,puan:5,ftm:false,kime:'Sürücülere',konu:'Araçların dışında bulundurulması zorunlu işaretlerden başka, araçlara; izin alınmaksızın veya aracın tescil kayıtlarına işletilmeksizin reklam, yazı, '},
+  '26/6':{tl:0,puan:0,ftm:false,kime:'Sürücülere',konu:'İkinci fıkra kapsamında çıkarılan Yönetmelikte belirtilen araçlarda; ışıklı ve sesli uyarı işaretlerinin takılacağı yerlerin dışında bulundurulması ve'},
+  '28':{tl:2719,puan:10,ftm:false,kime:'Uymayanlara',konu:'Resmi olmayan araçların tescil plakalarının, devlet malı araçların tescil plakalarının renginde olması,'},
+  '30/1-a':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Servisfreni,lastikleri,dışışıkdonanımındanyakınıveuzağıgösterenışıklarile park, fren ve dönüş ışıkları noksan, bozuk veya teknik şartlara aykırı olan '},
+  '30/1-b':{tl:2719,puan:20,ftm:false,kime:'Sürücülere',konu:'Diğer eksiklik ve bozuklukları bulunan araçlarla, görüşü engelleyecek veya bir kaza halinde içindekiler için tehlikeli olabilecek süs, aksesuar, eşya '},
+  '31/1-a':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Özelliklerine ve cinslerine göre, Yönetmelikte nitelik ve nicelikleri belirtilen gereçleri, araçlarda bulundurmamak, kullanmamak veya kullanılır şekil'},
+  '31/1-b':{tl:5662,puan:20,ftm:false,kime:'Sürücülere',konu:'Kamyon, çekici ve otobüslerde, takograf, taksi otomobillerinde ise taksimetre bulundurmamak, kullanmamak veya kullanılır şekilde bulundurmamak,'},
+  '31/2':{tl:88588,puan:0,ftm:false,kime:'Sorumlulara',konu:'Takografveyataksimetrecihazlarınıbozukimaletmekveyabozulmasınavasıta olmak, bu durumdaki cihazları araçlarda kullanmak,'},
+  '32/1':{tl:1246,puan:10,ftm:false,kime:'İşletenlere',konu:'Araçlar üzerindemevzuata uygunşekildeyapılanhertürlüdeğişikliği otuzgün içinde araç tescil belgesine işletmemek,'},
+  '32/3':{tl:11629,puan:0,ftm:false,kime:'Uymayanlara',konu:'Mevzuata uygun olarak yapıldığı belgelenemeyen teknik değişikliğin çevredekileri rahatsız edecek derecede gürültü çıkaracak özellikte olması,'},
+  '34/a':{tl:2719,puan:10,ftm:false,kime:'Araç sahibine',konu:'Muayenesi yapılmamış bir aracın trafiğe çıkarılması,'},
+  '34/b':{tl:5662,puan:10,ftm:false,kime:'Araç sahibine',konu:'Muayenesi yapılmamış bir araçla trafiğe çıkılması nedeniyle trafikten men edilen araca verilen izin süresinin sonunda, aracın muayenesi yapılmadan tra'},
+  '34/c':{tl:5662,puan:0,ftm:false,kime:'Araç sahibine',konu:'Muayene sonucunda emniyetsiz raporu verilen aracın trafiğe çıkarılması,'},
+  '35/7':{tl:0,puan:0,ftm:false,kime:'Muayene istasyonu işletenlere',konu:'Muayene istasyonu için işletme belgesi ile yetki verildiği halde, işletme şartlarına uymamak veya gerektiği şekilde muayene yapmamak,'},
+  '36/3-a':{tl:23437,puan:0,ftm:false,kime:'Kullananlara ve kullandıranlara',konu:'Sürücü belgesiz olarak motorlu araç kullanmak,'},
+  '36/3-b':{tl:23437,puan:0,ftm:false,kime:'Kullananlara ve kullandıranlara',konu:'Mahkemelerce veya Cumhuriyet Savcılıklarınca ya da Karayolları Trafik Kanununda belirtilen yetkililerce sürücü belgesi geçici olarak ya da tedbiren ge'},
+  '36/3-c':{tl:23437,puan:0,ftm:false,kime:'Kullananlara ve kullandıranlara',konu:'Sürücü belgesi iptal edildiği halde motorlu araç kullanmak,'},
+  '37':{tl:1246,puan:0,ftm:false,kime:'Kullandıranlara',konu:'1) Bedensel ve ruhsal bakımdan sağlıklı bulunmayanlara bisiklet, elektrikli bisiklet, elektrikli skuter ve motorsuz taşıt kullandırmak veya hayvan tev'},
+  '39/2':{tl:11629,puan:20,ftm:false,kime:'Sürücülere ve kullandıranlara',konu:'Sürücü belgesi sahiplerinin, sürücü belgelerinin sınıfına göre sürmeye yetkili olmadıkları motorlu araçları sürmeleri,'},
+  '39/3':{tl:4712,puan:0,ftm:false,kime:'Sürücülere',konu:'Geçerlilik süresi dolan sürücü belgesi ile motorlu araç kullanmak,'},
+  '39/4':{tl:4712,puan:0,ftm:false,kime:'Sürücülere',konu:'Dış ülkelerden aldıkları sürücü belgeleri ile Yönetmelikte belirtilen süreye ve şartlara aykırı olarak motorlu araç kullanmak,'},
+  '42/11':{tl:11629,puan:0,ftm:false,kime:'Sürücü adaylarına ve araç sahiplerine',konu:'Sürücü sertifikasını sınıfına uygun sürücü belgesine dönüştürmeden karayolunda motorlu araç kullanmak,'},
+  '44/1-a':{tl:2719,puan:0,ftm:false,kime:'Sürücülere',konu:'İkamet adresi değişikliklerini tescil kuruluşuna otuz gün içinde bildirmemek,'},
+  '44/1-b':{tl:2719,puan:5,ftm:false,kime:'Sürücülere',konu:'Araç kullanırken sürücü belgesini yanında bulundurmamak ve yetkililerin her isteyişinde göstermemek,'},
+  '46/2-a':{tl:2719,puan:20,ftm:false,kime:'Sürücülere',konu:'Aksinebir işaretbulunmadıkça sürücülerin, araçlarını, gidişyönünegöreyolun sağından, çok şeritli yollarda ise yol ve trafik durumuna göre hızının gere'},
+  '46/2-b':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Aksine bir işaret bulunmadıkça sürücülerin, şerit değiştirmeden önce gireceği şeritte sürülen araçların emniyetle geçişini beklememesi,'},
+  '46/2-c':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Aksine bir işaret bulunmadıkça sürücülerin, trafiği aksatacak veya tehlikeye düşürecek şekilde şerit değiştirmesi,'},
+  '46/2-d':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Aksine bir işaret bulunmadıkça sürücülerin, gidişe ayrılan en soldaki şeridi sürekli olarak işgal etmesi,'},
+  '46/2-e':{tl:5662,puan:20,ftm:false,kime:'Sürüclüere',konu:'Aksine bir işaret bulunmadıkça sürücülerin; iki veya daha fazla şeritli yollarda motosiklet,otomobil,kamyonet, panelvan,minibüsveotobüsdışındakiaraçla'},
+  '46/2-f':{tl:11629,puan:0,ftm:true,kime:'Sürücülere',konu:'Aksine bir işaret bulunmadıkça sürücülerin; trafik kazası, arıza halleri, acil yardım, kurtarma, kar mücadelesi, kaza incelemesi, genel güvenlik ve as'},
+  '46/2-g':{tl:11629,puan:0,ftm:false,kime:'Sürüclüere',konu:'Aksine bir işaret bulunmadıkça sürücülerin; trafiği aksatacak veya tehlikeye sokacak şekilde ardı ardına birden fazla şerit değiştirmeleri,'},
+  '46/2-h':{tl:11629,puan:0,ftm:true,kime:'Sürücülere',konu:'Aksine bir işaret bulunmadıkça sürücülerin tek yönlü karayollarında araçlarını ters istikamette sürmesi,'},
+  '46/3':{tl:2719,puan:0,ftm:false,kime:'Hayvan sürücülerine',konu:'Karayollarının belirli kesimlerinde ve zorunluluk olması halinde, hayvanlarını veya hayvan sürülerini gidiş yönüne göre yolun en sağından ve en az gen'},
+  '47/1-a':{tl:2719,puan:20,ftm:false,kime:'Sürücülere',konu:'Trafiği düzenleme ve denetimle görevli trafik kolluğu veya özel kıyafetli veya işaret taşıyan diğer yetkili kişilerin uyarı ve işaretlerine uymamak,'},
+  '47/1-b':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Kırmızı ışık kuralına uymamak,'},
+  '47/1-c':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Trafik işaret levhaları, cihazları ve yer işaretlemeleri ile belirtilen veya gösterilen hususlara uymamak,'},
+  '47/1-d':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Trafik güvenliği ve düzeni ile ilgili olan ve yönetmelikte gösterilen diğer kural, yasak, zorunluluk veya yükümlülüklere uymamak,'},
+  '48/5':{tl:0,puan:20,ftm:false,kime:'Sürücülere',konu:'Hususi otomobili 0,50 promilin üzerinde alkollü olarak kullanmak, Hususi otomobil dışında kalan diğer araçları 0,20 promil üzerinde alkollü olarak kul'},
+  '48/8':{tl:60036,puan:20,ftm:false,kime:'Sürücülere',konu:'Uyuşturucu veya uyarıcı madde alarak araç kullanmak,'},
+  '48/9':{tl:11629,puan:20,ftm:false,kime:'Sürücülere',konu:'Yaralanmalı veya ölümlü ya da kollukça müdahil olunan maddi hasarlı trafik kazasına karışma halidedahilolmaküzereuyuşturucuveya uyarıcımaddelerin kull'},
+  '49/3':{tl:0,puan:0,ftm:false,kime:'Sürücüye/araç sahibine',konu:'Ticari amaçla yük ve yolcu taşıyan motorlu taşıt sürücülerinin; taşıt kullanma sürelerine aykırı olarak taşıt kullanması ve bunlara taşıt kullandırılm'},
+  '51/2-a':{tl:2719,puan:10,ftm:false,kime:'Sürücülere',konu:'Yönetmelikte belirlenen hız sınırlarını % 10’dan % 30’a (otuz dahil) kadar aşmak,'},
+  '51/2-b':{tl:5662,puan:15,ftm:false,kime:'Sürücülere',konu:'Yönetmelikte belirlenen hız sınırlarını % 30’dan % 50\'ye (elli dahil) kadar aşmak,'},
+  '51/2-c':{tl:11629,puan:15,ftm:false,kime:'Sürücülere',konu:'Yönetmelikte belirlenen hız sınırlarını % 50\'den fazla aşmak,'},
+  '51/5-a':{tl:0,puan:0,ftm:false,kime:'İmal veya ithal edenlere',konu:'Hız sınırlarını tespite yarayan cihazların yerlerini belirleyen veya sürücüyü ikaz eden cihazları imal veya ithal etmek,'},
+  '51/5-b':{tl:0,puan:0,ftm:false,kime:'İşletenlere',konu:'Hız sınırlarını tespite yarayan cihazların yerlerini belirleyen veya sürücüyü ikaz eden cihazları araçlarda bulundurmak,'},
+  '52/1-a':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Aracın hızını, kavşaklara yaklaşırken, dönemeçlere girerken, tepe üstlerine yaklaşırken, dönemeçli yollarda ilerlerken, yaya geçitlerine, hemzemin geç'},
+  '52/1-b':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Aracının hızını, aracın yük ve teknik özelliğine, görüş, yol, hava ve trafik durumunun gerektirdiği şartlara uydurmamak,'},
+  '52/1-c':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Diğerbiraracıizlerken,hızınıkullandığıaracınyükvetekniközelliğine,görüş, yol, hava ve trafik durumunun gerektirdiği şartlara uydurmadan Yönetmelikte b'},
+  '52/1-d':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Kol ve grup halinde araç kullanırken, araçlar arasında Yönetmelikte belirtilen esaslara uygun olarak diğer araçların güvenle girebilecekleri açıklığı '},
+  '53/1-a':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Sağa dönüş kurallarına riayet etmemek,'},
+  '53/1-b':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Sola dönüş kurallarına riayet etmemek,'},
+  '53/1-c':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Dönel kavşaklarda dönüş kurallarına riayet etmemek,'},
+  '53/1-d':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Dönel kavşaklarda geriye dönüş kurallarına riayet etmemek,'},
+  '53/2-a':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Sağa ve sola dönüşlerde sürücülerin, kurallara uygun olarak geçiş yapan yayalara ilk geçiş hakkını vermemesi,'},
+  '53/2-b':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Sağa ve sola dönüşlerde sürücülerin, varsa bisiklet yolundaki ve bisiklet şeridindeki bisiklet ve elektrikli skuter kullananlara ilk geçiş hakkını ver'},
+  '53/2-c':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Sürücülerin, sola dönüşlerde sağdan ve karşıdan gelen trafiğe ilk geçiş hakkını vermemesi,'},
+  '54/1-a':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Öndeki aracı geçerken geçme kurallarına riayet etmemek,'},
+  '54/1-b':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Geçmenin yasak olduğu yerlerde önündeki aracı geçmek,'},
+  '55/1-a':{tl:1246,puan:15,ftm:true,kime:'Sürücülere',konu:'Geçilmek istenen araç sürücüsünün; duyulur veya görülür bir geçiş işareti alınca, trafiğin iki yönlü kullanıldığı karayollarında taşıt yolunun sağ ken'},
+  '55/1-b':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Geçilmek istenen araç sürücüsünün; dar taşıt yolları ile trafiğin yoğun olduğu karayollarında yavaş gitme nedeni ile kendisini geçmek için izleyen ara'},
+  '55/1-c':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Geçilmekistenenaraç sürücüsünün;geçişüstünlüğübulunanbiraracınduyulur veya görülür işaretini alınca, bu araçların kolayca ilerlemesini sağlamak için t'},
+  '55/2-c':{tl:1246,puan:15,ftm:true,kime:'Sürücülere',konu:'Kanunun 54/1 maddesinde yazılı durumlar dışında, geçiş yapmak isteyenlere yol vermemek, geçilmekte iken bir başka aracı geçmeye veya sola dönmeye kalk'},
+  '56/1-a':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Şerit izleme ve değiştirme kurallarına uymamak,'},
+  '56/1-b':{tl:1246,puan:15,ftm:true,kime:'Sürücülere',konu:'İki yönlü trafiğin kullanıldığı taşıt yollarında karşı yönden gelen araçların geçişini zorlaştıran bir durum varsa; sürücülerin geçişi kolaylaştırmak '},
+  '56/1-c':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Önlerinde giden araçları Yönetmelikte belirtilen güvenli ve yeterli bir mesafeden izlememek (Yakın takip),'},
+  '56/1-d':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Araçlarınızorunlubirnedenolmadıkça,diğeraraçlarınilerleyişineengelolacak şekildeveya işaretle belirtilenhızsınırınınçok altında sürmek, güvenliknedeni'},
+  '56/1-e':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Taşıt yolunun dar olduğu yerlerde aksini gösteren bir trafik işareti yoksa motorsuzaraçlarıkullananlarınmotorluaraçlara,otomobil,minibüs,kamyonet, oto'},
+  '57/1-a':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Kavşaklara yaklaşırken kavşaktaki şartlara uyacak şekilde yavaşlamamak, dikkatli olmamak, geçiş hakkı olan araçlara ilk geçiş hakkını vermemek,'},
+  '57/1-b':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Trafik kolluğu veya ışıklı trafik işaret cihazları veya trafik işaret levhası bulunmayan kavşaklarda; 1.Bütün sürücülerin geçiş üstünlüğüne sahip olan'},
+  '57/1-c':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Kavşak kollarının trafik yoğunluğu bakımından farklı oldukları işaretlerle belirlenmemiş kavşaklarda; motorsuz araç sürücülerinin motorlu araçlara, mo'},
+  '57/1-d':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Işıklı trafik işaretleri izin verse bile trafik akımı; kendisini kavşak içinde durmaya zorlayacak veya diğer doğrultudaki trafiğin geçişine engel olac'},
+  '57/1-e':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Kavşaklarda gereksiz olarak duraklamak, yavaşlamak, taşıttan inmek veya araçların motorunu durdurmak,'},
+  '57/1-f':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Aksine bir işaret olmadıkça, bütün kavşaklarda araçların ray üzerinde hareket eden taşıtlara ilk geçiş hakkını vermemesi,'},
+  '58':{tl:1246,puan:15,ftm:true,kime:'Sürücülere ve yolculara',konu:'İndirme-bindirme sırasında sürücülerin; aksine bir işaret bulunmadıkça araçlarını gidiş yönlerine göre yolun en sağ kenarında durdurmaması, yolcuların'},
+  '59':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Yerleşim birimleri dışındaki karayolunda, zorunlu haller dışında duraklamak veya park etmek, zorunlu hallerde gerekli önlemleri almadan duraklamak vey'},
+  '60/1-a':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıtyoluüzerindeduraklamanınyasaklandığınınbirtrafikişaretiilebelirtilmiş olduğu yerlerde duraklamak,'},
+  '60/1-b':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde sol şeritte (raylı sistemin bulunduğu yollar hariç) duraklamak,'},
+  '60/1-c':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde yaya ve okul geçitleri ile diğer geçitlerde duraklamak,'},
+  '60/1-d':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde kavşaklar, tüneller, rampalar, köprüler ve bağlantı yollarında veya buralara yerleşim birimleri içinde beş metre veya yerleşim bir'},
+  '60/1-e':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde görüşün yeterli olmadığı tepelere yakın yerlerde veya dönemeçlerde duraklamak,'},
+  '60/1-f':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde otobüs, tramvay ve taksi duraklarında duraklamak,'},
+  '60/1-g':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde duraklayan veya park edilen araçların yanında duraklamak,'},
+  '60/1-h':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde işaret levhalarına, yaklaşım yönünde ve park izni verilen yerler dışında; yerleşim birimi içinde onbeş metre ve yerleşim birimi dı'},
+  '61/1-a':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde duraklamanın yasaklandığı yerlere park etmek,'},
+  '61/1-b':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde park etmenin trafik işaretleri ile yasaklandığı yerlerde park etmek,'},
+  '61/1-c':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde geçiş yolları önünde veya üzerinde park etmek,'},
+  '61/1-d':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıtyoluüzerindebelirlenmişyangınmusluklarınaherikiyöndenbeşmetrelik mesafe içinde park etmek,'},
+  '61/1-e':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Kamu hizmeti yapan yolcu taşıtlarının duraklarını belirten levhalara iki yönden onbeş metrelik mesafe içinde park etmek,'},
+  '61/1-f':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıtyoluüzerindeüçveya dahafazla ayrıtaşıt yoluolan karayolunda ortadaki taşıt yolunda park etmek,'},
+  '61/1-g':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde kurallara uygun şekilde park etmiş araçların çıkmasına engel olacak yerlerde park etmek,'},
+  '61/1-h':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde geçiş üstünlüğü olan araçların giriş veya çıkışının yapıldığının belirlendiği işaret levhasından onbeş metre mesafe içinde park et'},
+  '61/1-j':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde kamunun faydalandığı ve Yönetmelikte belirtilen yerlerin giriş ve çıkış kapılarına her iki yönde beş metrelik mesafe içinde park e'},
+  '61/1-k':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde park için yer ayrılmamış veya trafik işaretleri ile belirtilmemiş alt geçit, üst geçit ve köprüler üzerinde veya bunlara on metrel'},
+  '61/1-l':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde park etmek için tespit edilen süre ve şeklin dışında park etmek,'},
+  '61/1-m':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Taşıt yolu üzerinde belirli kişi, kurum ve kuruluşlara ait araçlara, Yönetmelikteki esaslara göre ayrılmış ve bir işaret levhası ile belirlenmiş park '},
+  '61/1-n':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Yönetmelikte belirtilen haller dışında yaya yollarında park etmek,'},
+  '61/1-o':{tl:2492,puan:10,ftm:true,kime:'Sürücülere',konu:'Taşıt yolu üzerinde engellilerin araçları için ayrılmış park yerlerinde park etmek,'},
+  '62':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Yerleşim birimleri içindeki karayolunda, bir trafik işaretiyle izin verilmedikçe ve yükleme, boşaltma, indirme, bindirme, arızalanma gibi zorunlu nede'},
+  '63':{tl:5662,puan:10,ftm:false,kime:'Sürücülere',konu:'Araçlarda nicelik ve nitelikleri yönetmelikte belirtilen şartlara uygun ışık donanımı bulundurmamak,'},
+  '64/1-a1':{tl:1246,puan:20,ftm:true,kime:'Sürücülere',konu:'Yerleşim birimleri dışındaki karayollarında geceleri seyrederken, yeterince aydınlatılmamış tünellere girerken, benzeri yer ve hallerde (karşılaşmalar'},
+  '64/1-a2':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Geceleri, yerleşim birimleri dışında ve içinde karayollarındaki karşılaşmalarda, biraracıtakipederken, biraracıgeçerkenyanyanagelinceye kadar, gündüzl'},
+  '64/1-a3':{tl:1246,puan:10,ftm:false,kime:'Sürücülere',konu:'Kuyruk (arka kenar-arka park lambası) ışıklarını uzağı veya yakını gösteren ışıklarla birlikte kullanmamak,'},
+  '64/1-b1':{tl:1246,puan:15,ftm:true,kime:'Sürücülere',konu:'Gece sis ışıklarını; sisli, karlı ve sağanak yağmurlu havalar dışında diğer farlarla birlikte yakmak,'},
+  '64/1-b2':{tl:1246,puan:5,ftm:true,kime:'Sürücülere',konu:'Dönüş ışıklarını geç anlamında kullanmak,'},
+  '64/1-b3':{tl:1246,puan:10,ftm:true,kime:'Sürücülere',konu:'Gece karşılaşmalarda ışıkları söndürmek,'},
+  '64/1-b4':{tl:1246,puan:15,ftm:true,kime:'Sürücülere',konu:'Öndeki aracı geçerken, uyarı için çok kısa süre dışında uzağı gösteren ışıkları yakmak,'},
+  '64/1-b5':{tl:1246,puan:20,ftm:false,kime:'Sürücülere',konu:'Yönetmelikte belirlenen esaslara aykırı ışık takmak ve kullanmak,'},
+  '64/1-b6':{tl:1246,puan:15,ftm:true,kime:'Sürücülere',konu:'Sadece park lambaları ile seyretmek,'},
+  '65/1-a':{tl:975,puan:10,ftm:false,kime:'Uymayanlara',konu:'Taşıma sınırı üstünde yolcu almak,'},
+  '65/1-b':{tl:10620,puan:0,ftm:false,kime:'Uymayan işletenlere ve yük gönderenlere',konu:'Azamiyüklüağırlığıveyaizinverilenazamiyüklüağırlığı%3,75+500Kgdan %20 fazlasına kadar aşmak'},
+  '65/1-c':{tl:0,puan:0,ftm:false,kime:'İşletenlere',konu:'Azami yüklü ağırlık veya izin verilen azami yüklü ağırlık aşılmamış olsa bile azami dingil ağırlıklarını aşmak,'},
+  '65/1-d':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Karayolu yapısı ve kapasitesi ile trafik güvenliği bakımından tehlikeli olabilecek tarzda yükleme yapmak,'},
+  '65/1-e':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Tehlikeli ve zararlı maddelerin, gerekli izin ve tedbirler alınmadan taşınması,'},
+  '65/1-f':{tl:0,puan:0,ftm:false,kime:'Sürücülere/işletenlere',konu:'Ağırlık ve boyutları bakımından taşınması özel izne bağlı olan eşyayı izin almadan yüklemek, taşımak ve taşıttırmak,'},
+  '65/1-g':{tl:0,puan:0,ftm:false,kime:'Uymayan işletenlere',konu:'Gabari dışı yük yüklemek, taşınan yük üzerine veya araç dışına yolcu bindirmek,'},
+  '65/1-h':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yükü, karayoluna değecek, düşecek, dökülecek, saçılacak, sızacak, akacak, kayacak, gürültü çıkaracak şekilde yüklemek,'},
+  '65/1-i':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yükü, her çeşit yolda ve yolun her eğiminde dengeyi bozacak, yoldaki bir şeye takılacak ve sivri çıkıntılar hasıl edecek şekilde yüklemek,'},
+  '65/1-j':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Sürücünün görüşüne engel olacak, aracın sürme güvenliğini bozacak ve tescil plakaları, ayırım işaretleri, dur ve dönüş ışıkları ile yansıtıcıları örte'},
+  '65/1-k':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Çeken ve çekilen araçlarla ilgili şartlar ve tedbirler yerine getirilmeden araçları çekmek,'},
+  '65/4':{tl:0,puan:0,ftm:false,kime:'İşletenlere',konu:'Ağırlık ve boyut kontrol mahallerinde işaret, ışık, ses veya görevlilerin dur ikazına rağmen tartı veya ölçü kontrolüne girmeden seyrine devam etmek,'},
+  '65/A':{tl:7348,puan:10,ftm:false,kime:'İşletenlere',konu:'Yolcu ve eşya taşımalarında kullanılan araçlarda, yılın zorunlu tutulan dönemlerinde kış lastiği kullanmamak,'},
+  '66':{tl:2719,puan:15,ftm:false,kime:'Sürücülere',konu:'1- Ayrı bisiklet yolu veya şeridi varsa, bisiklet ve elektrikli skuterleri taşıt yolunda sürmek, 2- Bisiklet, elektrikli skuter, motorlu bisiklet ve m'},
+  '67/1-a':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Park yapmış taşıtlar arasından çıkarken, duraklarken veya park yaparken taşıt yolunun sağına veya soluna yanaşırken, sağa veya sola dönerken, karayolu'},
+  '67/1-b':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Yönetmelikte belirtilen şartlar dışında geriye dönmek veya geriye gitmek, izin verilen hallerde bu manevraları yaparken karayolunu kullananlar için te'},
+  '67/1-c':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Dönüşlerde veya şerit değiştirmelerde niyetini dönüş işaret ışıkları veya kol işareti ile açıkça ve yeterli şekilde belirtmemek, işaretlere manevra sü'},
+  '67/1-d':{tl:58217,puan:0,ftm:false,kime:'Sürücülere',konu:'Herhangi bir zorunluluk olmaksızın, karayollarında dönüş kuralları dışında bilerek ve isteyerek aracın el freninin çekilmesi suretiyle veya başka yönt'},
+  '68/1-a':{tl:1246,puan:0,ftm:false,kime:'Yayalara',konu:'68/1-a-1,68/1-a-2ve68/1-a-3’te sayılanhallerdışında;taşıtyolubitişiğindeve yakınında yaya yolu, banket veya alan bulunduğu halde yayaların bisiklet yo'},
+  '68/1-a-1':{tl:0,puan:0,ftm:false,kime:'Yaylaara',konu:'1-Diğer yayalar için ciddi rahatsızlık verecek boyutta eşyaları iten veya taşıyan kişilerin taşıt yolunu kullanırken Yönetmelikte belirtilen tedbirler'},
+  '68/1-a-2':{tl:0,puan:0,ftm:false,kime:'Yaylaara',konu:'Yayaların yürümesine ayrılmış kısımların kullanılmasının mümkün olmadığı veya bulunmadığı hallerde, yayaların taşıt yolunun kenara yakın olan kısmı dı'},
+  '68/1-a-3':{tl:0,puan:0,ftm:false,kime:'Yaylaara',konu:'Her iki tarafta da yaya yolu ve banket bulunmayan veya kullanılır durumda olmayan iki yönlü trafiğin kullanıldığı karayollarında, yayaların taşıt yolu'},
+  '68/1-b':{tl:1246,puan:0,ftm:false,kime:'Yayalara',konu:'Yüz metreye kadar mesafede yaya geçidi veya kavşak bulunduğu halde yayaların, karşı tarafa geçmek için taşıt yolunun yaya ve okul geçidi veya kavşak g'},
+  '68/1-b-1':{tl:0,puan:0,ftm:false,kime:'Yaylaara',konu:'Yaya ve okul geçitlerinin bulunduğu yerlerdeki geçitlerde yayalar için ışıklı işaret olduğu halde yayaların bu işaretlere uymaması,'},
+  '68/1-b-2':{tl:0,puan:0,ftm:false,kime:'Yaylaara',konu:'Geçitte yayalar için ışıklı işaret yoksa ve geçit sadece taşıt trafiği ışıklı işareti veya yetkili kişi tarafından yönetiliyorsa, geçecekleri doğrultu'},
+  '68/1-c':{tl:1246,puan:0,ftm:false,kime:'Yayalara',konu:'Yaya yollarında, geçitlerde veya zorunlu hallerde; taşıt yolu üzerinde bulunan yayaların trafiği engelleyecek veya tehlikeye düşürecek şekilde davranı'},
+  '69/1':{tl:1246,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yerleşim yerleri dışındaki karayollarında, taşıt yolu üzerinde; zorunlu haller dışında hayvan bulundurmak, binek hayvanları ve sürüler ile elle sürüle'},
+  '69/2':{tl:0,puan:0,ftm:false,kime:'Uymayalnara',konu:'Başıboş hayvan bırakma yasağına riayet etmeyerek, trafik kazasına sebebiyet vermek,'},
+  '70':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Gerekli makamdan izin almadan karayolu üzerinde yarış ve koşu düzenlemek,'},
+  '71':{tl:1246,puan:15,ftm:false,kime:'Sürücülere',konu:'Zorunluluk olmadığı halde geçiş üstünlüğü hakkını kullanmak,'},
+  '72/1':{tl:1246,puan:10,ftm:true,kime:'Sürücülere',konu:'Ses, müzik, görüntü ve haberleşme cihazlarını Yönetmelikte belirtilen şartlara aykırı olarak araçlarda bulundurmak, bu tür cihazları kamunun rahat ve '},
+  '73/a':{tl:1246,puan:10,ftm:true,kime:'Uymayanlara',konu:'Karayollarında kamununrahatvehuzurunubozacakveyakişilerezararverecek şekilde;su,çamur vebenzerlerini sıçratmak, kişileri korkutmak/şaşırtmak, özel ama'},
+  '73/b':{tl:1246,puan:10,ftm:true,kime:'Uymayanlara',konu:'Araçlardan bir şey atmak veya dökmek,'},
+  '73/c':{tl:2719,puan:10,ftm:true,kime:'Sürücülere',konu:'Sürücülerin, seyir halinde cep veya araç telefonu ya da benzer haberleşme cihazlarını ele alarak kullanması,'},
+  '74/a':{tl:5662,puan:0,ftm:true,kime:'Sürücülere',konu:'Görevli bir kişi veya ışıklı trafik işareti bulunmayan ancak trafik işareti veya levhalarıyla belirlenmiş kavşak giriş ve çıkışlarına yaklaşırken yava'},
+  '74/b':{tl:5662,puan:20,ftm:true,kime:'Sürücülere',konu:'Görevli bir kişi veya ışıklı trafik işareti bulunmayan ancak trafik işareti veya levhalarıyla belirlenmiş yaya veya okul geçitlerine yaklaşırken yavaş'},
+  '75':{tl:2719,puan:15,ftm:true,kime:'Sürücülere',konu:'Okul taşıtlarının “DUR” işaretini yaktıklarında diğer araçların durmaması; “DUR” işaretinin öğrencilerin binmeleri/inmeleri veya Yönetmelikte belirtil'},
+  '76/1-a':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Demiryolu geçitlerini, geçidin durumuna uygun olmayan hızla geçmek, ışıklı veya sesli işaretin vereceği “DUR” talimatına uymamak, taşıt yolu üzerine i'},
+  '76/1-b':{tl:2719,puan:20,ftm:true,kime:'Sürücülere',konu:'Işıklı işaret ve bariyerle donatılmamış demiryolu geçitlerini geçmeden önce, durmamak, herhangi bir demiryolu aracının yaklaşmadığına emin olmadan geç'},
+  '77/1-b':{tl:2719,puan:15,ftm:true,kime:'Sürücülere',konu:'Gözleri görmeyen ve yönetmelikte gösterilen özel işaret ve benzerlerini taşıyan kişilerin, taşıt yolu üzerinde bulunmaları halinde, sürücülerin yavaşl'},
+  '77/1-c':{tl:1246,puan:10,ftm:true,kime:'Sürücülere',konu:'Bir yetkili veya görevli yönetimindeki yürüyüş kolları arasından geçmek,'},
+  '78/1-a':{tl:1246,puan:15,ftm:true,kime:'Uymayanlara',konu:'Bulundurulma zorunluluğu olan araçlarda emniyet kemeri /çocuk bağlama sistemi bulundurmamak ve kullanmamak,'},
+  '78/1-b':{tl:1246,puan:15,ftm:true,kime:'Uymayanlara',konu:'Motosiklet, motorlu bisiklet ve elektrikli bisikletlerde sürücülerin koruma başlığı ve gözlüğü, yolcuların ise koruma başlığı bulundurmaması ve kullan'},
+  '79':{tl:0,puan:0,ftm:false,kime:'Uymayanlara',konu:'Karayolu üzerinde park yerini tespite yetkili idare veya bu idare tarafından işletme izni verilenler dışındaki gerçek veya tüzel kişilerin karayolu üz'},
+  '81/1-a':{tl:2719,puan:20,ftm:false,kime:'Uymayanlara',konu:'Trafik kazalarına karışanların, kaza mahallinde durmaması ve kaza mahallinde trafik güvenliği için gerekli tedbirleri almaması,'},
+  '81/1-b':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Kazalarda; ölen, yaralanan veya maddi hasar var ise bu kaza can ve mal güvenliğini etkilemiyorsa, sorumluluğunun tespitine yarayan iz ve delil dahil k'},
+  '81/1-c':{tl:2719,puan:10,ftm:false,kime:'Uymayanlara',konu:'Trafik kazalarına karışanların, kazaya karışan kişiler tarafından istendiği takdirde kimliğini, adresini, sürücü ve tescil belgesi ile sigorta poliçe '},
+  '81/1-d-1':{tl:2719,puan:20,ftm:false,kime:'Uymayanlara',konu:'Trafik kazasına karışanların; (tutanak düzenleme konusunda kendi aralarında anlaştıkları maddi hasarlı trafik kazaları hariç) kazayı yetkililere bildi'},
+  '81/1-d-2':{tl:5662,puan:20,ftm:false,kime:'Uymayanlara',konu:'Trafik kazasına karışanların; (tutanak düzenleme konusunda kendi aralarında anlaştıkları maddi hasarlı trafik kazaları hariç) yetkililer gelinceye kad'},
+  '81/1-e':{tl:2719,puan:15,ftm:false,kime:'Uymayanlara',konu:'Trafikkazasınakarışarak;sürücüsü,malsahibiveyailgilikişilerinbulunmadığı sırada araç, eşya veya yüklere zarar veren sürücülerin, zarar verdikleri araç'},
+  '82/1-a':{tl:2719,puan:20,ftm:false,kime:'Sürücülere ve uymayanlara',konu:'Kazaya karışan araç sürücülerinin veya kaza mahallinden geçen araç sürücülerinin ilk yardım önlemlerini almaması, kolluğa ve sağlık kuruluşuna haber v'},
+  '82/1-b':{tl:2719,puan:0,ftm:false,kime:'Sahip ve işletenlere',konu:'Şehirlerarası karayolları kenarındaki akaryakıt istasyonlarında sağlık malzemesini her an kullanılabilir durumda bulundurmamak,'},
+  '82/1-c':{tl:2719,puan:0,ftm:false,kime:'Sahip ve sorumlulara',konu:'Tamirhane, servis istasyonu ve garaj gibi yerlere ölüm veya yaralanma ile sonuçlanan bir kaza geçirmiş olduğu belli olan veya üzerinde suç belirtisi b'},
+  '91':{tl:1246,puan:0,ftm:false,kime:'İşletenlere',konu:'Zorunlu mali sorumluluk sigortası yaptırmamak,'},
+  '94':{tl:1246,puan:0,ftm:false,kime:'Aracı devredenlere',konu:'Sigortalı aracı işletenlerin değişmesi halinde 15 gün içerisinde sigortacıya bildirmemek,'},
+  '99':{tl:88588,puan:0,ftm:false,kime:'Sigortacılara',konu:'Zarar gören kişilerin kaza veya zarara ilişkin belgelerin ibrazını müteakip 8 iş günü içinde, zorunlu mali sorumluluk sigortası sınırları içerisinde k'},
+  '101':{tl:88588,puan:0,ftm:false,kime:'Sigorta şirketlerine',konu:'Sigorta şirketinin zorunlu mali sorumluluk sigortası yapmaması,'},
+  '104':{tl:88588,puan:0,ftm:false,kime:'Mesleki faaliyette bulunanlara',konu:'Gözetim, onarım, bakım, alım, satım veya araçta değişiklik yapılmasıamacıyla kendisine teslim edilen araçların zorunlu mali sorumluluk sigortasını yap'},
+  '118':{tl:0,puan:0,ftm:false,kime:'Sürücülere',konu:'Trafik ihlalinin yapıldığı tarihten geriyedoğru 1 yıl içerisinde100 ceza puanını doldurmak,'},
+  '118/5':{tl:0,puan:0,ftm:false,kime:'Sürücülere',konu:'Asli kusurlu olarak, ölümle sonuçlanan trafik kazalarına sebebiyet vermek,'},
+  '123/4':{tl:14584,puan:0,ftm:false,kime:'Kurs sahiplerine',konu:'Yazılıuyarıya rağmenbelirlenecek süreiçinde kurslarınıKanun veYönetmelik şartlarına uygun duruma getirmemek,'},
+  '123/5':{tl:88588,puan:0,ftm:false,kime:'Kurs sahiplerine',konu:'Gerekli makamdan izin ve belge almadan sürücü kursları açmak,'},
+  '131/6-a':{tl:116216,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yetkisiz olarak tescil plakası basmak,'},
+  '131/6-b':{tl:116216,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yetkisiz olarak tescil plakası dağıtmak,'},
+  '131/6-c':{tl:116216,puan:0,ftm:false,kime:'Uymayanlara',konu:'Trafik şubeveya bürolarında vemotorlutaşıt sürücülerikurslarında işsahipleri ve kursiyerlerce verilmesi ve kullanılması lüzumlu kağıtları yetkisiz ola'},
+  '131/6-d':{tl:116216,puan:0,ftm:false,kime:'Uymayanlara',konu:'Trafik şubeveya bürolarında vemotorlutaşıt sürücülerikurslarında işsahipleri ve kursiyerlerce verilmesi ve kullanılması lüzumlu kağıtları yetkisiz ola'},
+};
+
+const WORKER_URL  = 'https://ftm-madde-bulucu.mnuman.workers.dev/';
+const GITHUB_BASE = 'https://raw.githubusercontent.com/mnuman26/ftm-svgs/main/';
+
+function slug(no){ return no.replace(/\//g,'-'); }
+function dataUrl(no){ return GITHUB_BASE+'data/'+slug(no)+'.json'; }
+function svgUrl(f){ return GITHUB_BASE+'svgs/'+f; }
+
+function tl(n){ return (n||0).toLocaleString('tr-TR')+' \u20ba'; }
+
+function copyText(t){
+  navigator.clipboard.writeText(t).catch(function(){
+    var ta=document.createElement('textarea');
+    ta.value=t; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  });
+  var el=document.getElementById('toast');
+  el.classList.add('show'); setTimeout(function(){ el.classList.remove('show'); },1800);
+}
+
+var lastResults=null;
+
+function onInput(){
+  var q=document.getElementById('query').value.trim();
+  if(q.length>0) document.getElementById('hero').classList.add('compact');
+  else document.getElementById('hero').classList.remove('compact');
+}
+
+async function doSearch(){
+  var q=document.getElementById('query').value.trim();
+  if(!q) return;
+  document.getElementById('hero').classList.add('compact');
+  var btn=document.getElementById('searchBtn');
+  btn.disabled=true; btn.textContent='...';
+  document.getElementById('results').innerHTML='<div class="loading"><div class="spinner"></div><div class="load-txt">Analiz ediliyor...</div></div>';
+  try{
+    var res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q})});
+    var data=await res.json();
+    if(data.error) showErr(data.error);
+    else{ lastResults=data.maddeler||[]; renderResults(lastResults); }
+  }catch(e){ showErr('Bağlantı hatası: '+e.message); }
+  finally{ btn.disabled=false; btn.textContent='\u2192'; }
+}
+
+function showErr(msg){
+  document.getElementById('results').innerHTML='<div style="padding:1rem"><div class="error-box">\u26a0 '+msg+'</div></div>';
+}
+
+function clearAll(){
+  document.getElementById('query').value='';
+  document.getElementById('hero').classList.remove('compact');
+  lastResults=null;
+  document.getElementById('results').innerHTML='<div class="r-empty"><span class="icon">\u2696</span>İhlali Türkçe yazın</div>';
+}
+
+function setEx(t){
+  document.getElementById('query').value=t;
+  onInput();
+  doSearch();
+}
+
+function renderResults(maddeler){
+  var el=document.getElementById('results');
+  if(!maddeler||!maddeler.length){
+    el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--dim);font-size:14px">Eşleşen madde bulunamadı.</div>';
+    return;
+  }
+  maddeler.sort(function(a,b){ return b.pct-a.pct; });
+  var ftmList=maddeler.filter(function(m){ var d=CEZA_DATA[m.no]; return d&&d.ftm; });
+  var kolList=maddeler.filter(function(m){ var d=CEZA_DATA[m.no]; return !d||!d.ftm; });
+  var nFtm=ftmList.length, nKol=kolList.length;
+  var html='<div class="cnt-bar"><span class="cnt-num"><strong>'+(nFtm+nKol)+'</strong> madde bulundu</span><div class="cnt-pills">';
+  if(nFtm) html+='<span class="cnt-pill ftm">\u2605 '+nFtm+' FTM</span>';
+  if(nKol) html+='<span class="cnt-pill kol">\u25cf '+nKol+' Kolluk</span>';
+  html+='</div></div>';
+  if(ftmList.length){
+    html+='<div class="sec-sep"><div class="sec-sep-line"></div><div class="sec-sep-lbl">\u2605 FTM YETKİSİ İÇİNDE</div><div class="sec-sep-line"></div></div>';
+    ftmList.forEach(function(m){ html+=buildCard(m,true); });
+  }
+  if(kolList.length){
+    html+='<div class="sec-sep"><div class="sec-sep-line"></div><div class="sec-sep-lbl">\u25cf SADECE KOLLUK YAZABİLİR</div><div class="sec-sep-line"></div></div>';
+    kolList.forEach(function(m){ html+=buildCard(m,false); });
+  }
+  el.innerHTML=html;
+}
+
+function buildCard(m,isFtm){
+  var d=CEZA_DATA[m.no];
+  var cls=isFtm?'ftm':'kol';
+  var hi=m.pct>=85?' hi':'';
+  var authIcon=isFtm?'\u2605':'\u25cf';
+  var authTxt=isFtm?'FTM yazabilir':'Sadece kolluk yazar';
+  var konu=d?d.konu:'';
+  var fine='';
+  if(d){
+    fine='<div class="fine-row">'
+      +'<span class="fp tl '+cls+'">\uD83D\uDCB0 '+tl(d.tl)+'</span>'
+      +'<span class="fp puan">'+(d.puan>0?'\u2B1B '+d.puan+' puan':'puan yok')+'</span>'
+      +'<span class="fp kime">'+(d.kime||'')+'</span>'
+      +'</div>';
+  }
+  return '<div class="rcard '+cls+hi+'">'
+    +'<div class="card-strip">'
+      +'<div class="auth '+cls+'"><div class="auth-icon">'+authIcon+'</div>'+authTxt+'</div>'
+      +'<div class="strip-right">'
+        +'<span class="pct-badge">'+m.pct+'%</span>'
+        +'<span class="madde-no">'+m.no+'</span>'
+      +'</div>'
+    +'</div>'
+    +'<div class="card-body">'
+      +(m.gerekce?'<div class="gerekce">'+m.gerekce+'</div>':'')
+      +(konu?'<div class="kanun">'+konu+'</div>':'')
+      +fine
+      +'<div class="prog"><div class="bar" style="width:'+m.pct+'%"></div></div>'
+      +'<div class="card-acts">'
+        +'<button class="btn-copy" data-no="'+m.no+'" onclick="copyText(this.dataset.no)">\u2398 '+m.no+' kopyala</button>'
+        +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)">\u2261 Detay</button>'
+      +'</div>'
+    +'</div>'
+  +'</div>';
+}
+
+var jCache={};
+
+async function openDrw(no){
+  var d=CEZA_DATA[no];
+  var badge=d?(d.ftm?'<span class="cnt-pill ftm" style="font-size:10px">\u2605 FTM</span>':'<span class="cnt-pill kol" style="font-size:10px">\u25cf Kolluk</span>'):'';
+  document.getElementById('dNo').innerHTML='Madde '+no+'&nbsp;'+badge;
+  document.getElementById('dTit').textContent=d?d.konu:no;
+  document.getElementById('dBdy').innerHTML='<div class="dload"><div class="spinner"></div></div>';
+  document.getElementById('ov').classList.add('open');
+  document.getElementById('drw').classList.add('open');
+  document.body.style.overflow='hidden';
+  var data=jCache[no];
+  if(!data){
+    try{
+      var r=await fetch(dataUrl(no));
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      data=await r.json(); jCache[no]=data;
+    }catch(e){ data=null; }
+  }
+  renderDrw(no,data);
+}
+
+function closeDrw(){
+  document.getElementById('ov').classList.remove('open');
+  document.getElementById('drw').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderDrw(no,d){
+  var body=document.getElementById('dBdy');
+  var c=CEZA_DATA[no];
+  if(d&&d.baslik) document.getElementById('dTit').textContent=d.baslik;
+  var html='';
+  if(!d){
+    html='<div class="dnd">Detaylı içerik henüz eklenmemiş.<br><small style="color:var(--dim);font-family:var(--mono);font-size:11px">data/'+slug(no)+'.json ekleyerek zenginleştirin.</small></div>';
+    if(c){
+      html+='<div class="dsec"><div class="dstit">CEZA BİLGİSİ</div><div class="cgrid">'
+        +'<div class="cbox"><div class="clbl">PARA CEZASI</div><div class="cval">'+tl(c.tl)+'</div></div>'
+        +'<div class="cbox"><div class="clbl">PEŞİN (%25)</div><div class="cval" style="color:#aaa">'+tl(Math.round(c.tl*0.75))+'</div></div>'
+        +'<div class="cbox"><div class="clbl">CEZA PUANI</div><div class="cval a">'+(c.puan>0?c.puan:'—')+'</div></div>'
+        +'<div class="cbox"><div class="clbl">UYGULANAN</div><div class="cval m">'+(c.kime||'—')+'</div></div>'
+        +'</div></div>';
+    }
+    body.innerHTML=html; return;
+  }
+  if(d.ozet) html+='<div class="dsec"><div class="dstit">ÖZET</div><div class="dozet">'+d.ozet+'</div></div>';
+  html+=renderIstatistik(d.istatistikler);
+  var para=(d.ceza&&d.ceza.para_tl)||(c&&c.tl);
+  if(para){
+    var puan=(d.ceza&&d.ceza.ceza_puani!==undefined)?d.ceza.ceza_puani:(c&&c.puan);
+    var kime=(d.ceza&&d.ceza.kime_uygulanir)||(c&&c.kime);
+    var yetk=d.ceza&&d.ceza.yetkili_birim;
+    html+='<div class="dsec"><div class="dstit">CEZA BİLGİSİ (2026)</div><div class="cgrid">'
+      +'<div class="cbox"><div class="clbl">PARA CEZASI</div><div class="cval">'+tl(para)+'</div></div>'
+      +'<div class="cbox"><div class="clbl">PEŞİN (%25)</div><div class="cval" style="color:#aaa">'+tl(Math.round(para*0.75))+'</div></div>'
+      +'<div class="cbox"><div class="clbl">CEZA PUANI</div><div class="cval a">'+(puan>0?puan:'—')+'</div></div>'
+      +'<div class="cbox"><div class="clbl">UYGULANAN</div><div class="cval m">'+(kime||'—')+'</div></div>'
+      +(yetk?'<div class="cbox cfull"><div class="clbl">YETKİLİ BİRİM</div><div class="cval m">'+yetk+'</div></div>':'')
+      +'</div></div>';
+  }
+  if(d.gorseller&&d.gorseller.length){
+    html+='<div class="dsec"><div class="dstit">GÖRSELLER</div><div class="ggrid">';
+    d.gorseller.forEach(function(g){
+      html+='<div class="gi"><img src="'+svgUrl(g)+'" alt="'+no+'" onerror="this.parentElement.innerHTML=\'<span style=font-size:32px;opacity:.2>\uD83D\uDDBC</span>\'"/></div>';
+    });
+    html+='</div></div>';
+  }
+  if(d.uygulama_alani&&d.uygulama_alani.length){
+    html+='<div class="dsec"><div class="dstit">UYGULAMA ALANI</div><table class="uat">';
+    d.uygulama_alani.forEach(function(u){
+      var tag=u.uygulanir===true?'<span class="tev">\u2713 EVET</span>':u.uygulanir===false?'<span class="tha">\u2717 HAYIR</span>':'<span class="tko">\u26a0 KOŞULLU</span>';
+      html+='<tr class="uar"><td class="uai">'+tag+'</td><td class="uad">'+u.durum+'<div class="uaa">'+u.aciklama+'</div></td></tr>';
+    });
+    html+='</table></div>';
+  }
+  if(d.sorumluluk&&d.sorumluluk.length){
+    html+='<div class="dsec"><div class="dstit">SORUMLULUK</div><div class="slist">';
+    d.sorumluluk.forEach(function(s){
+      html+='<div class="si"><span class="star">'+s.taraf+'</span><span class="sdum">'+s.durum+'</span><span class="sson">'+s.sonuc+'</span></div>';
+    });
+    html+='</div></div>';
+  }
+  if(d.fiil_tanimlari&&d.fiil_tanimlari.length){
+    html+='<div class="dsec"><div class="dstit">FİİL TANIMLARI</div><div class="flist">';
+    d.fiil_tanimlari.forEach(function(f){
+      var or=(f.ornekler||[]).map(function(o){ return '<span class="fio">'+o+'</span>'; }).join('');
+      html+='<div class="fi"><div class="fibl">'+f.fiil+'</div><div class="fitm">'+f.tanim+'</div><div class="fior">'+or+'</div></div>';
+    });
+    html+='</div></div>';
+  }
+  if(d.uygulanmadigi_haller&&d.uygulanmadigi_haller.length){
+    html+='<div class="dsec"><div class="dstit">UYGULANMADIĞI HALLER</div><ul class="uhl">';
+    d.uygulanmadigi_haller.forEach(function(u){ html+='<li>'+u+'</li>'; });
+    html+='</ul></div>';
+  }
+  if(d.ilgili_maddeler&&d.ilgili_maddeler.length){
+    html+='<div class="dsec"><div class="dstit">İLGİLİ MADDELER</div><div class="ilist">';
+    d.ilgili_maddeler.forEach(function(im){
+      var k=CEZA_DATA[im]?CEZA_DATA[im].konu.substring(0,40):im;
+      html+='<span class="itag" data-k="'+k.replace(/"/g,'&quot;')+'" onclick="closeDrw();setEx(this.dataset.k)">'+im+'</span>';
+    });
+    html+='</div></div>';
+  }
+  if(d.kaynaklar&&d.kaynaklar.length){
+    html+='<div class="dsec"><div class="dstit">KAYNAKLAR</div><div style="display:flex;flex-direction:column;gap:4px">';
+    d.kaynaklar.forEach(function(k){ html+='<div style="font-size:12px;color:var(--dim);font-family:var(--mono)">'+k+'</div>'; });
+    html+='</div></div>';
+  }
+  html+='<div style="height:40px"></div>';
+  body.innerHTML=html;
+}
+
+// ── İSTATİSTİK SAYACI ──
+// EGM Trafik İstatistik Bülteni Aralık 2025 verileri
+var STATS = {
+  yil: 2025,
+  ay: "Aralık",
+  toplam_ceza: 34451889,
+  surucuye_ceza: 5377097,
+  plakaya_ceza: 28972345,
+  toplam_kaza: 676706,
+  olu: 2541,
+  yarali: 407352,
+  alkol: 256944,
+  ftm_istanbul_toplam: 185000,
+  kaynak: "EGM Trafik İstatistik Bülteni, Aralık 2025"
+};
+
+function animateCount(el, target, duration, suffix) {
+  var start = 0;
+  var step = target / (duration / 16);
+  var current = start;
+  var timer = setInterval(function() {
+    current += step;
+    if (current >= target) { current = target; clearInterval(timer); }
+    el.textContent = Math.round(current).toLocaleString('tr-TR') + (suffix || '');
+  }, 16);
+}
+
+function buildStatsBar() {
+  var bar = document.getElementById('statsBar');
+  if (!bar) return;
+  bar.innerHTML =
+    '<div class="sbar-inner">'
+    + '<div class="sbar-item" data-val="' + STATS.toplam_ceza + '">'
+      + '<div class="sbar-num" id="s1">—</div>'
+      + '<div class="sbar-lbl">2025 toplam ceza</div>'
+    + '</div>'
+    + '<div class="sbar-div"></div>'
+    + '<div class="sbar-item" data-val="' + STATS.toplam_kaza + '">'
+      + '<div class="sbar-num" id="s2">—</div>'
+      + '<div class="sbar-lbl">trafik kazası</div>'
+    + '</div>'
+    + '<div class="sbar-div"></div>'
+    + '<div class="sbar-item" data-val="' + STATS.olu + '">'
+      + '<div class="sbar-num" id="s3">—</div>'
+      + '<div class="sbar-lbl">trafik ölümü</div>'
+    + '</div>'
+    + '<div class="sbar-div"></div>'
+    + '<div class="sbar-item" data-val="' + STATS.alkol + '">'
+      + '<div class="sbar-num" id="s4">—</div>'
+      + '<div class="sbar-lbl">alkollü sürücü</div>'
+    + '</div>'
+    + '<div class="sbar-src">Kaynak: EGM ' + STATS.ay + ' ' + STATS.yil + '</div>'
+    + '</div>';
+
+  // Sayaç animasyonu — görünür olunca başlat
+  setTimeout(function() {
+    animateCount(document.getElementById('s1'), STATS.toplam_ceza, 1800);
+    animateCount(document.getElementById('s2'), STATS.toplam_kaza, 1400);
+    animateCount(document.getElementById('s3'), STATS.olu, 1000);
+    animateCount(document.getElementById('s4'), STATS.alkol, 1200);
+  }, 200);
+}
+
+// Drawer'daki istatistik bölümü için renderer eklentisi
+function renderIstatistik(ist) {
+  if (!ist) return '';
+  var html = '<div class="dsec"><div class="dstit">İSTATİSTİKLER</div>';
+  html += '<div class="cgrid">';
+  if (ist.kaza_kusur_2025_yillik) {
+    html += '<div class="cbox cfull" style="background:rgba(226,75,74,0.08);border-color:rgba(226,75,74,0.2)">'
+      + '<div class="clbl">2025 YILINDA BU KUSURDAN KAYNAKLANAN KAZA</div>'
+      + '<div class="cval" style="color:#E24B4A;font-size:22px">' + ist.kaza_kusur_2025_yillik.toLocaleString('tr-TR') + '</div>'
+      + (ist.kaza_kusur_aciklamasi ? '<div class="clbl" style="margin-top:4px;font-size:10px">' + ist.kaza_kusur_aciklamasi + '</div>' : '')
+      + '</div>';
+  }
+  if (ist.ftm_istanbul_2025) {
+    html += '<div class="cbox">'
+      + '<div class="clbl">İSTANBUL FTM 2025</div>'
+      + '<div class="cval">' + ist.ftm_istanbul_2025.toLocaleString('tr-TR') + '</div>'
+      + '</div>';
+  }
+  if (ist.kaza_kusur_2025_aralik) {
+    html += '<div class="cbox">'
+      + '<div class="clbl">ARALIK 2025 (AYLIK)</div>'
+      + '<div class="cval" style="color:var(--amb)">' + ist.kaza_kusur_2025_aralik.toLocaleString('tr-TR') + '</div>'
+      + '</div>';
+  }
+  html += '</div>';
+  if (ist.kaynak) {
+    html += '<div style="font-size:10px;color:var(--dim);font-family:var(--mono);margin-top:6px">' + ist.kaynak + '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+buildStatsBar();
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    if(b.textContent.toLowerCase().indexOf(name==='madde'?'madde':'stat') > -1) b.classList.add('active');
+  });
+  if(name==='dashboard' && !window._dashInited) {
+    window._dashInited = true;
+    setTimeout(initDashboard, 50);
+  }
+}
+
+
+// ═══ EGM TRAFİK ANALİTİK DASHBOARD ═══
+// Kaynak: EGM Trafik İstatistik Bültenleri 2025-12 / 2026-01 / 2026-02 / 2026-03
+
+var EGM = {
+  aylar: [
+    {kod:"2025-12",ad:"Ara 25",yil:2025,ay:12},
+    {kod:"2026-01",ad:"Oca 26",yil:2026,ay:1},
+    {kod:"2026-02",ad:"Şub 26",yil:2026,ay:2},
+    {kod:"2026-03",ad:"Mar 26",yil:2026,ay:3}
+  ],
+  kaza: {
+    "2025-12":{toplam:57822,olu:213,yarali:30200},
+    "2026-01":{toplam:53603,olu:141,yarali:24397},
+    "2026-02":{toplam:48008,olu:139,yarali:23200},
+    "2026-03":{toplam:55041,olu:140,yarali:30517}
+  },
+  kusur: {
+    "2025-12":{hiz:8946,kavsak:4021,serit:1724,arkadan:2128,dogrultu:1985,manevra:1015,kirmizi:618,tasit:854,yaya:401,alkol:131,asiri_hiz:136,gecme:260,park:117,diger:1093},
+    "2026-01":{hiz:7533,kavsak:3024,serit:1514,arkadan:1745,dogrultu:1442,manevra:771,kirmizi:492,tasit:608,yaya:322,alkol:96,asiri_hiz:118,gecme:219,park:89,diger:427},
+    "2026-02":{hiz:6745,kavsak:3183,serit:1511,arkadan:1683,dogrultu:1343,manevra:799,kirmizi:461,tasit:628,yaya:315,alkol:85,asiri_hiz:120,gecme:223,park:74,diger:425},
+    "2026-03":{hiz:8608,kavsak:4166,serit:2024,arkadan:2270,dogrultu:1746,manevra:1025,kirmizi:458,tasit:794,yaya:296,alkol:92,asiri_hiz:122,gecme:296,park:116,diger:474}
+  },
+  ceza: {
+    "2025-12":{toplam:2761392,surucuye:463781,plakaya:2288888,alkol:21057},
+    "2026-01":{toplam:2476432,surucuye:378179,plakaya:2091860,alkol:17651},
+    "2026-02":{toplam:2509890,surucuye:398745,plakaya:2103590,alkol:12475},
+    "2026-03":{toplam:2217338,surucuye:400544,plakaya:1809097,alkol:9939}
+  },
+  il: {
+    "2025-12":{"ADANA":523,"ADIYAMAN":156,"AFYONKARAHİSAR":203,"AĞRI":67,"AMASYA":128,"ANKARA":1375,"ANTALYA":1055,"ARTVİN":25,"AYDIN":390,"BALIKESİR":411,"BİLECİK":64,"BİNGÖL":60,"BİTLİS":55,"BOLU":95,"BURDUR":131,"BURSA":738,"ÇANAKKALE":176,"ÇANKIRI":62,"ÇORUM":175,"DENİZLİ":352,"DİYARBAKIR":299,"EDİRNE":107,"ELAZIĞ":116,"ERZİNCAN":74,"ERZURUM":109,"ESKİŞEHİR":218,"GAZİANTEP":488,"GİRESUN":114,"GÜMÜŞHANE":25,"HAKKARİ":22,"HATAY":632,"ISPARTA":145,"MERSİN":691,"İSTANBUL":3501,"İZMİR":1271,"KARS":53,"KASTAMONU":90,"KAYSERİ":382,"KIRKLARELİ":73,"KIRŞEHİR":72,"KOCAELİ":617,"KONYA":609,"KÜTAHYA":163,"MALATYA":185,"MANİSA":480,"KAHRAMANMARAŞ":299,"MARDİN":143,"MUĞLA":489,"MUŞ":35,"NEVŞEHİR":109,"NİĞDE":101,"ORDU":225,"RİZE":123,"SAKARYA":363,"SAMSUN":447,"SİİRT":54,"SİNOP":81,"SİVAS":126,"TEKİRDAĞ":306,"TOKAT":169,"TRABZON":186,"TUNCELİ":17,"ŞANLIURFA":370,"UŞAK":111,"VAN":127,"YOZGAT":79,"ZONGULDAK":149,"AKSARAY":106,"BAYBURT":9,"KARAMAN":66,"KIRIKKALE":87,"BATMAN":101,"ŞIRNAK":80,"BARTIN":44,"ARDAHAN":6,"IĞDIR":35,"YALOVA":104,"KARABÜK":92,"KİLİS":60,"OSMANİYE":275,"DÜZCE":110},
+    "2026-01":{"ADANA":475,"ADIYAMAN":92,"AFYONKARAHİSAR":163,"AĞRI":39,"AMASYA":75,"ANKARA":1202,"ANTALYA":822,"ARTVİN":11,"AYDIN":372,"BALIKESİR":328,"BİLECİK":59,"BİNGÖL":35,"BİTLİS":41,"BOLU":52,"BURDUR":94,"BURSA":692,"ÇANAKKALE":146,"ÇANKIRI":42,"ÇORUM":126,"DENİZLİ":254,"DİYARBAKIR":210,"EDİRNE":90,"ELAZIĞ":70,"ERZİNCAN":41,"ERZURUM":91,"ESKİŞEHİR":184,"GAZİANTEP":313,"GİRESUN":79,"GÜMÜŞHANE":13,"HAKKARİ":11,"HATAY":468,"ISPARTA":140,"MERSİN":586,"İSTANBUL":2731,"İZMİR":1028,"KARS":24,"KASTAMONU":57,"KAYSERİ":280,"KIRKLARELİ":90,"KIRŞEHİR":48,"KOCAELİ":547,"KONYA":491,"KÜTAHYA":135,"MALATYA":102,"MANİSA":391,"KAHRAMANMARAŞ":198,"MARDİN":94,"MUĞLA":396,"MUŞ":21,"NEVŞEHİR":72,"NİĞDE":83,"ORDU":187,"RİZE":89,"SAKARYA":258,"SAMSUN":389,"SİİRT":32,"SİNOP":50,"SİVAS":92,"TEKİRDAĞ":257,"TOKAT":114,"TRABZON":186,"TUNCELİ":5,"ŞANLIURFA":261,"UŞAK":79,"VAN":69,"YOZGAT":65,"ZONGULDAK":120,"AKSARAY":91,"BAYBURT":8,"KARAMAN":58,"KIRIKKALE":64,"BATMAN":65,"ŞIRNAK":59,"BARTIN":42,"ARDAHAN":8,"IĞDIR":30,"YALOVA":75,"KARABÜK":50,"KİLİS":21,"OSMANİYE":201,"DÜZCE":95},
+    "2026-02":{"ADANA":402,"ADIYAMAN":98,"AFYONKARAHİSAR":142,"AĞRI":66,"AMASYA":100,"ANKARA":1068,"ANTALYA":828,"ARTVİN":20,"AYDIN":332,"BALIKESİR":293,"BİLECİK":53,"BİNGÖL":53,"BİTLİS":55,"BOLU":68,"BURDUR":68,"BURSA":639,"ÇANAKKALE":124,"ÇANKIRI":51,"ÇORUM":114,"DENİZLİ":280,"DİYARBAKIR":215,"EDİRNE":57,"ELAZIĞ":102,"ERZİNCAN":48,"ERZURUM":107,"ESKİŞEHİR":176,"GAZİANTEP":348,"GİRESUN":62,"GÜMÜŞHANE":15,"HAKKARİ":15,"HATAY":432,"ISPARTA":96,"MERSİN":517,"İSTANBUL":2723,"İZMİR":874,"KARS":30,"KASTAMONU":61,"KAYSERİ":322,"KIRKLARELİ":61,"KIRŞEHİR":40,"KOCAELİ":477,"KONYA":517,"KÜTAHYA":91,"MALATYA":129,"MANİSA":378,"KAHRAMANMARAŞ":202,"MARDİN":121,"MUĞLA":373,"MUŞ":28,"NEVŞEHİR":74,"NİĞDE":88,"ORDU":163,"RİZE":66,"SAKARYA":228,"SAMSUN":355,"SİİRT":46,"SİNOP":55,"SİVAS":107,"TEKİRDAĞ":257,"TOKAT":135,"TRABZON":167,"TUNCELİ":16,"ŞANLIURFA":264,"UŞAK":75,"VAN":110,"YOZGAT":77,"ZONGULDAK":135,"AKSARAY":84,"BAYBURT":8,"KARAMAN":67,"KIRIKKALE":78,"BATMAN":83,"ŞIRNAK":86,"BARTIN":37,"ARDAHAN":4,"IĞDIR":24,"YALOVA":91,"KARABÜK":46,"KİLİS":40,"OSMANİYE":186,"DÜZCE":103},
+    "2026-03":{"ADANA":561,"ADIYAMAN":131,"AFYONKARAHİSAR":213,"AĞRI":65,"AMASYA":120,"ANKARA":1415,"ANTALYA":1035,"ARTVİN":20,"AYDIN":471,"BALIKESİR":414,"BİLECİK":56,"BİNGÖL":59,"BİTLİS":48,"BOLU":88,"BURDUR":103,"BURSA":808,"ÇANAKKALE":162,"ÇANKIRI":72,"ÇORUM":185,"DENİZLİ":332,"DİYARBAKIR":270,"EDİRNE":103,"ELAZIĞ":129,"ERZİNCAN":52,"ERZURUM":106,"ESKİŞEHİR":251,"GAZİANTEP":479,"GİRESUN":88,"GÜMÜŞHANE":23,"HAKKARİ":23,"HATAY":557,"ISPARTA":167,"MERSİN":638,"İSTANBUL":3262,"İZMİR":1160,"KARS":32,"KASTAMONU":73,"KAYSERİ":373,"KIRKLARELİ":76,"KIRŞEHİR":50,"KOCAELİ":634,"KONYA":667,"KÜTAHYA":169,"MALATYA":165,"MANİSA":446,"KAHRAMANMARAŞ":255,"MARDİN":121,"MUĞLA":496,"MUŞ":36,"NEVŞEHİR":86,"NİĞDE":104,"ORDU":204,"RİZE":82,"SAKARYA":313,"SAMSUN":413,"SİİRT":49,"SİNOP":66,"SİVAS":115,"TEKİRDAĞ":285,"TOKAT":192,"TRABZON":180,"TUNCELİ":11,"ŞANLIURFA":336,"UŞAK":136,"VAN":120,"YOZGAT":89,"ZONGULDAK":138,"AKSARAY":119,"BAYBURT":12,"KARAMAN":60,"KIRIKKALE":106,"BATMAN":115,"ŞIRNAK":69,"BARTIN":63,"ARDAHAN":8,"IĞDIR":30,"YALOVA":105,"KARABÜK":78,"KİLİS":27,"OSMANİYE":241,"DÜZCE":85}
+  }
+};
+
+// ──────────────────────────────────────────────
+// YARDIMCI
+// ──────────────────────────────────────────────
+function fmt(n){ return Math.round(n).toLocaleString('tr-TR'); }
+
+function getAyKod(){
+  var now = new Date();
+  var y = now.getFullYear();
+  var m = now.getMonth()+1;
+  // En yakın mevcut bülten
+  var found = null;
+  EGM.aylar.slice().reverse().forEach(function(a){
+    if(!found && (a.yil < y || (a.yil===y && a.ay<=m))) found=a.kod;
+  });
+  return found || EGM.aylar[EGM.aylar.length-1].kod;
+}
+
+// ──────────────────────────────────────────────
+// GRAFİK 1: TREND — 4 aylık çizgi grafik
+// ──────────────────────────────────────────────
+function drawTrend(){
+  var canvas = document.getElementById('cTrend');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  var pad={l:48,r:20,t:20,b:36};
+  var gW=W-pad.l-pad.r, gH=H-pad.t-pad.b;
+
+  ctx.clearRect(0,0,W,H);
+
+  var series = [
+    {key:'toplam',label:'Toplam kaza',color:'#4cff91',scale:1},
+    {key:'olu',label:'Ölü (×10)',color:'#E24B4A',scale:10},
+    {key:'yarali',label:'Yaralı',color:'#ffc94a',scale:1}
+  ];
+
+  var allVals = [];
+  EGM.aylar.forEach(function(a){
+    series.forEach(function(s){
+      allVals.push(EGM.kaza[a.kod][s.key]*s.scale);
+    });
+  });
+  var maxV = Math.max.apply(null,allVals)*1.1;
+  var minV = 0;
+
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.06)';
+  ctx.lineWidth=0.5;
+  for(var i=0;i<=4;i++){
+    var y=pad.t+gH*(1-i/4);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+gW,y);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.3)';
+    ctx.font='10px monospace';ctx.textAlign='right';
+    ctx.fillText(fmt(minV+(maxV-minV)*i/4),pad.l-4,y+3);
+  }
+
+  // X labels
+  ctx.fillStyle='rgba(255,255,255,0.4)';
+  ctx.font='10px monospace';ctx.textAlign='center';
+  EGM.aylar.forEach(function(a,i){
+    var x=pad.l+gW*i/(EGM.aylar.length-1);
+    ctx.fillText(a.ad,x,H-pad.b+16);
+  });
+
+  // Lines
+  series.forEach(function(s){
+    var pts=EGM.aylar.map(function(a,i){
+      return {
+        x:pad.l+gW*i/(EGM.aylar.length-1),
+        y:pad.t+gH*(1-(EGM.kaza[a.kod][s.key]*s.scale-minV)/(maxV-minV))
+      };
+    });
+    ctx.beginPath();
+    ctx.strokeStyle=s.color;ctx.lineWidth=2;
+    pts.forEach(function(p,i){ i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y); });
+    ctx.stroke();
+    pts.forEach(function(p){
+      ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);
+      ctx.fillStyle=s.color;ctx.fill();
+    });
+  });
+
+  // Lejand
+  var lx=pad.l;
+  series.forEach(function(s){
+    ctx.fillStyle=s.color;
+    ctx.fillRect(lx,6,10,3);
+    ctx.fillStyle='rgba(255,255,255,0.6)';
+    ctx.font='9px monospace';ctx.textAlign='left';
+    ctx.fillText(s.label,lx+13,10);
+    lx+=ctx.measureText(s.label).width+28;
+  });
+}
+
+// ──────────────────────────────────────────────
+// GRAFİK 2: KUSUR SIRALAMASI — yatay bar
+// ──────────────────────────────────────────────
+function drawKusur(ayKod){
+  var canvas = document.getElementById('cKusur');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  var k=EGM.kusur[ayKod];
+  var items=[
+    {lbl:'Hız (yol/hava şartları)',val:k.hiz,color:'#E24B4A'},
+    {lbl:'Kavşak / geçit önceliği',val:k.kavsak,color:'#fb923c'},
+    {lbl:'Arkadan çarpma',val:k.arkadan,color:'#ffc94a'},
+    {lbl:'Dönüş kuralları',val:k.dogrultu,color:'#ffc94a'},
+    {lbl:'Şerit ihlali',val:k.serit,color:'#60a5fa'},
+    {lbl:'Manevra',val:k.manevra,color:'#60a5fa'},
+    {lbl:'Taşıt giremez',val:k.tasit,color:'#a78bfa'},
+    {lbl:'Kırmızı ışık',val:k.kirmizi,color:'#4cff91'},
+    {lbl:'Yaya/okul geçidi',val:k.yaya,color:'#4cff91'},
+    {lbl:'Geçme yasağı',val:k.gecme,color:'#94a3b8'},
+    {lbl:'Aşırı hız',val:k.asiri_hiz,color:'#E24B4A'},
+    {lbl:'Alkol',val:k.alkol,color:'#f472b6'},
+  ].sort(function(a,b){return b.val-a.val;});
+
+  var maxVal=items[0].val;
+  var rowH=H/items.length;
+  var labelW=130, pad=8;
+
+  items.forEach(function(it,i){
+    var y=i*rowH;
+    var barMax=W-labelW-pad*2-40;
+    var barW=Math.round(barMax*it.val/maxVal);
+
+    // Bar
+    ctx.fillStyle=it.color+'33';
+    ctx.fillRect(labelW,y+2,barW,rowH-4);
+    ctx.fillStyle=it.color;
+    ctx.fillRect(labelW,y+rowH/2-1,barW,2);
+
+    // Label
+    ctx.fillStyle='rgba(255,255,255,0.7)';
+    ctx.font='10px sans-serif';ctx.textAlign='right';
+    ctx.fillText(it.lbl,labelW-pad,y+rowH/2+4);
+
+    // Value
+    ctx.fillStyle=it.color;
+    ctx.font='bold 10px monospace';ctx.textAlign='left';
+    ctx.fillText(fmt(it.val),labelW+barW+4,y+rowH/2+4);
+  });
+}
+
+// ──────────────────────────────────────────────
+// GRAFİK 3: KORELASYON — kaza vs ceza scatter
+// ──────────────────────────────────────────────
+function drawKorelasyon(){
+  var canvas = document.getElementById('cKorel');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  var pad={l:50,r:20,t:20,b:40};
+  ctx.clearRect(0,0,W,H);
+
+  // Her ay için nokta: X=toplam ceza, Y=ölümlü+yaralı kaza
+  var pts=EGM.aylar.map(function(a){
+    return {
+      lbl:a.ad,
+      x:EGM.ceza[a.kod].toplam,
+      y:EGM.kaza[a.kod].toplam,
+      olu:EGM.kaza[a.kod].olu
+    };
+  });
+
+  var maxX=Math.max.apply(null,pts.map(function(p){return p.x;}))*1.05;
+  var maxY=Math.max.apply(null,pts.map(function(p){return p.y;}))*1.15;
+  var gW=W-pad.l-pad.r, gH=H-pad.t-pad.b;
+
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=0.5;
+  for(var i=0;i<=4;i++){
+    var gy=pad.t+gH*(1-i/4);
+    ctx.beginPath();ctx.moveTo(pad.l,gy);ctx.lineTo(pad.l+gW,gy);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='9px monospace';ctx.textAlign='right';
+    ctx.fillText(fmt(maxY*i/4),pad.l-4,gy+3);
+
+    var gx=pad.l+gW*i/4;
+    ctx.beginPath();ctx.moveTo(gx,pad.t);ctx.lineTo(gx,pad.t+gH);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='9px monospace';ctx.textAlign='center';
+    ctx.fillText((maxX*i/4/1000000).toFixed(1)+'M',gx,pad.t+gH+14);
+  }
+
+  // Eksen etiketleri
+  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='9px monospace';ctx.textAlign='center';
+  ctx.fillText('Toplam ceza sayısı →',pad.l+gW/2,H-4);
+  ctx.save();ctx.translate(12,pad.t+gH/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText('← Kaza sayısı',0,0);ctx.restore();
+
+  // Noktalar
+  pts.forEach(function(p){
+    var px=pad.l+gW*(p.x/maxX);
+    var py=pad.t+gH*(1-p.y/maxY);
+    var r=6+Math.sqrt(p.olu)*0.8;
+    ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);
+    ctx.fillStyle='rgba(76,255,145,0.25)';ctx.fill();
+    ctx.strokeStyle='#4cff91';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';
+    ctx.fillText(p.lbl,px,py-r-4);
+    ctx.fillStyle='#E24B4A';ctx.font='9px monospace';
+    ctx.fillText(p.olu+' ölü',px,py+4);
+  });
+
+  // Trend çizgisi (linear regression)
+  var n=pts.length;
+  var sumX=pts.reduce(function(s,p){return s+p.x;},0);
+  var sumY=pts.reduce(function(s,p){return s+p.y;},0);
+  var sumXY=pts.reduce(function(s,p){return s+p.x*p.y;},0);
+  var sumX2=pts.reduce(function(s,p){return s+p.x*p.x;},0);
+  var slope=(n*sumXY-sumX*sumY)/(n*sumX2-sumX*sumX);
+  var inter=(sumY-slope*sumX)/n;
+  var x1=0,y1=inter;
+  var x2=maxX,y2=slope*maxX+inter;
+  ctx.beginPath();
+  ctx.strokeStyle='rgba(255,201,74,0.4)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.moveTo(pad.l+gW*(x1/maxX),pad.t+gH*(1-y1/maxY));
+  ctx.lineTo(pad.l+gW*(x2/maxX),pad.t+gH*(1-y2/maxY));
+  ctx.stroke();ctx.setLineDash([]);
+
+  // Insight kutusu
+  ctx.fillStyle='rgba(255,201,74,0.08)';
+  ctx.strokeStyle='rgba(255,201,74,0.3)';ctx.lineWidth=0.5;
+  ctx.beginPath();
+  ctx.roundRect(pad.l,pad.t+4,gW,22,4);
+  ctx.fill();ctx.stroke();
+  ctx.fillStyle='rgba(255,201,74,0.8)';ctx.font='9px sans-serif';ctx.textAlign='center';
+  ctx.fillText('\u26a0 Şubat: en az ceza — en az kaza. Mart: ceza azaldı ama kaza arttı \u2192 mevsimsel etki',pad.l+gW/2,pad.t+16);
+}
+
+// ──────────────────────────────────────────────
+// GRAFİK 4: İL TOP 15 — yatay bar (seçili ay)
+// ──────────────────────────────────────────────
+function drawIller(ayKod){
+  var canvas = document.getElementById('cIller');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  var ilData=EGM.il[ayKod];
+  var sorted=Object.keys(ilData).map(function(k){
+    return {il:k,val:ilData[k]};
+  }).sort(function(a,b){return b.val-a.val;}).slice(0,15);
+
+  var maxVal=sorted[0].val;
+  var rowH=H/sorted.length;
+  var labelW=90, pad=8;
+
+  sorted.forEach(function(it,i){
+    var y=i*rowH;
+    var barMax=W-labelW-pad*2-44;
+    var barW=Math.round(barMax*it.val/maxVal);
+
+    // Renk yoğunluğa göre
+    var intensity=it.val/maxVal;
+    var r=Math.round(226*intensity+30*(1-intensity));
+    var g=Math.round(75*intensity+130*(1-intensity));
+    var b=Math.round(74*intensity+200*(1-intensity));
+    var color='rgb('+r+','+g+','+b+')';
+
+    ctx.fillStyle=color+'22';
+    ctx.fillRect(labelW,y+1,barW,rowH-2);
+    ctx.fillStyle=color;
+    ctx.fillRect(labelW,y+rowH/2-1,barW,2);
+
+    ctx.fillStyle='rgba(255,255,255,0.75)';
+    ctx.font='10px sans-serif';ctx.textAlign='right';
+    ctx.fillText(it.il,labelW-pad,y+rowH/2+4);
+
+    ctx.fillStyle=color;
+    ctx.font='bold 10px monospace';ctx.textAlign='left';
+    ctx.fillText(fmt(it.val),labelW+barW+4,y+rowH/2+4);
+  });
+}
+
+// ──────────────────────────────────────────────
+// AYLIK ÖZEL İHLALLER — this-month insight
+// ──────────────────────────────────────────────
+function buildMonthInsight(){
+  var el=document.getElementById('monthInsight');
+  if(!el) return;
+
+  var now=new Date();
+  var buAy=now.getMonth()+1;
+
+  // Hangi ayda hangi ihlal öne çıkıyor
+  var ayInsight={
+    12:{icon:'❄️',baslik:'Aralık riski: Hız + Alkol',metin:'Kış koşullarında hız uyumsuzluğu (8.946 kaza) ve yılbaşı döneminde alkol (21.057 tespit) Aralık ayının başlıca tehlikeleri.'},
+    1: {icon:'🌨️',baslik:'Ocak riski: Islak/Buzlu Yol Hızı',metin:'Yılın ilk ayında hız kaynaklı kaza (7.533) tüm kusurların %40\'ını oluşturuyor. Kış lastiği kontrolü kritik.'},
+    2: {icon:'🌧️',baslik:'Şubat riski: Kavşak İhlalleri',metin:'Şubat\'ta kavşak ve geçit önceliği ihlalleri (3.183) oransal olarak en yüksek aya ulaşıyor. Yağmurlu havalarda görüş mesafesi azalıyor.'},
+    3: {icon:'🌸',baslik:'Mart riski: Artan Trafik + Şerit',metin:'Bahar başında araç sayısı artar: şerit ihlali (2.024) ve dönüş kuralları (1.746) Mart\'ta belirgin artış gösteriyor.'},
+  };
+
+  var insight=ayInsight[buAy];
+  if(!insight){
+    // En yakın bülten ayını göster
+    insight=ayInsight[3];
+  }
+
+  el.innerHTML='<div class="mi-icon">'+insight.icon+'</div>'
+    +'<div><div class="mi-baslik">'+insight.baslik+'</div>'
+    +'<div class="mi-metin">'+insight.metin+'</div></div>';
+}
+
+// ──────────────────────────────────────────────
+// AY SEÇİCİ & INIT
+// ──────────────────────────────────────────────
+var secilenAy = getAyKod();
+
+function selectAy(kod){
+  secilenAy=kod;
+  document.querySelectorAll('.ay-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.kod===kod);
+  });
+  document.getElementById('ayLabel').textContent=
+    EGM.aylar.find(function(a){return a.kod===kod;}).ad+' — Sürücü kusurları ve iller';
+  drawKusur(kod);
+  drawIller(kod);
+}
+
+function initDashboard(){
+  buildMonthInsight();
+  drawTrend();
+  drawKusur(secilenAy);
+  drawKorelasyon();
+  drawIller(secilenAy);
+
+  // Ay butonları
+  var btnWrap=document.getElementById('ayBtnlar');
+  if(btnWrap){
+    EGM.aylar.forEach(function(a){
+      var btn=document.createElement('button');
+      btn.className='ay-btn'+(a.kod===secilenAy?' active':'');
+      btn.dataset.kod=a.kod;
+      btn.textContent=a.ad;
+      btn.onclick=function(){selectAy(a.kod);};
+      btnWrap.appendChild(btn);
+    });
+  }
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', initDashboard);
+} else {
+  initDashboard();
+}
+
+
+// Stats grid (seçili aya göre)
+function buildStatsGrid(kod) {
+  var el = document.getElementById('statsGrid');
+  if (!el) return;
+  var k = EGM.kaza[kod];
+  var c = EGM.ceza[kod];
+  // Önceki ay
+  var idx = EGM.aylar.findIndex(function(a){ return a.kod===kod; });
+  var prev = idx > 0 ? EGM.aylar[idx-1].kod : null;
+  var pk = prev ? EGM.kaza[prev] : null;
+
+  function delta(cur, pre, field) {
+    if (!pre) return '';
+    var d = cur[field] - pre[field];
+    var pct = Math.round(d/pre[field]*100);
+    var cls = (d > 0) ? 'delta-up' : 'delta-dn';
+    var arrow = (d > 0) ? '▲' : '▼';
+    return '<div class="stat-delta ' + cls + '">' + arrow + ' ' + Math.abs(pct) + '% önceki aya göre</div>';
+  }
+
+  el.innerHTML =
+    '<div class="stat-card"><div class="stat-lbl">TOPLAM KAZA</div><div class="stat-val">' + fmt(k.toplam) + '</div>' + (pk?delta(k,pk,'toplam'):'') + '</div>' +
+    '<div class="stat-card"><div class="stat-lbl">HAYATINI KAYBEDEN</div><div class="stat-val red">' + k.olu + '</div>' + (pk?delta(k,pk,'olu'):'') + '</div>' +
+    '<div class="stat-card"><div class="stat-lbl">TOPLAM CEZA</div><div class="stat-val amb">' + (c.toplam/1000000).toFixed(2) + 'M</div></div>' +
+    '<div class="stat-card"><div class="stat-lbl">ALKOLLÜ SÜRÜCÜ</div><div class="stat-val ora">' + fmt(c.alkol) + '</div>' + (prev?delta(c,EGM.ceza[prev],'alkol'):'') + '</div>';
+}
+
+// Override selectAy to also update stats grid
+var _origSelectAy = selectAy;
+selectAy = function(kod) {
+  _origSelectAy(kod);
+  buildStatsGrid(kod);
+};
+
+// Override initDashboard to also build stats
+var _origInit = initDashboard;
+initDashboard = function() {
+  _origInit();
+  buildStatsGrid(secilenAy);
+};
+
+initDashboard();
+
+</script>
+</body>
+</html>

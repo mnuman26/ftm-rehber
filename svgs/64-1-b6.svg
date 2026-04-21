@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#0a0a1a" rx="12"/>
+
+  <!-- Stars / night sky -->
+  <circle cx="30" cy="25" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="80" cy="15" r="1" fill="white" opacity="0.5"/>
+  <circle cx="130" cy="30" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="170" cy="18" r="1" fill="white" opacity="0.4"/>
+  <circle cx="55" cy="40" r="1" fill="white" opacity="0.5"/>
+  <circle cx="150" cy="45" r="1.5" fill="white" opacity="0.6"/>
+
+  <!-- Moon -->
+  <circle cx="170" cy="30" r="14" fill="#fff9c4"/>
+  <circle cx="177" cy="24" r="11" fill="#0a0a1a"/>
+
+  <!-- Road -->
+  <rect x="0" y="120" width="200" height="80" fill="#1a1a1a"/>
+  <rect x="0" y="118" width="200" height="6" fill="#2d2d2d"/>
+  <!-- Road lines -->
+  <rect x="15" y="140" width="30" height="5" fill="#444" rx="2"/>
+  <rect x="65" y="140" width="30" height="5" fill="#444" rx="2"/>
+  <rect x="115" y="140" width="30" height="5" fill="#444" rx="2"/>
+  <rect x="165" y="140" width="30" height="5" fill="#444" rx="2"/>
+
+  <!-- Car body -->
+  <rect x="55" y="100" width="90" height="35" fill="#37474f" rx="8"/>
+  <!-- Roof -->
+  <rect x="72" y="82" width="58" height="22" fill="#455a64" rx="6"/>
+  <!-- Windows -->
+  <rect x="76" y="85" width="22" height="16" fill="#1a237e" rx="3" opacity="0.7"/>
+  <rect x="102" y="85" width="22" height="16" fill="#1a237e" rx="3" opacity="0.7"/>
+  <!-- Wheels -->
+  <circle cx="78" cy="136" r="12" fill="#111"/>
+  <circle cx="78" cy="136" r="6" fill="#333"/>
+  <circle cx="122" cy="136" r="12" fill="#111"/>
+  <circle cx="122" cy="136" r="6" fill="#333"/>
+
+  <!-- PARKING lights only - tiny orange/amber dots, very dim -->
+  <circle cx="55" cy="110" r="4" fill="#ff8f00" opacity="0.6"/>
+  <circle cx="145" cy="110" r="4" fill="#ff0000" opacity="0.5"/>
+
+  <!-- X over headlight area (no main lights) -->
+  <line x1="38" y1="103" x2="54" y2="119" stroke="#e53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="54" y1="103" x2="38" y2="119" stroke="#e53935" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Darkness ahead - the road is pitch black -->
+  <rect x="0" y="120" width="52" height="80" fill="#0a0a0a" opacity="0.8"/>
+
+  <!-- Label -->
+  <rect x="30" y="168" width="140" height="22" fill="#e53935" rx="4" opacity="0.9"/>
+  <text x="100" y="183" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">SADECE PARK LAMBASI</text>
+
+  <!-- P symbol in a circle (parking light indicator) -->
+  <circle cx="100" cy="55" r="20" fill="none" stroke="#ff8f00" stroke-width="2" opacity="0.8"/>
+  <text x="100" y="63" font-family="Arial Black" font-size="22" font-weight="900" fill="#ff8f00" text-anchor="middle" opacity="0.9">P</text>
+</svg>
