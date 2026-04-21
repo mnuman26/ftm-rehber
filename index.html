@@ -272,6 +272,9 @@ canvas{display:block;width:100%;}
 .levha-item img{width:80px;height:80px;object-fit:contain;}
 .levha-ad{font-size:10px;font-family:var(--mono);color:var(--mut);text-align:center;line-height:1.4;}
 
+.kaza-badge{display:inline-block;font-family:var(--mono);font-size:10px;color:#fb923c;background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:4px;padding:2px 8px;margin-top:4px;}
+.dash-sayac{background:var(--surf);border-bottom:1px solid var(--bdr);}
+
 </style>
 </head>
 <body>
@@ -328,6 +331,7 @@ canvas{display:block;width:100%;}
   </div>
 </div>
 
+<div class="dash-sayac" id="dashSayac"></div>
 <!-- Bu ay özel uyarı -->
 <div class="month-insight" id="monthInsight">
   <div class="mi-icon">📊</div>
@@ -397,6 +401,18 @@ canvas{display:block;width:100%;}
 </div>
 <div class="toast" id="toast">&#x2713; Kopyalandı</div>
 <script>
+var KOLLUK_KAZA_2025 = {
+  '51/2-a':114586,'51/2-b':114586,'51/2-c':114586,
+  '52/1-a':114586,'52/1-b':114586,'52/1-c':114586,'52/1-d':114586,
+  '47/1-a':7393,'47/1-d':7393,
+  '53/2-a':25959,'53/2-b':25959,'53/2-c':25959,
+  '56/1-d':25398,
+  '48/5':1885,'48/8':1885,'48/9':1885,
+  '81/1-a':12880,'81/1-b':12880,'81/1-d-1':12880,'81/1-d-2':12880,
+  '36/3-a':10502,'36/3-b':10502,'36/3-c':10502,
+  '46/2-a':25398,'46/2-e':25398,'46/2-g':25398,
+  '57/1-a':51479,'57/1-b':51479,'57/1-c':51479
+};
 const CEZA_DATA = {
   '13':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Yolun yapımı ve bakımı ile görevli kuruluştan izin almadan ve trafik akımı ile güvenliğini bozacak, karayolunu kullananlara ve araçlara zarar verecek '},
   '14/1-a':{tl:5662,puan:0,ftm:false,kime:'Uymayanlara',konu:'Karayolu yapısı üzerine (yaya yolları ve bisiklet yolları dahil), araç veya yaya trafiğini güçleştirecek, tehlikeye sokacak veya engel yaratacak, traf'},
@@ -701,6 +717,10 @@ function buildCard(m,isFtm){
       +'<span class="fp kime">'+(d.kime||'')+'</span>'
       +'</div>';
   }
+  var kazaBadge='';
+  if(!isFtm && KOLLUK_KAZA_2025[m.no]){
+    kazaBadge='<span class="kaza-badge">⚠ 2025’te '+KOLLUK_KAZA_2025[m.no].toLocaleString('tr-TR')+' kazaya neden oldu</span>';
+  }
   return '<div class="rcard '+cls+hi+'">'
     +'<div class="card-strip">'
       +'<div class="auth '+cls+'"><div class="auth-icon">'+authIcon+'</div>'+authTxt+'</div>'
@@ -714,7 +734,7 @@ function buildCard(m,isFtm){
       +(konu?'<div class="kanun">'+konu+'</div>':'')
       +fine
       +'<div class="prog"><div class="bar" style="width:'+m.pct+'%"></div></div>'
-      +'<div class="card-acts">'
+      +kazaBadge+'<div class="card-acts">'
         +'<button class="btn-copy" data-no="'+m.no+'" onclick="copyText(this.dataset.no)">\u2398 '+m.no+' kopyala</button>'
         +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)">\u2261 Detay</button>'
       +'</div>'
@@ -852,6 +872,50 @@ function renderDrw(no,d){
       html+='<span class="itag" data-k="'+k.replace(/"/g,'&quot;')+'" onclick="closeDrw();setEx(this.dataset.k)">'+im+'</span>';
     });
     html+='</div></div>';
+  }
+  // mini trend chart
+  if(d.istatistikler && (d.istatistikler.ftm_istanbul_2025 || d.istatistikler.kaza_kusur_2025_yillik)){
+    var ist=d.istatistikler;
+    var canvasId='trend_'+Math.random().toString(36).substr(2,6);
+    html+='<div class="dsec"><div class="dstit">📈 AYLIK TREND (2025-12 → 2026-03)</div>';
+    html+='<canvas id="'+canvasId+'" height="80" style="width:100%;display:block;margin-top:8px"></canvas>';
+    html+='<div style="font-size:9px;color:var(--dim);font-family:var(--mono);margin-top:4px">Kaynak: EGM Aylık Bül ten</div>';
+    html+='</div>';
+    setTimeout(function(){
+      var cv=document.getElementById(canvasId);
+      if(!cv)return;
+      var dpr=window.devicePixelRatio||1;
+      var W=cv.offsetWidth||320;
+      var H=80;
+      cv.width=W*dpr;cv.height=H*dpr;
+      cv.style.width=W+'px';cv.style.height=H+'px';
+      var ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+      var pts=[];
+      if(ist.kaza_kusur_2025_aralik) pts.push({lbl:'Ara',v:ist.kaza_kusur_2025_aralik});
+      if(ist.kaza_kusur_2026_ocak) pts.push({lbl:'Oca',v:ist.kaza_kusur_2026_ocak});
+      if(ist.kaza_kusur_2026_subat) pts.push({lbl:'Şub',v:ist.kaza_kusur_2026_subat});
+      if(ist.kaza_kusur_2026_mart) pts.push({lbl:'Mar',v:ist.kaza_kusur_2026_mart});
+      if(pts.length<2)return;
+      var maxV=Math.max.apply(null,pts.map(function(p){return p.v;}));
+      var minV=Math.min.apply(null,pts.map(function(p){return p.v;}))*0.8;
+      var pad={l:8,r:8,t:8,b:20};
+      var gW=W-pad.l-pad.r;var gH=H-pad.t-pad.b;
+      ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.moveTo(pad.l,pad.t+gH/2);ctx.lineTo(pad.l+gW,pad.t+gH/2);ctx.stroke();
+      var coords=pts.map(function(p,i){
+        return{x:pad.l+gW*i/(pts.length-1),y:pad.t+gH*(1-(p.v-minV)/(maxV-minV))};
+      });
+      ctx.beginPath();ctx.strokeStyle='#4cff91';ctx.lineWidth=2;
+      coords.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});
+      ctx.stroke();
+      coords.forEach(function(p,i){
+        ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fillStyle='#4cff91';ctx.fill();
+        ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='9px monospace';ctx.textAlign='center';
+        ctx.fillText(pts[i].lbl,p.x,H-4);
+        ctx.fillStyle='#4cff91';ctx.font='bold 9px monospace';
+        ctx.fillText(pts[i].v,p.x,p.y-6);
+      });
+    },100);
   }
   // 11. kaynaklar
   if(d.kaynaklar&&d.kaynaklar.length){
@@ -1398,30 +1462,51 @@ if(document.readyState==='loading'){
 
 
 // Stats grid (seçili aya göre)
-function buildStatsGrid(kod) {
-  var el = document.getElementById('statsGrid');
-  if (!el) return;
-  var k = EGM.kaza[kod];
-  var c = EGM.ceza[kod];
-  // Önceki ay
-  var idx = EGM.aylar.findIndex(function(a){ return a.kod===kod; });
-  var prev = idx > 0 ? EGM.aylar[idx-1].kod : null;
-  var pk = prev ? EGM.kaza[prev] : null;
-
-  function delta(cur, pre, field) {
-    if (!pre) return '';
-    var d = cur[field] - pre[field];
-    var pct = Math.round(d/pre[field]*100);
-    var cls = (d > 0) ? 'delta-up' : 'delta-dn';
-    var arrow = (d > 0) ? '▲' : '▼';
-    return '<div class="stat-delta ' + cls + '">' + arrow + ' ' + Math.abs(pct) + '% önceki aya göre</div>';
+function buildStatsGrid(kod){
+  var el=document.getElementById('statsGrid');
+  var ds=document.getElementById('dashSayac');
+  var k=EGM.kaza[kod];
+  var c=EGM.ceza[kod];
+  var idx=EGM.aylar.findIndex(function(a){return a.kod===kod;});
+  var prev=idx>0?EGM.aylar[idx-1].kod:null;
+  var pk=prev?EGM.kaza[prev]:null;
+  function delta(cur,pre,field){
+    if(!pre)return'';
+    var d=cur[field]-pre[field];
+    var pct=Math.round(d/pre[field]*100);
+    var cls=d>0?'delta-up':'delta-dn';
+    var arrow=d>0?'▲':'▼';
+    return'<div class="stat-delta '+cls+'">'+arrow+' '+Math.abs(pct)+'% önceki ay</div>';
   }
-
-  el.innerHTML =
-    '<div class="stat-card"><div class="stat-lbl">TOPLAM KAZA</div><div class="stat-val">' + fmt(k.toplam) + '</div>' + (pk?delta(k,pk,'toplam'):'') + '</div>' +
-    '<div class="stat-card"><div class="stat-lbl">HAYATINI KAYBEDEN</div><div class="stat-val red">' + k.olu + '</div>' + (pk?delta(k,pk,'olu'):'') + '</div>' +
-    '<div class="stat-card"><div class="stat-lbl">TOPLAM CEZA</div><div class="stat-val amb">' + (c.toplam/1000000).toFixed(2) + 'M</div></div>' +
-    '<div class="stat-card"><div class="stat-lbl">ALKOLLÜ SÜRÜCÜ</div><div class="stat-val ora">' + fmt(c.alkol) + '</div>' + (prev?delta(c,EGM.ceza[prev],'alkol'):'') + '</div>';
+  if(el){
+    el.innerHTML=
+      '<div class="stat-card"><div class="stat-lbl">TOPLAM KAZA</div><div class="stat-val">'+fmt(k.toplam)+'</div>'+(pk?delta(k,pk,'toplam'):'')+'</div>'+
+      '<div class="stat-card"><div class="stat-lbl">HAYATINI KAYBEDEN</div><div class="stat-val red">'+k.olu+'</div>'+(pk?delta(k,pk,'olu'):'')+'</div>'+
+      '<div class="stat-card"><div class="stat-lbl">TOPLAM CEZA</div><div class="stat-val amb">'+(c.toplam/1000000).toFixed(2)+'M</div></div>'+
+      '<div class="stat-card"><div class="stat-lbl">ALKOLLÜ SÜRÜCÜ</div><div class="stat-val ora">'+fmt(c.alkol)+'</div>'+(prev?delta(c,EGM.ceza[prev],'alkol'):'')+'</div>';
+  }
+  if(ds && typeof FTM_IST_2025 !== 'undefined'){
+    var topFtm=Object.entries(FTM_IST_2025).sort(function(a,b){return b[1].sayi-a[1].sayi;}).slice(0,10);
+    var rows=topFtm.map(function(e,i){
+      var no=e[0];var s=e[1];
+      var d=CEZA_DATA[no];
+      var konu=d?d.konu.substring(0,45)+'...':'';
+      return'<tr><td style="color:var(--grn);font-family:var(--mono);font-size:11px;padding:6px 8px;white-space:nowrap">'+(i+1)+'</td>'
+        +'<td style="font-family:var(--mono);font-size:11px;padding:6px 8px;color:var(--grn);white-space:nowrap">'+no+'</td>'
+        +'<td style="font-size:11px;padding:6px 8px;color:var(--mut)">'+konu+'</td>'
+        +'<td style="font-family:var(--mono);font-size:11px;padding:6px 8px;color:var(--grn);text-align:right;white-space:nowrap">'+s.sayi.toLocaleString('tr-TR')+'</td></tr>';
+    }).join('');
+    ds.innerHTML='<div class="dsec" style="margin:16px 16px 0">'
+      +'<div class="dstit" style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;margin-bottom:10px;display:flex;align-items:center;gap:8px">İSTANBUL 2025 — EN ÇOK YAZILAN FTM MADDELERİ<span style="flex:1;height:1px;background:var(--bdr)"></span></div>'
+      +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'
+      +'<thead><tr>'
+      +'<th style="font-family:var(--mono);font-size:9px;color:var(--dim);padding:4px 8px;text-align:left;border-bottom:1px solid var(--bdr)">#</th>'
+      +'<th style="font-family:var(--mono);font-size:9px;color:var(--dim);padding:4px 8px;text-align:left;border-bottom:1px solid var(--bdr)">MADDE</th>'
+      +'<th style="font-family:var(--mono);font-size:9px;color:var(--dim);padding:4px 8px;text-align:left;border-bottom:1px solid var(--bdr)">KONU</th>'
+      +'<th style="font-family:var(--mono);font-size:9px;color:var(--dim);padding:4px 8px;text-align:right;border-bottom:1px solid var(--bdr)">CEZA</th>'
+      +'</tr></thead>'
+      +'<tbody>'+rows+'</tbody></table></div></div>';
+  }
 }
 
 // Override selectAy to also update stats grid
