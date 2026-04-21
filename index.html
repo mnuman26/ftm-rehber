@@ -20,33 +20,32 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 .hero{display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem 1.5rem;transition:padding .3s;}
 .hero.compact{padding:1rem 1.5rem .75rem;}
 .site-logo {
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  border-bottom: 1px solid var(--bdr);
+  background: #0d0f0e;
+  padding: 14px 20px 12px;
+  border-bottom: 2px solid #2d7a50;
 }
-.logo-mark {
-  font-size: 22px;
-  opacity: 0.7;
-}
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.logo-title {
-  font-family: 'Space Grotesk', var(--sans);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--txt);
-  letter-spacing: -.02em;
-}
-.logo-meta {
+.logo-monogram {
   font-family: var(--mono);
   font-size: 10px;
-  color: var(--dim);
+  font-weight: 600;
+  color: #4cff91;
+  letter-spacing: .18em;
+  margin-bottom: 4px;
+}
+.logo-main {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e8ede8;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+}
+.logo-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: #4a584a;
   letter-spacing: .08em;
+  margin-top: 3px;
 }
 .search-wrap{width:100%;max-width:640px;position:relative;}
 .search-input{width:100%;padding:14px 52px 14px 18px;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:28px;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.4;outline:none;transition:border-color .15s,box-shadow .15s;}
@@ -267,11 +266,9 @@ canvas{display:block;width:100%;}
 <body>
 <div class="hero" id="hero">
   <div class="site-logo">
-    <span class="logo-mark">⚖</span>
-    <div class="logo-text">
-      <span class="logo-title">Trafik Ceza Rehberi</span>
-      <span class="logo-meta">EGM · KTK · 2026</span>
-    </div>
+    <div class="logo-monogram">T C R</div>
+    <div class="logo-main">Trafik Ceza Rehberi</div>
+    <div class="logo-sub">EGM &nbsp;·&nbsp; KTK 2918 &nbsp;·&nbsp; 2026</div>
   </div>
   <div class="search-wrap">
     <input class="search-input" id="query" type="text"
