@@ -1051,8 +1051,9 @@ function getAyKod(){
 function drawTrend(){
   var canvas = document.getElementById('cTrend');
   if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W=canvas.width, H=canvas.height;
+  var ctx = setupCanvas(canvas);
+  var W = parseInt(canvas.style.width);
+  var H = parseInt(canvas.style.height);
   var pad={l:48,r:20,t:20,b:36};
   var gW=W-pad.l-pad.r, gH=H-pad.t-pad.b;
 
@@ -1128,8 +1129,9 @@ function drawTrend(){
 function drawKusur(ayKod){
   var canvas = document.getElementById('cKusur');
   if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W=canvas.width, H=canvas.height;
+  var ctx = setupCanvas(canvas);
+  var W = parseInt(canvas.style.width);
+  var H = parseInt(canvas.style.height);
   ctx.clearRect(0,0,W,H);
 
   var k=EGM.kusur[ayKod];
@@ -1181,8 +1183,9 @@ function drawKusur(ayKod){
 function drawKorelasyon(){
   var canvas = document.getElementById('cKorel');
   if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W=canvas.width, H=canvas.height;
+  var ctx = setupCanvas(canvas);
+  var W = parseInt(canvas.style.width);
+  var H = parseInt(canvas.style.height);
   var pad={l:50,r:20,t:20,b:40};
   ctx.clearRect(0,0,W,H);
 
@@ -1266,8 +1269,9 @@ function drawKorelasyon(){
 function drawIller(ayKod){
   var canvas = document.getElementById('cIller');
   if(!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W=canvas.width, H=canvas.height;
+  var ctx = setupCanvas(canvas);
+  var W = parseInt(canvas.style.width);
+  var H = parseInt(canvas.style.height);
   ctx.clearRect(0,0,W,H);
 
   var ilData=EGM.il[ayKod];
@@ -1349,6 +1353,20 @@ function selectAy(kod){
     EGM.aylar.find(function(a){return a.kod===kod;}).ad+' — Sürücü kusurları ve iller';
   drawKusur(kod);
   drawIller(kod);
+}
+
+function setupCanvas(canvas) {
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  var w = rect.width || canvas.offsetWidth || 360;
+  var h = parseInt(canvas.getAttribute('height')) || 200;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  var ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return ctx;
 }
 
 function initDashboard(){
