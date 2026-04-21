@@ -1,0 +1,30 @@
+{
+  "tt27": {
+    "dosya": "tt27.png",
+    "ad": "Öndeki Taşıtı Geçmek Yasaktır",
+    "kod": "TT-27",
+    "maddeler": ["54/1-b", "54/1-a"],
+    "aciklama": "Bu levhanın bulunduğu yerde sollama yasaktır."
+  },
+  "tt28": {
+    "dosya": "tt28.png",
+    "ad": "Kamyonlar İçin Öndeki Taşıtı Geçmek Yasaktır",
+    "kod": "TT-28",
+    "maddeler": ["54/1-b"],
+    "aciklama": "Kamyonlar için geçme yasağı olan bölgeyi gösterir."
+  },
+  "tt34a": {
+    "dosya": "tt34a.png",
+    "ad": "Geçme Yasağı Sonu",
+    "kod": "TT-34a",
+    "maddeler": ["54/1-b"],
+    "aciklama": "Geçme yasağının sona erdiğini gösterir."
+  },
+  "tt34b": {
+    "dosya": "tt34b.png",
+    "ad": "Kamyonlar İçin Geçme Yasağı Sonu",
+    "kod": "TT-34b",
+    "maddeler": ["54/1-b"],
+    "aciklama": "Kamyonlar için geçme yasağının sona erdiğini gösterir."
+  }
+}

@@ -267,6 +267,11 @@ canvas{display:block;width:100%;}
 .ud-aciklama{padding:10px 12px;font-size:12px;color:var(--mut);line-height:1.5;}
 .ud-senaryo{font-size:13px;color:var(--mut);line-height:1.7;background:var(--surf2);padding:14px;border-radius:8px;border-left:3px solid var(--amb);}
 
+.levha-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.levha-item{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surf2);border:1px solid var(--bdr);border-radius:8px;padding:10px;}
+.levha-item img{width:80px;height:80px;object-fit:contain;}
+.levha-ad{font-size:10px;font-family:var(--mono);color:var(--mut);text-align:center;line-height:1.4;}
+
 </style>
 </head>
 <body>
@@ -778,12 +783,29 @@ function renderDrw(no,d){
       +(yetk?'<div class="cbox cfull"><div class="clbl">YETKİLİ BİRİM</div><div class="cval m">'+yetk+'</div></div>':'')
       +'</div></div>';
   }
-  if(d.gorseller&&d.gorseller.length){
-    html+='<div class="dsec"><div class="dstit">GÖRSELLER</div><div class="ggrid">';
-    d.gorseller.forEach(function(g){
-      html+='<div class="gi"><img src="'+svgUrl(g)+'" alt="'+no+'" onerror="this.parentElement.innerHTML=\'<span style=font-size:32px;opacity:.2>\uD83D\uDDBC</span>\'"/></div>';
-    });
-    html+='</div></div>';
+  if(d.ilgili_gorseller && d.ilgili_gorseller.length){
+    var levhalar=d.ilgili_gorseller.filter(function(g){return g.tip==='levha';});
+    var gorseller=d.ilgili_gorseller.filter(function(g){return g.tip!=='levha';});
+    if(levhalar.length){
+      html+='<div class="dsec"><div class="dstit">🪧 İLGİLİ LEVHALAR</div><div class="levha-grid">';
+      levhalar.forEach(function(g){
+        html+='<div class="levha-item"><img src="'+GITHUB_BASE+'levhalar/'+g.dosya+'" alt="'+g.aciklama+'" onerror="this.style.display='none'"/><div class="levha-ad">'+g.aciklama+'</div></div>';
+      });
+      html+='</div></div>';
+    }
+    if(gorseller.length){
+      html+='<div class="dsec"><div class="dstit">🖼 GÖRSELLER</div><div class="ggrid">';
+      gorseller.forEach(function(g){
+        html+='<div class="gi"><img src="'+svgUrl(g.dosya)+'" alt="'+g.aciklama+'"/></div>';
+      });
+      html+='</div></div>';
+    }
+  }
+
+  if(d.uygulanmadigi_durumlar && d.uygulanmadigi_durumlar.length){
+    html+='<div class="dsec"><div class="dstit">🧭 UYGULANMADIĞI DURUMLAR</div><ul class="uhl">';
+    d.uygulanmadigi_durumlar.forEach(function(u){html+='<li>'+u+'</li>';});
+    html+='</ul></div>';
   }
   if(d.uygulama_alani&&d.uygulama_alani.length){
     html+='<div class="dsec"><div class="dstit">UYGULAMA ALANI</div><table class="uat">';

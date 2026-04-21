@@ -39,6 +39,17 @@
     "Yetkili araçların (ambulans, polis, itfaiye) görev sırasında yaptığı geçişler."
   ],
   "ornek_senaryo": "Bir sürücü viraj öncesinde çift çizgi bulunan bir yolda önündeki aracı geçmeye çalışırsa, bu geçmenin yasak olduğu yer sayılır. Trafik polisi veya EDS sistemi ihlali tespit ettiğinde 54/1-b maddesi uygulanır ve sürücüye 2.719 TL ceza + 20 puan verilir.",
+  "ilgili_gorseller": [
+    {"tip":"levha","dosya":"tt27.png","aciklama":"Öndeki Taşıtı Geçmek Yasaktır (TT-27)"},
+    {"tip":"levha","dosya":"tt28.png","aciklama":"Kamyonlar İçin Geçmek Yasaktır (TT-28)"},
+    {"tip":"levha","dosya":"tt34a.png","aciklama":"Geçme Yasağı Sonu (TT-34a)"},
+    {"tip":"levha","dosya":"tt34b.png","aciklama":"Kamyonlar İçin Geçme Yasağı Sonu (TT-34b)"}
+  ],
+  "uygulanmadigi_durumlar": [
+    "Sollama yasağı olmayan, görüş mesafesi yeterli, yol çizgisi kesik olan yerlerde yapılan geçişler.",
+    "Trafik akışını engellemeyen, güvenli mesafede yapılan geçişler.",
+    "Yetkili araçların (ambulans, polis, itfaiye) görev sırasında yaptığı geçişler."
+  ],
   "ilgili_maddeler": ["54/1-a", "56/1-a", "47/1-c"],
   "kaynaklar": [
     "Karayolları Trafik Kanunu Madde 54/1-b",
