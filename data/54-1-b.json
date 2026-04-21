@@ -1,0 +1,47 @@
+{
+  "madde_no": "54/1-b",
+  "baslik": "Yasak yerde sollama",
+  "kanun_metni": "Geçmenin yasak olduğu yerlerde önündeki aracı geçmek",
+  "ozet": "Sollama yasağı olan yerlerde — yaya geçidi, kavşak, tünel, köprü, viraj, tepe üstü veya yasak levhası/çizgisi bulunan noktalarda — önündeki aracı geçmek bu madde kapsamında değerlendirilir.",
+  "ceza": {
+    "para_tl": 2719,
+    "indirimli_tl": 2039,
+    "indirim_aciklamasi": "%25 peşin ödeme indirimi",
+    "ceza_puani": 20,
+    "kime_uygulanir": "Sürücülere",
+    "yetkili_birim": "Trafik kolluğu ve Fahri Trafik Müfettişleri"
+  },
+  "uygulama_durumlari": [
+    {
+      "durum": "Yaya geçidi, kavşak, tünel, köprü, viraj, tepe üstünde sollama yapmak",
+      "aciklama": "Görüş alanı dar olduğu için geçiş yasaktır."
+    },
+    {
+      "durum": "Sollama yasağı levhası bulunan yerlerde geçmek",
+      "aciklama": "Geçme yasağı veya çift çizgi işareti ihlal edilir."
+    },
+    {
+      "durum": "Karşı yönden gelen araç varken sollama yapmak",
+      "aciklama": "Trafik güvenliğini tehlikeye sokar."
+    },
+    {
+      "durum": "Okul, yaya, demiryolu geçidi yaklaşımında sollama yapmak",
+      "aciklama": "Yayaların güvenliği riske girer."
+    },
+    {
+      "durum": "Geçiş yasağı çizgisi (devamlı çizgi) üzerinden geçmek",
+      "aciklama": "Yol çizgisi ihlaliyle birlikte değerlendirilir."
+    }
+  ],
+  "uygulanmadigi_durumlar": [
+    "Sollama yasağı olmayan, görüş mesafesi yeterli, yol çizgisi kesik olan yerlerde yapılan geçişler.",
+    "Trafik akışını engellemeyen, güvenli mesafede yapılan geçişler.",
+    "Yetkili araçların (ambulans, polis, itfaiye) görev sırasında yaptığı geçişler."
+  ],
+  "ornek_senaryo": "Bir sürücü viraj öncesinde çift çizgi bulunan bir yolda önündeki aracı geçmeye çalışırsa, bu geçmenin yasak olduğu yer sayılır. Trafik polisi veya EDS sistemi ihlali tespit ettiğinde 54/1-b maddesi uygulanır ve sürücüye 2.719 TL ceza + 20 puan verilir.",
+  "ilgili_maddeler": ["54/1-a", "56/1-a", "47/1-c"],
+  "kaynaklar": [
+    "Karayolları Trafik Kanunu Madde 54/1-b",
+    "trafik.gov.tr/0255"
+  ]
+}

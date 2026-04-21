@@ -261,6 +261,12 @@ canvas{display:block;width:100%;}
 
 .dash-footer{text-align:center;padding:16px;font-size:10px;color:var(--dim);font-family:var(--mono);line-height:1.8;border-top:1px solid var(--bdr);margin-top:8px;}
 
+.ud-table{display:flex;flex-direction:column;gap:6px;}
+.ud-row{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--bdr);border-radius:6px;overflow:hidden;}
+.ud-durum{padding:10px 12px;font-size:12px;color:var(--txt);line-height:1.5;background:var(--surf2);border-right:1px solid var(--bdr);}
+.ud-aciklama{padding:10px 12px;font-size:12px;color:var(--mut);line-height:1.5;}
+.ud-senaryo{font-size:13px;color:var(--mut);line-height:1.7;background:var(--surf2);padding:14px;border-radius:8px;border-left:3px solid var(--amb);}
+
 </style>
 </head>
 <body>
@@ -802,6 +808,19 @@ function renderDrw(no,d){
     });
     html+='</div></div>';
   }
+  if(d.uygulama_durumlari && d.uygulama_durumlari.length){
+    html+='<div class="dsec"><div class="dstit">🚫 UYGULAMA DURUMLARI</div>';
+    html+='<div class="ud-table">';
+    d.uygulama_durumlari.forEach(function(u){
+      html+='<div class="ud-row"><div class="ud-durum">'+u.durum+'</div><div class="ud-aciklama">'+u.aciklama+'</div></div>';
+    });
+    html+='</div></div>';
+  }
+
+  if(d.ornek_senaryo){
+    html+='<div class="dsec"><div class="dstit">📋 ÖRNEK SENARYO</div><div class="ud-senaryo">'+d.ornek_senaryo+'</div></div>';
+  }
+
   if(d.uygulanmadigi_haller&&d.uygulanmadigi_haller.length){
     html+='<div class="dsec"><div class="dstit">UYGULANMADIĞI HALLER</div><ul class="uhl">';
     d.uygulanmadigi_haller.forEach(function(u){ html+='<li>'+u+'</li>'; });
