@@ -6,6 +6,7 @@
 <title>Trafik Ceza Rehberi 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 :root{
   --bg:#0d0f0e;--surf:#141714;--surf2:#1c201c;--surf3:#222822;
   --bdr:#2a2f2a;--bdr2:#3a4a3a;--txt:#e8ede8;--mut:#7a897a;--dim:#4a584a;
@@ -18,10 +19,52 @@
 body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;}
 .hero{display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem 1.5rem;transition:padding .3s;}
 .hero.compact{padding:1rem 1.5rem .75rem;}
-.logo{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--grn);letter-spacing:.12em;margin-bottom:.5rem;transition:all .3s;}
-.hero.compact .logo{opacity:0;height:0;margin:0;overflow:hidden;}
-.wordmark{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:-.03em;margin-bottom:1.5rem;transition:all .3s;}
-.hero.compact .wordmark{font-size:0;height:0;margin:0;overflow:hidden;}
+.site-logo {
+  background: #000;
+  padding: 14px 20px 12px;
+  border-bottom: 2px solid var(--grn);
+}
+.logo-badges {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.logo-badge-ftm {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: #000;
+  background: var(--grn);
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: .08em;
+}
+.logo-badge-ktk {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--grn);
+  background: transparent;
+  border: 1px solid var(--grn-md);
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: .08em;
+}
+.logo-main {
+  font-family: 'Space Grotesk', var(--sans);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--txt);
+  letter-spacing: -.02em;
+  line-height: 1.1;
+}
+.logo-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 3px;
+  letter-spacing: .04em;
+}
 .search-wrap{width:100%;max-width:640px;position:relative;}
 .search-input{width:100%;padding:14px 52px 14px 18px;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:28px;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.4;outline:none;transition:border-color .15s,box-shadow .15s;}
 .search-input:focus{border-color:var(--grn-md);box-shadow:0 0 0 3px rgba(76,255,145,.08);}
@@ -240,8 +283,14 @@ canvas{display:block;width:100%;}
 </head>
 <body>
 <div class="hero" id="hero">
-  <div class="logo">KTK &middot; 2026</div>
-  <div class="wordmark">Trafik Ceza Rehberi</div>
+  <div class="site-logo">
+    <div class="logo-badges">
+      <span class="logo-badge-ftm">★ FTM</span>
+      <span class="logo-badge-ktk">⚖ KTK</span>
+    </div>
+    <div class="logo-main">Trafik Ceza Rehberi</div>
+    <div class="logo-sub">Madde Bulucu &nbsp;·&nbsp; 2026</div>
+  </div>
   <div class="search-wrap">
     <input class="search-input" id="query" type="text"
       placeholder="İhlali yazın... (Örn: emniyet kemeri takmıyor)"
