@@ -309,7 +309,6 @@ canvas{display:block;width:100%;}
   <button class="tab-btn" onclick="switchTab('dashboard')">📊 İstatistik</button>
 </div>
 <div id="tab-madde" class="tab-pane active">
-<div class="sbar" id="statsBar"></div>
 <div class="results" id="results">
   <div class="r-empty">
     <span class="icon">&#x2696;</span>
@@ -768,8 +767,10 @@ function renderDrw(no,d){
     }
     body.innerHTML=html; return;
   }
+  // 1. ozet
   if(d.ozet) html+='<div class="dsec"><div class="dstit">ÖZET</div><div class="dozet">'+d.ozet+'</div></div>';
   html+=renderIstatistik(d.istatistikler);
+  // 2. ceza
   var para=(d.ceza&&d.ceza.para_tl)||(c&&c.tl);
   if(para){
     var puan=(d.ceza&&d.ceza.ceza_puani!==undefined)?d.ceza.ceza_puani:(c&&c.puan);
@@ -778,50 +779,39 @@ function renderDrw(no,d){
     html+='<div class="dsec"><div class="dstit">CEZA BİLGİSİ (2026)</div><div class="cgrid">'
       +'<div class="cbox"><div class="clbl">PARA CEZASI</div><div class="cval">'+tl(para)+'</div></div>'
       +'<div class="cbox"><div class="clbl">PEŞİN (%25)</div><div class="cval" style="color:#aaa">'+tl(Math.round(para*0.75))+'</div></div>'
-      +'<div class="cbox"><div class="clbl">CEZA PUANI</div><div class="cval a">'+(puan>0?puan:'—')+'</div></div>'
-      +'<div class="cbox"><div class="clbl">UYGULANAN</div><div class="cval m">'+(kime||'—')+'</div></div>'
+      +'<div class="cbox"><div class="clbl">CEZA PUANI</div><div class="cval a">'+( puan>0?puan:'—')+'</div></div>'
+      +'<div class="cbox"><div class="clbl">UYGULANAN</div><div class="cval m">'+( kime||'—')+'</div></div>'
       +(yetk?'<div class="cbox cfull"><div class="clbl">YETKİLİ BİRİM</div><div class="cval m">'+yetk+'</div></div>':'')
       +'</div></div>';
   }
+  // 3. uygulama_durumlari
+  if(d.uygulama_durumlari && d.uygulama_durumlari.length){
+    html+='<div class="dsec"><div class="dstit">🚫 UYGULAMA DURUMLARI</div><div class="ud-table">';
+    d.uygulama_durumlari.forEach(function(u){
+      html+='<div class="ud-row"><div class="ud-durum">'+u.durum+'</div><div class="ud-aciklama">'+u.aciklama+'</div></div>';
+    });
+    html+='</div></div>';
+  }
+  // 4. ilgili_gorseller
   if(d.ilgili_gorseller && d.ilgili_gorseller.length){
     var levhalar=d.ilgili_gorseller.filter(function(g){return g.tip==='levha';});
     var gorseller=d.ilgili_gorseller.filter(function(g){return g.tip!=='levha';});
     if(levhalar.length){
       html+='<div class="dsec"><div class="dstit">🪧 İLGİLİ LEVHALAR</div><div class="levha-grid">';
       levhalar.forEach(function(g){
-        html+='<div class="levha-item"><img src="'+GITHUB_BASE+'levhalar/'+g.dosya+'" alt="'+g.aciklama+'" onerror="this.style.display=\'none\'"/><div class="levha-ad">'+g.aciklama+'</div></div>';
+        html+='<div class="levha-item"><img src="'+GITHUB_BASE+'levhalar/'+g.dosya+'" alt="'+g.aciklama+'" onerror="this.style.display=&quot;none&quot;"/><div class="levha-ad">'+g.aciklama+'</div></div>';
       });
       html+='</div></div>';
     }
     if(gorseller.length){
       html+='<div class="dsec"><div class="dstit">🖼 GÖRSELLER</div><div class="ggrid">';
       gorseller.forEach(function(g){
-        html+='<div class="gi"><img src="'+svgUrl(g.dosya)+'" alt="'+g.aciklama+'"/></div>';
+        html+='<div class="gi"><img src="'+svgUrl(g.dosya)+'" alt="'+g.aciklama+'" /></div>';
       });
       html+='</div></div>';
     }
   }
-
-  if(d.uygulanmadigi_durumlar && d.uygulanmadigi_durumlar.length){
-    html+='<div class="dsec"><div class="dstit">🧭 UYGULANMADIĞI DURUMLAR</div><ul class="uhl">';
-    d.uygulanmadigi_durumlar.forEach(function(u){html+='<li>'+u+'</li>';});
-    html+='</ul></div>';
-  }
-  if(d.uygulama_alani&&d.uygulama_alani.length){
-    html+='<div class="dsec"><div class="dstit">UYGULAMA ALANI</div><table class="uat">';
-    d.uygulama_alani.forEach(function(u){
-      var tag=u.uygulanir===true?'<span class="tev">\u2713 EVET</span>':u.uygulanir===false?'<span class="tha">\u2717 HAYIR</span>':'<span class="tko">\u26a0 KOŞULLU</span>';
-      html+='<tr class="uar"><td class="uai">'+tag+'</td><td class="uad">'+u.durum+'<div class="uaa">'+u.aciklama+'</div></td></tr>';
-    });
-    html+='</table></div>';
-  }
-  if(d.sorumluluk&&d.sorumluluk.length){
-    html+='<div class="dsec"><div class="dstit">SORUMLULUK</div><div class="slist">';
-    d.sorumluluk.forEach(function(s){
-      html+='<div class="si"><span class="star">'+s.taraf+'</span><span class="sdum">'+s.durum+'</span><span class="sson">'+s.sonuc+'</span></div>';
-    });
-    html+='</div></div>';
-  }
+  // 5. fiil_tanimlari
   if(d.fiil_tanimlari&&d.fiil_tanimlari.length){
     html+='<div class="dsec"><div class="dstit">FİİL TANIMLARI</div><div class="flist">';
     d.fiil_tanimlari.forEach(function(f){
@@ -830,24 +820,31 @@ function renderDrw(no,d){
     });
     html+='</div></div>';
   }
-  if(d.uygulama_durumlari && d.uygulama_durumlari.length){
-    html+='<div class="dsec"><div class="dstit">🚫 UYGULAMA DURUMLARI</div>';
-    html+='<div class="ud-table">';
-    d.uygulama_durumlari.forEach(function(u){
-      html+='<div class="ud-row"><div class="ud-durum">'+u.durum+'</div><div class="ud-aciklama">'+u.aciklama+'</div></div>';
+  // 6. sorumluluk
+  if(d.sorumluluk&&d.sorumluluk.length){
+    html+='<div class="dsec"><div class="dstit">SORUMLULUK</div><div class="slist">';
+    d.sorumluluk.forEach(function(s){
+      html+='<div class="si"><span class="star">'+s.taraf+'</span><span class="sdum">'+s.durum+'</span><span class="sson">'+s.sonuc+'</span></div>';
     });
     html+='</div></div>';
   }
-
-  if(d.ornek_senaryo){
-    html+='<div class="dsec"><div class="dstit">📋 ÖRNEK SENARYO</div><div class="ud-senaryo">'+d.ornek_senaryo+'</div></div>';
+  // 7. uygulanmadigi_durumlar
+  if(d.uygulanmadigi_durumlar && d.uygulanmadigi_durumlar.length){
+    html+='<div class="dsec"><div class="dstit">🧭 UYGULANMADIĞI DURUMLAR</div><ul class="uhl">';
+    d.uygulanmadigi_durumlar.forEach(function(u){html+='<li>'+u+'</li>';});
+    html+='</ul></div>';
   }
-
+  // 8. uygulanmadigi_haller
   if(d.uygulanmadigi_haller&&d.uygulanmadigi_haller.length){
     html+='<div class="dsec"><div class="dstit">UYGULANMADIĞI HALLER</div><ul class="uhl">';
     d.uygulanmadigi_haller.forEach(function(u){ html+='<li>'+u+'</li>'; });
     html+='</ul></div>';
   }
+  // 9. ornek_senaryo
+  if(d.ornek_senaryo){
+    html+='<div class="dsec"><div class="dstit">📋 ÖRNEK SENARYO</div><div class="ud-senaryo">'+d.ornek_senaryo+'</div></div>';
+  }
+  // 10. ilgili_maddeler
   if(d.ilgili_maddeler&&d.ilgili_maddeler.length){
     html+='<div class="dsec"><div class="dstit">İLGİLİ MADDELER</div><div class="ilist">';
     d.ilgili_maddeler.forEach(function(im){
@@ -856,6 +853,7 @@ function renderDrw(no,d){
     });
     html+='</div></div>';
   }
+  // 11. kaynaklar
   if(d.kaynaklar&&d.kaynaklar.length){
     html+='<div class="dsec"><div class="dstit">KAYNAKLAR</div><div style="display:flex;flex-direction:column;gap:4px">';
     d.kaynaklar.forEach(function(k){ html+='<div style="font-size:12px;color:var(--dim);font-family:var(--mono)">'+k+'</div>'; });
