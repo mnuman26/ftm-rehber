@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// FTM Madde Bulucu — Cloudflare Worker v3
+// FTM Madde Bulucu — Worker v3 - 21 Nisan 2026
 // Kaynak: 2026 Trafik İdari Para Ceza Rehberi (EGM, 27.02.2026)
 // URL: https://ftm-madde-bulucu.mnuman.workers.dev/
 // ═══════════════════════════════════════════════════════════
