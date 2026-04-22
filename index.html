@@ -280,6 +280,18 @@ canvas{display:block;width:100%;}
 .rcard.kol .card-fine-top{color:var(--ora);}
 .card-stat-txt{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.25);}
 .card-stat-txt.ftm{color:rgba(76,255,145,0.35);}
+.cval{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--grn);}
+.cval.a{color:var(--amb);font-size:1.5rem;}
+.cval.m{color:var(--mut);font-size:1rem;font-weight:600;}
+.cbox{background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;}
+.dsec{margin-bottom:32px;}
+.ud-senaryo{font-size:13px;color:var(--mut);line-height:1.7;background:rgba(255,255,255,0.02);padding:14px;border-radius:8px;border:1px dashed rgba(255,255,255,0.15);}
+.levha-item{display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(255,255,255,0.03);border:1px solid #333;border-radius:8px;padding:12px;}
+.levha-item img{width:80px;height:80px;object-fit:contain;background:#fff;border-radius:6px;padding:4px;}
+.ud-stack{display:flex;flex-direction:column;gap:8px;}
+.ud-card{background:rgba(226,75,74,0.05);border:1px solid rgba(226,75,74,0.15);border-radius:8px;padding:10px 12px;}
+.ud-card-title{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:4px;line-height:1.4;}
+.ud-card-desc{font-size:11px;color:var(--mut);line-height:1.5;}
 @media(max-width:380px){
   .card-body{padding:10px 12px;}
   .card-top-meta{padding:10px 12px 0;}
@@ -854,9 +866,13 @@ function renderDrw(no,d){
   }
   // 3. uygulama_durumlari
   if(d.uygulama_durumlari && d.uygulama_durumlari.length){
-    html+='<div class="dsec"><div class="dstit">🚫 UYGULAMA DURUMLARI</div><div class="ud-table">';
+    html+='<div class="dsec"><div class="dstit">🚫 UYGULAMA DURUMLARI</div>';
+    html+='<div class="ud-stack">';
     d.uygulama_durumlari.forEach(function(u){
-      html+='<div class="ud-row"><div class="ud-durum">'+u.durum+'</div><div class="ud-aciklama">'+u.aciklama+'</div></div>';
+      html+='<div class="ud-card">'
+        +'<div class="ud-card-title">'+u.durum+'</div>'
+        +'<div class="ud-card-desc">'+u.aciklama+'</div>'
+        +'</div>';
     });
     html+='</div></div>';
   }
