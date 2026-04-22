@@ -726,14 +726,14 @@ function showErr(msg){
 function showEmpty(){
   document.getElementById('results').innerHTML=
     '<div class="empty-state">'
-    +'<div class="empty-icon">🔍</div>'
+    +'<div class="empty-icon">&#x1F50D;</div>'
     +'<div class="empty-title">TANIMI EŞLEŞEN MADDE BULUNAMADI</div>'
     +'<div style="font-size:12px;color:var(--dim)">Farklı kelimeler deneyin veya bir örnek seçin:</div>'
     +'<div class="empty-chips">'
-    +'<button class="empty-chip" onclick="setEx('alkollü araç kullanıyor')">Alkol</button>'
-    +'<button class="empty-chip" onclick="setEx('hız sınırını aştı')">Hız İhlali</button>'
-    +'<button class="empty-chip" onclick="setEx('emniyet kemerini takmıyor')">Emniyet Kemeri</button>'
-    +'<button class="empty-chip" onclick="setEx('kırmızı ışıkta geçti')">Kırmızı Işık</button>'
+    +'<button class="empty-chip" onclick="setEx(&apos;alkollü araç kullanıyor&apos;)">Alkol</button>'
+    +'<button class="empty-chip" onclick="setEx(&apos;hız sınırını aştı&apos;)">Hız İhlali</button>'
+    +'<button class="empty-chip" onclick="setEx(&apos;emniyet kemerini takmıyor&apos;)">Emniyet Kemeri</button>'
+    +'<button class="empty-chip" onclick="setEx(&apos;kırmızı ışıkta geçti&apos;)">Kırmızı Işık</button>'
     +'</div>'
     +'</div>';
 }
