@@ -185,7 +185,7 @@ YANIT FORMATI — SADECE JSON:
 Kurallar:
 - Gerçekten uyan maddeleri ekle, zorla eşleştirme yapma
 - pct: 90-100=kesin, 60-89=yüksek ihtimal, 30-59=zayıf ilgi
-- gerekce: 1-2 cümle, madde metnini tekrar etme, fiilin neden bu maddeye girdiğini açıkla
+- gerekce: Maksimum 2 kısa cümle. Sıradan bir vatandaşın anlayacağı sade dilde yaz. Kanun metnini tekrar etme. 'Bu madde kapsamında...' veya 'söz konusu fiil...' gibi bürokratik kalıplar kullanma. Fiilin neden bu maddeye girdiğini somut, doğrudan ve insancıl bir dille açıkla. Örnek: 'Camdan sigara atmak yolu kirletir ve diğer sürücüleri tehlikeye atar.' gibi.
 - Hiçbiri uymuyorsa: {"maddeler":[]}`;
 
 export default {
