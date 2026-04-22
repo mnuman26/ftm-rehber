@@ -351,6 +351,10 @@ canvas{display:block;width:100%;}
 ::selection{background:rgba(76,255,145,0.3);color:#fff;}
 ::-webkit-scrollbar{width:6px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:10px;}
+.fine-indirim{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;font-family:var(--mono);}
+.kanun{border-left:2px solid rgba(255,255,255,0.1);font-size:0.9rem;position:relative;padding-top:24px;}
+.kanun-label{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,0.3);text-transform:uppercase;}
+.conf-badge{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;}
 </style>
 </head>
 <body>
@@ -828,27 +832,31 @@ function buildCard(m,isFtm,idx){
   var d=CEZA_DATA[m.no];
   var cls=isFtm?'ftm':'kol';
   var hi=m.pct>=85?' hi':'';
-  var authIcon=isFtm?'★':'●';
-  var authTxt=isFtm?'FTM Yazabilir':'Sadece Kolluk';
+  var authIcon=isFtm?'🛡️':'●';
+  var authTxt=isFtm?'FTM YETKİLİ':'Sadece Kolluk';
   var fineStr=d?(d.tl.toLocaleString('tr-TR')+' TL'):'—';
+  var indirimStr=d?((Math.round(d.tl*0.75)).toLocaleString('tr-TR')+' TL (%25 indirimli)'):'';
   var delay=(idx||0)*50;
   return '<div class="rcard '+cls+hi+' stagger" style="animation-delay:'+delay+'ms">'
     +'<div class="card-top-meta">'
       +'<div style="display:flex;align-items:center;gap:8px">'
         +'<span class="card-code">'+m.no+'</span>'
-        +'<span style="font-family:var(--mono);font-size:10px;color:var(--dim)">%'+m.pct+' eşleşme</span>'
+        +'<span class="conf-badge">%'+m.pct+' eşleşme</span>'
       +'</div>'
-      +'<span class="card-fine-top">'+fineStr+'</span>'
+      +'<div style="text-align:right">'
+      +'<div class="card-fine-top">'+fineStr+'</div>'
+      +(indirimStr?'<div class="fine-indirim">'+indirimStr+'</div>':'')
+      +'</div>'
     +'</div>'
     +'<div class="card-body">'
       +(m.gerekce?'<div class="gerekce">'+m.gerekce+'</div>':'')
-      +(d&&d.konu?'<div class="kanun">'+d.konu+'</div>':'')
+      +(d&&d.konu?'<div class="kanun"><span class="kanun-label">Kanun Metni</span>'+d.konu+'</div>':'')
     +'</div>'
     +'<div class="card-acts">'
       +'<div class="auth '+cls+'" style="font-size:11px">'
         +'<div class="auth-icon">'+authIcon+'</div>'+authTxt
       +'</div>'
-      +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)">≡ Detay →</button>'
+      +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)" style="font-size:13px;padding:7px 16px">AYRINTI →</button>'
     +'</div>'
   +'</div>';
 }
