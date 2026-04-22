@@ -272,6 +272,13 @@ canvas{display:block;width:100%;}
 .levha-item img{width:80px;height:80px;object-fit:contain;}
 .levha-ad{font-size:10px;font-family:var(--mono);color:var(--mut);text-align:center;line-height:1.4;}
 
+.rcard{transition:transform .15s ease-out,box-shadow .15s ease-out;}
+.rcard:active{transform:scale(0.98);}
+.chip:active{transform:scale(0.95);}
+.search-btn:hover{box-shadow:0 0 15px rgba(76,255,145,0.4);}
+.search-input:focus{box-shadow:0 0 20px rgba(76,255,145,0.15);}
+.btn-copy.copied{color:#4cff91;border-color:rgba(76,255,145,0.3);}
+
 .kaza-badge{display:inline-block;font-family:var(--mono);font-size:10px;color:#fb923c;background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:4px;padding:2px 8px;margin-top:4px;}
 .dash-sayac{background:var(--surf);border-bottom:1px solid var(--bdr);}
 
@@ -639,14 +646,20 @@ function svgUrl(f){ return GITHUB_BASE+'svgs/'+f; }
 
 function tl(n){ return (n||0).toLocaleString('tr-TR')+' \u20ba'; }
 
-function copyText(t){
+function copyText(t,btn){
   navigator.clipboard.writeText(t).catch(function(){
     var ta=document.createElement('textarea');
-    ta.value=t; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
+    ta.value=t;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
   });
+  if(btn){
+    var orig=btn.innerHTML;
+    btn.innerHTML='&#x2713; Kopyalandı!';
+    btn.classList.add('copied');
+    setTimeout(function(){btn.innerHTML=orig;btn.classList.remove('copied');},2000);
+  }
   var el=document.getElementById('toast');
-  el.classList.add('show'); setTimeout(function(){ el.classList.remove('show'); },1800);
+  el.classList.add('show');setTimeout(function(){el.classList.remove('show');},1800);
 }
 
 var lastResults=null;
@@ -748,7 +761,7 @@ function buildCard(m,isFtm){
       +fine
       +'<div class="prog"><div class="bar" style="width:'+m.pct+'%"></div></div>'
       +kazaBadge+'<div class="card-acts">'
-        +'<button class="btn-copy" data-no="'+m.no+'" onclick="copyText(this.dataset.no)">\u2398 '+m.no+' kopyala</button>'
+        +'<button class="btn-copy" data-no="'+m.no+'" onclick="copyText(this.dataset.no,this)">\u2398 '+m.no+' kopyala</button>'
         +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)">\u2261 Detay</button>'
       +'</div>'
     +'</div>'

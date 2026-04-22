@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wrangler deploy *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(python3 -c ' *)",
+      "Bash(node -e ' *)",
+      "WebFetch(domain:ftm-madde-bulucu.mnuman.workers.dev)",
+      "Bash(git checkout *)"
+    ]
+  }
+}
