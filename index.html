@@ -16,7 +16,7 @@
   --mono:'IBM Plex Mono',monospace;--sans:'Inter',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 .hero{display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem 1.5rem;transition:padding .3s;}
 .hero.compact{padding:1rem 1.5rem .75rem;}
 .site-logo {
@@ -49,7 +49,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 }
 .search-wrap{width:100%;max-width:640px;position:relative;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:20px;transition:border-color .2s ease,box-shadow .2s ease;}
 .search-wrap:focus-within{border-color:rgba(76,255,145,0.4);box-shadow:0 20px 50px rgba(0,0,0,0.6),0 0 0 3px rgba(76,255,145,0.08);}
-.search-input{width:100%;min-height:56px;max-height:160px;padding:16px 64px 16px 16px;background:transparent;border:none;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.6;resize:none;outline:none;overflow-y:hidden;}
+.search-input{width:100%;min-height:56px;max-height:160px;padding:16px 80px 16px 16px;background:transparent;border:none;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.6;resize:none;outline:none;overflow-y:hidden;}
 .search-input::placeholder{color:var(--dim);}
 .search-btn{position:absolute;right:8px;bottom:8px;background:var(--grn);color:#000;border:none;width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:600;transition:opacity .15s,transform .1s;}
 .search-btn:hover{opacity:.88;}
@@ -194,7 +194,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
   --mono:'IBM Plex Mono',monospace;--sans:'Inter',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 
 .dash-header{background:var(--surf);border-bottom:1px solid var(--bdr);padding:14px 20px;display:flex;align-items:center;gap:12px;}
 .dash-header-badge{background:var(--red);color:#fff;font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;letter-spacing:.06em;}
@@ -326,6 +326,18 @@ canvas{display:block;width:100%;}
 .kanun{color:rgba(255,255,255,0.5);font-style:normal;font-size:.85rem;line-height:1.6;border-left:2px solid rgba(255,255,255,0.1);}
 .rcard.ftm .kanun{border-left-color:rgba(76,255,145,0.2);}
 .rcard.kol .kanun{border-left-color:rgba(251,146,60,0.2);}
+.rcard.ftm::before{background:#4cff91;box-shadow:4px 0 20px rgba(76,255,145,0.3),8px 0 40px rgba(76,255,145,0.1);}
+.rcard.kol::before{background:#fb923c;box-shadow:4px 0 20px rgba(251,146,60,0.3),8px 0 40px rgba(251,146,60,0.1);}
+.rcard{transition:transform .15s ease,box-shadow .15s ease;}
+.rcard:active{transform:scale(0.98);}
+.gerekce{line-height:1.7;margin-bottom:12px;}
+.btn-det{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s ease;}
+.btn-det:active{background:rgba(255,255,255,0.15);}
+.btn-det:hover{background:rgba(255,255,255,0.12);color:#fff;}
+.rcard.ftm .btn-det{border-color:rgba(76,255,145,0.25);color:rgba(76,255,145,0.9);}
+.rcard.ftm .btn-det:hover{background:rgba(76,255,145,0.1);border-color:rgba(76,255,145,0.4);color:#4cff91;}
+.rcard.kol .btn-det{border-color:rgba(251,146,60,0.25);color:rgba(251,146,60,0.9);}
+.rcard.kol .btn-det:hover{background:rgba(251,146,60,0.1);border-color:rgba(251,146,60,0.4);color:#fb923c;}
 </style>
 </head>
 <body>
@@ -823,7 +835,7 @@ function buildCard(m,isFtm,idx){
       +'<div class="auth '+cls+'" style="font-size:11px">'
         +'<div class="auth-icon">'+authIcon+'</div>'+authTxt
       +'</div>'
-      +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)">≡ Detay</button>'
+      +'<button class="btn-det" data-no="'+m.no+'" onclick="openDrw(this.dataset.no)">≡ Detay →</button>'
     +'</div>'
   +'</div>';
 }
