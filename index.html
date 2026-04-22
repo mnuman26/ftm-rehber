@@ -637,6 +637,22 @@ const CEZA_DATA = {
   '131/6-d':{tl:116216,puan:0,ftm:false,kime:'Uymayanlara',konu:'Trafik şubeveya bürolarında vemotorlutaşıt sürücülerikurslarında işsahipleri ve kursiyerlerce verilmesi ve kullanılması lüzumlu kağıtları yetkisiz ola'},
 };
 
+
+var CHIP_RESULTS = {
+  'seyir halinde cep telefonu kullanarak araç sürdü': {maddeler:[{no:'73/c',pct:99,gerekce:'Seyir halinde telefonu ele alarak kullanmak 73/c’nin doğrudan kapsamıdır.'}]},
+  'emniyet şeridini ve banketi yasadışı kullandı': {maddeler:[{no:'46/2-f',pct:98,gerekce:'Emniyet şeridini ve banketi yasadışı kullanmak 46/2-f kapsamına girer.'},{no:'46/2-g',pct:40,gerekce:'Ardarda şerit değiştirme eşlik ediyorsa 46/2-g de uygulanabilir.'}]},
+  'trafik işaret levhasına ve yer işaretlemesine uymadı': {maddeler:[{no:'47/1-c',pct:97,gerekce:'Trafik levhası ve yer işaretlemelerine uymamak 47/1-c kapsamıdır.'},{no:'47/1-d',pct:35,gerekce:'Genel trafik kuralı ihlali olarak 47/1-d de değerlendirilebilir.'}]},
+  'trafiği tehlikeye düşürecek şekilde şerit değiştirdi': {maddeler:[{no:'46/2-c',pct:96,gerekce:'Trafiği tehlikeye düşürecek şekilde şerit değiştirmek 46/2-c kapsamıdır.'},{no:'56/1-a',pct:60,gerekce:'Şerit izleme kurallarına uymamak olarak 56/1-a da uygulanabilir.'},{no:'46/2-g',pct:40,gerekce:'Ardarda birden fazla şerit değiştirme varsa 46/2-g eklenebilir.'}]},
+  'kırmızı ışıkta geçti': {maddeler:[{no:'47/1-b',pct:99,gerekce:'Kırmızı ışık ihlali 47/1-b’nin tek ve doğrudan uygulama halidir.'}]},
+  'tek yönlü yolda ters istikamette araç sürdü': {maddeler:[{no:'46/2-h',pct:98,gerekce:'Tek yönlü yolda ters istikamette araç sürmek 46/2-h kapsamıdır.'}]},
+  'emniyet kemerini takmıyor': {maddeler:[{no:'78/1-a',pct:98,gerekce:'Emniyet kemerini usulüne uygun kullanmamak 78/1-a kapsamıdır.'}]},
+  'geçmenin yasak olduğu yerde sollama yaptı': {maddeler:[{no:'54/1-b',pct:97,gerekce:'Yasak yerde sollama yapmak 54/1-b’nin doğrudan kapsamıdır.'},{no:'54/1-a',pct:50,gerekce:'Genel geçme kurallarına uymamak olarak 54/1-a da uygulanabilir.'}]},
+  'yaya geçidinde yayalara geçiş hakkı vermedi': {maddeler:[{no:'74/b',pct:98,gerekce:'Yaya veya okul geçidinde yayalara geçiş hakkı vermemek 74/b kapsamıdır.'},{no:'74/a',pct:40,gerekce:'Işıklı kavşak girişindeyse 74/a da değerlendirilebilir.'}]},
+  'motosiklet sürücüsü kask takmıyor': {maddeler:[{no:'78/1-b',pct:99,gerekce:'Motosiklet sürücüsünün koruma başlığı kullanmaması 78/1-b kapsamıdır.'}]},
+  'araçtan sigara izmariti ve çöp attı': {maddeler:[{no:'73/b',pct:99,gerekce:'Araçtan herhangi bir madde atmak veya dökmek 73/b kapsamıdır.'}]},
+  'araçta yüksek sesle müzik çalarak kamuyu rahatsız etti': {maddeler:[{no:'72/1',pct:97,gerekce:'Ses cihazlarını kamuyu rahatsız edecek şekilde kullanmak 72/1 kapsamıdır.'}]}
+};
+
 const WORKER_URL  = 'https://ftm-madde-bulucu.mnuman.workers.dev/';
 const GITHUB_BASE = 'https://raw.githubusercontent.com/mnuman26/ftm-rehber/main/';
 
@@ -700,7 +716,15 @@ function clearAll(){
 function setEx(t){
   document.getElementById('query').value=t;
   onInput();
-  doSearch();
+  if(CHIP_RESULTS[t]){
+    lastResults=CHIP_RESULTS[t].maddeler;
+    renderResults(lastResults);
+  } else if(CEZA_DATA[t]){
+    lastResults=[{no:t,pct:100,gerekce:CEZA_DATA[t].konu}];
+    renderResults(lastResults);
+  } else {
+    doSearch();
+  }
 }
 
 function renderResults(maddeler){
