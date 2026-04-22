@@ -304,6 +304,13 @@ canvas{display:block;width:100%;}
   .search-area{padding:1rem 16px;}
   .examples{padding:.75rem 16px;}
 }
+.chips-wrap{-webkit-mask-image:linear-gradient(to right, black 80%, transparent 100%);}
+.empty-state{text-align:center;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.empty-icon{font-size:40px;opacity:0.2;}
+.empty-title{font-family:var(--mono);font-size:13px;color:var(--mut);letter-spacing:.06em;}
+.empty-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+.empty-chip{font-family:var(--mono);font-size:12px;color:var(--grn);background:var(--grn-dk);border:1px solid var(--grn-md);padding:5px 14px;border-radius:20px;cursor:pointer;transition:all .15s;}
+.empty-chip:hover{background:rgba(76,255,145,0.15);}
 </style>
 </head>
 <body>
@@ -716,6 +723,21 @@ function showErr(msg){
   document.getElementById('results').innerHTML='<div style="padding:1rem"><div class="error-box">\u26a0 '+msg+'</div></div>';
 }
 
+function showEmpty(){
+  document.getElementById('results').innerHTML=
+    '<div class="empty-state">'
+    +'<div class="empty-icon">🔍</div>'
+    +'<div class="empty-title">TANIMI EŞLEŞEN MADDE BULUNAMADI</div>'
+    +'<div style="font-size:12px;color:var(--dim)">Farklı kelimeler deneyin veya bir örnek seçin:</div>'
+    +'<div class="empty-chips">'
+    +'<button class="empty-chip" onclick="setEx('alkollü araç kullanıyor')">Alkol</button>'
+    +'<button class="empty-chip" onclick="setEx('hız sınırını aştı')">Hız İhlali</button>'
+    +'<button class="empty-chip" onclick="setEx('emniyet kemerini takmıyor')">Emniyet Kemeri</button>'
+    +'<button class="empty-chip" onclick="setEx('kırmızı ışıkta geçti')">Kırmızı Işık</button>'
+    +'</div>'
+    +'</div>';
+}
+
 function clearAll(){
   document.getElementById('query').value='';
   document.getElementById('hero').classList.remove('compact');
@@ -740,7 +762,7 @@ function setEx(t){
 function renderResults(maddeler){
   var el=document.getElementById('results');
   if(!maddeler||!maddeler.length){
-    el.innerHTML='<div class="r-empty"><span class="icon">&#x2696;</span>En yakın ihtimaller bulunamadı.<br><span style="font-size:11px;opacity:.6">Daha açıklayıcı yazmayı deneyin</span></div>';
+    showEmpty();return;';
     return;
   }
   maddeler.sort(function(a,b){ return b.pct-a.pct; });
