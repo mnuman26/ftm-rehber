@@ -919,7 +919,7 @@ function renderDrw(no,d){
     html+='<div class="dsec"><div class="dstit">İLGİLİ MADDELER</div><div class="ilist">';
     d.ilgili_maddeler.forEach(function(im){
       var k=CEZA_DATA[im]?CEZA_DATA[im].konu.substring(0,40):im;
-      html+='<span class="itag" data-k="'+k.replace(/"/g,'&quot;')+'" onclick="closeDrw();setEx(this.dataset.k)">'+im+'</span>';
+      html+='<span class="itag" data-no="'+im+'" data-k="'+(CEZA_DATA[im]?CEZA_DATA[im].konu.substring(0,40):im).replace(/"/g,'&quot;')+'" onclick="closeDrw();setEx(this.dataset.no)">'+im+'</span>';
     });
     html+='</div></div>';
   }
