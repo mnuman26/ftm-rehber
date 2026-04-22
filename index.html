@@ -187,14 +187,6 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 .sbar-div{width:1px;height:32px;background:var(--bdr);flex-shrink:0;}
 .sbar-src{width:100%;text-align:center;font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:6px;padding-top:6px;border-top:1px solid var(--bdr);}
 
-.tab-bar{display:flex;background:var(--surf);border-bottom:1px solid var(--bdr);}
-.tab-btn{flex:1;padding:10px 8px;font-family:var(--mono);font-size:11px;font-weight:600;
-  letter-spacing:.04em;border:none;background:transparent;color:var(--dim);
-  cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
-.tab-btn.active{color:var(--grn);border-bottom-color:var(--grn);}
-.tab-btn:hover:not(.active){color:var(--txt);}
-.tab-pane{display:none;}
-.tab-pane.active{display:block;}
 
 
 :root{
@@ -324,11 +316,6 @@ canvas{display:block;width:100%;}
   </div>
 </div>
 
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('madde')">🔍 Madde Bulucu</button>
-  <button class="tab-btn" onclick="switchTab('dashboard')">📊 İstatistik</button>
-</div>
-<div id="tab-madde" class="tab-pane active">
 <div class="results" id="results">
   <div class="r-empty">
     <span class="icon">&#x2696;</span>
@@ -336,8 +323,7 @@ canvas{display:block;width:100%;}
     FTM yetkisi olan ve olmayan tüm ceza maddelerini görün
   </div>
 </div>
-</div><!-- /tab-madde -->
-<div id="tab-dashboard" class="tab-pane">
+<div style="display:none">
 <div class="dash-header">
   <div>
     <div style="display:flex;align-items:center;gap:8px">
@@ -400,7 +386,7 @@ canvas{display:block;width:100%;}
   Kaynak: EGM Trafik İstatistik Bültenleri &nbsp;·&nbsp; Aralık 2025 – Mart 2026<br>
   Ölümlü + yaralanmalı kaza sayıları · Kaza yerinde tespit edilen ölüler
 </div>
-</div><!-- /tab-dashboard -->
+</div>
 <div class="reklam-bar">
   <a class="reklam-link" href="https://www.axasigorta.com.tr/arac-sigortasi/zorunlu-trafik-sigortasi" target="_blank" rel="noopener">Zorunlu Trafik Sigortası için AXA’dan şimdi teklif al →</a>
 </div>
@@ -1074,36 +1060,6 @@ function renderIstatistik(ist) {
 
 buildStatsBar();
 
-function switchTab(name) {
-  document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('tab-'+name).classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(function(b){
-    if(b.textContent.toLowerCase().indexOf(name==='madde'?'madde':'stat') > -1) b.classList.add('active');
-  });
-  if(name==='dashboard' && !window._dashInited) {
-    window._dashInited = true;
-    setTimeout(function() {
-      buildMonthInsight();
-      drawTrend();
-      drawKusur(secilenAy);
-      drawKorelasyon();
-      drawIller(secilenAy);
-      buildStatsGrid(secilenAy);
-      var btnWrap=document.getElementById('ayBtnlar');
-      if(btnWrap && btnWrap.children.length === 0) {
-        EGM.aylar.forEach(function(a){
-          var btn=document.createElement('button');
-          btn.className='ay-btn'+(a.kod===secilenAy?' active':'');
-          btn.dataset.kod=a.kod;
-          btn.textContent=a.ad;
-          btn.onclick=function(){selectAy(a.kod);};
-          btnWrap.appendChild(btn);
-        });
-      }
-    }, 50);
-  }
-}
 
 
 // ═══ EGM TRAFİK ANALİTİK DASHBOARD ═══
