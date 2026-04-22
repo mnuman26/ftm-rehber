@@ -361,20 +361,27 @@ canvas{display:block;width:100%;}
 .logo-slogan{font-family:var(--sans);font-size:0.85rem;color:rgba(255,255,255,0.4);font-style:normal;margin-top:10px;text-align:center;max-width:80%;margin-left:auto;margin-right:auto;}
 .logo-slogan::before{content:'“';}
 .logo-slogan::after{content:'”';}
+
+.site-logo{display:flex;flex-direction:column;align-items:center;padding:48px 24px 32px;border-bottom:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;}
+.logo-main{font-family:Georgia,'Times New Roman',serif;font-size:2.1rem;font-weight:800;color:#fff;letter-spacing:-0.04em;line-height:1.1;text-align:center;margin-bottom:8px;}
+.logo-accent{width:32px;height:1.5px;background:#4cff91;margin:16px auto 0;border-radius:2px;border:none;display:block;}
+.logo-meta{font-family:var(--sans);font-size:0.75rem;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-top:12px;text-align:center;}
+.logo-link{color:rgba(255,255,255,0.5);text-decoration:none;transition:color .15s;}
+.logo-link:hover{color:#4cff91;}
+.logo-slogan{font-family:var(--sans);font-size:0.9rem;color:rgba(255,255,255,0.4);font-style:normal;font-weight:400;margin-top:12px;text-align:center;max-width:80%;margin-left:auto;margin-right:auto;}
+.logo-slogan::before{content:'“';}
+.logo-slogan::after{content:'”';}
+.sozler-bar,.sozler-icon,.sozler-text,.logo-monogram,.logo-sub,.logo-year,.logo-text{display:none;}
 </style>
 </head>
 <body>
 <div class="hero" id="hero">
-  <div class="site-logo">
-    <div class="logo-monogram">T C R</div>
-    <div class="logo-main">Trafik Ceza Rehberi</div>
-    <div style="width:40px;height:1.5px;background:#4cff91;margin:14px auto;border-radius:2px"></div>
-    <div class="logo-sub">EGM &nbsp;·&nbsp; KTK 2918 &nbsp;·&nbsp; 2026</div>
-  </div>
-<div class="sozler-bar" id="sozlerBar">
-  <span class="sozler-icon">❝</span>
-  <span class="sozler-text" id="sozlerText">Yükleniyor...</span>
-</div>
+  <div class="site-logo" id="site-logo">
+  <div class="logo-main">Trafik Ceza Rehberi</div>
+  <div class="logo-accent"></div>
+  <div class="logo-meta"><a href="https://www.trafik.gov.tr/" target="_blank" rel="noopener" class="logo-link">EGM</a> • <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=2918&MevzuatTur=1&MevzuatTertip=5" target="_blank" rel="noopener" class="logo-link">KTK 2918</a> • 2026</div>
+  <div class="logo-slogan" id="sozlerText">Yükleniyor...</div>
+
   <div class="search-wrap">
     <textarea class="search-input" id="query" rows="1"
       placeholder="Olayı kendi kelimelerinizle anlatın... (Örn: emniyet şeridinden araç geçti)"
