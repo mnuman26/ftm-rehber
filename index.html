@@ -49,7 +49,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 }
 .search-wrap{width:100%;max-width:640px;position:relative;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:20px;transition:border-color .2s ease,box-shadow .2s ease;}
 .search-wrap:focus-within{border-color:rgba(76,255,145,0.4);box-shadow:0 20px 50px rgba(0,0,0,0.6),0 0 0 3px rgba(76,255,145,0.08);}
-.search-input{width:100%;min-height:60px;max-height:150px;padding:16px 60px 16px 18px;background:transparent;border:none;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.5;resize:none;outline:none;overflow-y:hidden;}
+.search-input{width:100%;min-height:56px;max-height:160px;padding:16px 64px 16px 16px;background:transparent;border:none;color:var(--txt);font-family:var(--sans);font-size:16px;line-height:1.6;resize:none;outline:none;overflow-y:hidden;}
 .search-input::placeholder{color:var(--dim);}
 .search-btn{position:absolute;right:8px;bottom:8px;background:var(--grn);color:#000;border:none;width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:600;transition:opacity .15s,transform .1s;}
 .search-btn:hover{opacity:.88;}
@@ -315,6 +315,17 @@ canvas{display:block;width:100%;}
 .card-acts{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid rgba(255,255,255,0.05);}
 .card-fine-top{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--grn);}
 .rcard.kol .card-fine-top{color:var(--ora);}
+.rcard{position:relative;border:1px solid rgba(255,255,255,0.08) !important;border-radius:18px;padding:0;overflow:hidden;}
+.rcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:18px 0 0 18px;}
+.rcard.ftm::before{background:#4cff91;}
+.rcard.kol::before{background:#fb923c;}
+.card-body{padding:16px 20px 12px 24px;}
+.card-top-meta{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px 24px;}
+.card-acts{display:flex;align-items:center;justify-content:space-between;padding:10px 20px 14px 24px;border-top:1px solid rgba(255,255,255,0.05);}
+.gerekce{color:rgba(255,255,255,0.9);font-weight:500;line-height:1.5;}
+.kanun{color:rgba(255,255,255,0.5);font-style:normal;font-size:.85rem;line-height:1.6;border-left:2px solid rgba(255,255,255,0.1);}
+.rcard.ftm .kanun{border-left-color:rgba(76,255,145,0.2);}
+.rcard.kol .kanun{border-left-color:rgba(251,146,60,0.2);}
 </style>
 </head>
 <body>
@@ -331,7 +342,7 @@ canvas{display:block;width:100%;}
   <div class="search-wrap">
     <textarea class="search-input" id="query" rows="1"
       placeholder="Olayı kendi kelimelerinizle anlatın... (Örn: emniyet şeridinden araç geçti)"
-      oninput="onInput();this.style.height='';this.style.height=this.scrollHeight+'px';"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';onInput();"
       onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey))doSearch();"></textarea>
     <button class="search-btn" id="searchBtn" onclick="doSearch()">&#x2192;</button>
   </div>
