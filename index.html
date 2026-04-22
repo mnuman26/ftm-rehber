@@ -17,7 +17,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-.hero{display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem 1.5rem;transition:padding .3s;}
+.hero{display:flex;flex-direction:column;align-items:center;padding:0 1.5rem 1.5rem;transition:padding .3s;}
 .hero.compact{padding:1rem 1.5rem .75rem;}
 .site-logo {
   background: #0d0f0e;
@@ -268,9 +268,6 @@ canvas{display:block;width:100%;}
 .kaza-badge{font-family:var(--mono);font-size:10px;color:#fb923c;background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:4px;padding:1px 7px;}
 .dash-sayac{background:var(--surf);border-bottom:1px solid var(--bdr);}
 
-.sozler-bar{padding:6px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px;opacity:0.5;}
-.sozler-icon{font-size:11px;flex-shrink:0;color:var(--dim);}
-.sozler-text{font-size:11px;font-style:normal;color:var(--dim);line-height:1.5;flex:1;}
 .reklam-bar{padding:10px 20px;background:var(--surf);border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;}
 .reklam-link{font-family:var(--mono);font-size:11px;color:var(--mut);text-decoration:none;opacity:0.6;transition:opacity .2s;}
 .reklam-link:hover{opacity:1;color:var(--grn);}
@@ -355,6 +352,15 @@ canvas{display:block;width:100%;}
 .kanun{border-left:2px solid rgba(255,255,255,0.1);font-size:0.9rem;position:relative;padding-top:24px;}
 .kanun-label{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,0.3);text-transform:uppercase;}
 .conf-badge{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;}
+.site-logo{display:flex;flex-direction:column;align-items:center;padding:40px 20px 32px;border-bottom:none;-webkit-font-smoothing:antialiased;}
+.logo-main{font-family:Georgia,'Times New Roman',serif;font-size:1.9rem;font-weight:800;color:#ffffff;letter-spacing:-0.035em;line-height:1.1;text-align:center;}
+.logo-accent{width:40px;height:1.5px;background:#4cff91;margin:16px auto 0;border-radius:2px;border:none;}
+.logo-meta{font-family:var(--sans);font-size:0.75rem;color:rgba(255,255,255,0.5);letter-spacing:1px;margin-top:12px;text-align:center;}
+.logo-link{color:rgba(255,255,255,0.5);text-decoration:none;transition:color .15s;}
+.logo-link:hover{color:#4cff91;}
+.logo-slogan{font-family:var(--sans);font-size:0.85rem;color:rgba(255,255,255,0.4);font-style:normal;margin-top:10px;text-align:center;max-width:80%;margin-left:auto;margin-right:auto;}
+.logo-slogan::before{content:'“';}
+.logo-slogan::after{content:'”';}
 </style>
 </head>
 <body>
