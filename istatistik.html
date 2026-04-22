@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trafik İstatistikleri — EGM</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0f0e;--surf:#141714;--surf2:#1c201c;--bdr:#2a2f2a;--bdr2:#3a4a3a;
+  --txt:#e8ede8;--mut:#7a897a;--dim:#4a584a;
+  --grn:#4cff91;--grn-dk:#182e1f;--grn-md:#2d7a50;
+  --amb:#ffc94a;--red:#E24B4A;--ora:#fb923c;--blu:#60a5fa;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;}
+.header{background:var(--surf);border-bottom:2px solid var(--grn-md);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+.header-left{display:flex;align-items:center;gap:12px;}
+.logo-monogram{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--grn);letter-spacing:.18em;}
+.logo-main{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--txt);}
+.back-btn{font-family:var(--mono);font-size:11px;color:var(--mut);text-decoration:none;border:1px solid var(--bdr);padding:6px 12px;border-radius:6px;transition:all .15s;}
+.back-btn:hover{color:var(--grn);border-color:var(--grn-md);}
+.hero{padding:2rem 1.5rem 1rem;text-align:center;border-bottom:1px solid var(--bdr);}
+.hero-title{font-family:var(--mono);font-size:13px;color:var(--grn);letter-spacing:.1em;margin-bottom:8px;}
+.hero-sub{font-size:12px;color:var(--dim);font-family:var(--mono);}
+.content{max-width:720px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+.section{margin-bottom:2rem;}
+.sec-title{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--bdr);}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.5rem;}
+.stat-card{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:14px;}
+.stat-lbl{font-size:10px;font-family:var(--mono);color:var(--dim);letter-spacing:.08em;margin-bottom:6px;}
+.stat-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--grn);}
+.stat-val.red{color:var(--red);}
+.stat-val.amb{color:var(--amb);}
+.stat-val.ora{color:var(--ora);}
+.stat-delta{font-size:10px;font-family:var(--mono);margin-top:3px;}
+.delta-up{color:var(--red);}.delta-dn{color:var(--grn);}
+.ay-strip{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;}
+.ay-btn{font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--bdr);background:var(--surf);color:var(--mut);cursor:pointer;transition:all .15s;}
+.ay-btn.active{background:var(--grn-dk);color:var(--grn);border-color:var(--grn-md);}
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:12px;margin-bottom:8px;}
+canvas{display:block;width:100%;}
+.ftm-table{width:100%;border-collapse:collapse;}
+.ftm-table th{font-family:var(--mono);font-size:9px;color:var(--dim);padding:6px 8px;text-align:left;border-bottom:1px solid var(--bdr);}
+.ftm-table td{padding:8px;border-bottom:1px solid var(--bdr);font-size:12px;}
+.ftm-table tr:last-child td{border-bottom:none;}
+.ftm-table tr:hover td{background:var(--surf2);}
+.rank{font-family:var(--mono);font-size:11px;color:var(--dim);}
+.madde-no{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--grn);}
+.sayi{font-family:var(--mono);font-size:12px;color:var(--grn);text-align:right;}
+.kusur-bar{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bdr);}
+.kusur-bar:last-child{border-bottom:none;}
+.kusur-lbl{font-size:11px;color:var(--mut);width:160px;flex-shrink:0;}
+.kusur-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.kusur-fill{height:6px;border-radius:3px;background:var(--red);transition:width .5s ease;}
+.kusur-val{font-family:var(--mono);font-size:10px;color:var(--dim);width:60px;text-align:right;flex-shrink:0;}
+.korel-note{margin-top:8px;padding:8px 12px;background:rgba(255,201,74,.06);border:1px solid rgba(255,201,74,.2);border-radius:6px;font-size:11px;color:var(--mut);line-height:1.6;}
+.korel-note strong{color:var(--amb);}
+.footer{text-align:center;padding:1rem;font-size:11px;color:var(--dim);font-family:var(--mono);border-top:1px solid var(--bdr);}
+.footer a{color:var(--grn-md);text-decoration:none;}
+.month-insight{margin-bottom:1.5rem;padding:14px 16px;background:var(--surf);border:1px solid var(--bdr2);border-radius:10px;display:flex;align-items:flex-start;gap:12px;}
+.mi-icon{font-size:24px;flex-shrink:0;}
+.mi-baslik{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--grn);margin-bottom:4px;}
+.mi-metin{font-size:12px;color:var(--mut);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <div>
+      <div class="logo-monogram">T C R</div>
+      <div class="logo-main">İstatistikler</div>
+    </div>
+  </div>
+  <a href="index.html" class="back-btn">← Madde Bulucu</a>
+</div>
+<div class="hero">
+  <div class="hero-title">EGM TRAFİK İSTATİSTİK BÜLTENLERİ</div>
+  <div class="hero-sub">Aralık 2025 · Ocak 2026 · Şubat 2026 · Mart 2026 &nbsp;·&nbsp; Ülke Geneli</div>
+</div>
+<div class="content">
+  <div class="month-insight" id="monthInsight">
+    <div class="mi-icon">📊</div>
+    <div><div class="mi-baslik">Yükleniyor...</div></div>
+  </div>
+  <div class="section">
+    <div class="sec-title">AY SEÇ</div>
+    <div class="ay-strip" id="ayBtnlar"></div>
+  </div>
+  <div class="section">
+    <div class="sec-title">ÖZET</div>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+  <div class="section">
+    <div class="sec-title">4 AYLIK KAZA TRENDİ</div>
+    <div class="card" style="padding:12px">
+      <canvas id="cTrend" height="160"></canvas>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-title" id="ayLabel">SÜRÜCÜ KUSURLARI</div>
+    <div class="card" style="padding:12px 14px" id="kusurWrap"></div>
+  </div>
+  <div class="section">
+    <div class="sec-title">KAZA — CEZA KORELASYONU</div>
+    <div class="card" style="padding:12px">
+      <canvas id="cKorel" height="200"></canvas>
+    </div>
+    <div class="korel-note"><strong>Caydırıcılık:</strong> Şubat en az ceza ve en az kaza. Mart'ta ceza azalmasına rağmen kaza arttı — mevsimsel trafik artışı ceza etkisini geride bıraktı.</div>
+  </div>
+  <div class="section">
+    <div class="sec-title">İSTANBUL 2025 — EN ÇOK YAZILAN FTM MADDELERİ</div>
+    <div class="card" style="padding:0">
+      <table class="ftm-table" id="ftmTable"></table>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-title" id="illerLabel">İL BAZLI KAZA — TOP 15</div>
+    <div class="card" style="padding:12px">
+      <canvas id="cIller" height="240"></canvas>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <a href="https://trafik.gov.tr" target="_blank">trafik.gov.tr</a> &nbsp;·&nbsp;
+  EGM Trafik İstatistik Bültenleri &nbsp;·&nbsp;
+  Aralık 2025 – Mart 2026
+</div>
+<script>
+var EGM={
+  aylar:[
+    {kod:"2025-12",ad:"Ara 25",yil:2025,ay:12},
+    {kod:"2026-01",ad:"Oca 26",yil:2026,ay:1},
+    {kod:"2026-02",ad:"Şub 26",yil:2026,ay:2},
+    {kod:"2026-03",ad:"Mar 26",yil:2026,ay:3}
+  ],
+  kaza:{
+    "2025-12":{toplam:57822,olu:213,yarali:30200},
+    "2026-01":{toplam:53603,olu:141,yarali:24397},
+    "2026-02":{toplam:48008,olu:139,yarali:23200},
+    "2026-03":{toplam:55041,olu:140,yarali:30517}
+  },
+  kusur:{
+    "2025-12":{hiz:8946,kavsak:4021,serit:1724,arkadan:2128,dogrultu:1985,manevra:1015,kirmizi:618,tasit:854,yaya:401,alkol:131,asiri_hiz:136,gecme:260,park:117,diger:1093},
+    "2026-01":{hiz:7533,kavsak:3024,serit:1514,arkadan:1745,dogrultu:1442,manevra:771,kirmizi:492,tasit:608,yaya:322,alkol:96,asiri_hiz:118,gecme:219,park:89,diger:427},
+    "2026-02":{hiz:6745,kavsak:3183,serit:1511,arkadan:1683,dogrultu:1343,manevra:799,kirmizi:461,tasit:628,yaya:315,alkol:85,asiri_hiz:120,gecme:223,park:74,diger:425},
+    "2026-03":{hiz:8608,kavsak:4166,serit:2024,arkadan:2270,dogrultu:1746,manevra:1025,kirmizi:458,tasit:794,yaya:296,alkol:92,asiri_hiz:122,gecme:296,park:116,diger:474}
+  },
+  ceza:{
+    "2025-12":{toplam:2761392,surucuye:463781,plakaya:2288888,alkol:21057},
+    "2026-01":{toplam:2476432,surucuye:378179,plakaya:2091860,alkol:17651},
+    "2026-02":{toplam:2509890,surucuye:398745,plakaya:2103590,alkol:12475},
+    "2026-03":{toplam:2217338,surucuye:400544,plakaya:1809097,alkol:9939}
+  },
+  il:{
+    "2025-12":{"ADANA":523,"ADIYAMAN":156,"AFYONKARAHİSAR":203,"AĞRI":67,"AMASYA":128,"ANKARA":1375,"ANTALYA":1055,"ARTVİN":25,"AYDIN":390,"BALIKESİR":411,"BİLECİK":64,"BİNGÖL":60,"BİTLİS":55,"BOLU":95,"BURDUR":131,"BURSA":738,"ÇANAKKALE":176,"ÇANKIRI":62,"ÇORUM":175,"DENİZLİ":352,"DİYARBAKIR":299,"EDİRNE":107,"ELAZIĞ":116,"ERZİNCAN":74,"ERZURUM":109,"ESKİŞEHİR":218,"GAZİANTEP":488,"GİRESUN":114,"GÜMÜŞHANE":25,"HAKKARİ":22,"HATAY":632,"ISPARTA":145,"MERSİN":691,"İSTANBUL":3501,"İZMİR":1271,"KARS":53,"KASTAMONU":90,"KAYSERİ":382,"KIRKLARELİ":73,"KIRŞEHİR":72,"KOCAELİ":617,"KONYA":609,"KÜTAHYA":163,"MALATYA":185,"MANİSA":480,"KAHRAMANMARAŞ":299,"MARDİN":143,"MUĞLA":489,"MUŞ":35,"NEVŞEHİR":109,"NİĞDE":101,"ORDU":225,"RİZE":123,"SAKARYA":363,"SAMSUN":447,"SİİRT":54,"SİNOP":81,"SİVAS":126,"TEKİRDAĞ":306,"TOKAT":169,"TRABZON":186,"TUNCELİ":17,"ŞANLIURFA":370,"UŞAK":111,"VAN":127,"YOZGAT":79,"ZONGULDAK":149,"AKSARAY":106,"BAYBURT":9,"KARAMAN":66,"KIRIKKALE":87,"BATMAN":101,"ŞIRNAK":80,"BARTIN":44,"ARDAHAN":6,"IĞDIR":35,"YALOVA":104,"KARABÜK":92,"KİLİS":60,"OSMANİYE":275,"DÜZCE":110},
+    "2026-01":{"ADANA":475,"ADIYAMAN":92,"AFYONKARAHİSAR":163,"AĞRI":39,"AMASYA":75,"ANKARA":1202,"ANTALYA":822,"ARTVİN":11,"AYDIN":372,"BALIKESİR":328,"BİLECİK":59,"BİNGÖL":35,"BİTLİS":41,"BOLU":52,"BURDUR":94,"BURSA":692,"ÇANAKKALE":146,"ÇANKIRI":42,"ÇORUM":126,"DENİZLİ":254,"DİYARBAKIR":210,"EDİRNE":90,"ELAZIĞ":70,"ERZİNCAN":41,"ERZURUM":91,"ESKİŞEHİR":184,"GAZİANTEP":313,"GİRESUN":79,"GÜMÜŞHANE":13,"HAKKARİ":11,"HATAY":468,"ISPARTA":140,"MERSİN":586,"İSTANBUL":2731,"İZMİR":1028,"KARS":24,"KASTAMONU":57,"KAYSERİ":280,"KIRKLARELİ":90,"KIRŞEHİR":48,"KOCAELİ":547,"KONYA":491,"KÜTAHYA":135,"MALATYA":102,"MANİSA":391,"KAHRAMANMARAŞ":198,"MARDİN":94,"MUĞLA":396,"MUŞ":21,"NEVŞEHİR":72,"NİĞDE":83,"ORDU":187,"RİZE":89,"SAKARYA":258,"SAMSUN":389,"SİİRT":32,"SİNOP":50,"SİVAS":92,"TEKİRDAĞ":257,"TOKAT":114,"TRABZON":186,"TUNCELİ":5,"ŞANLIURFA":261,"UŞAK":79,"VAN":69,"YOZGAT":65,"ZONGULDAK":120,"AKSARAY":91,"BAYBURT":8,"KARAMAN":58,"KIRIKKALE":64,"BATMAN":65,"ŞIRNAK":59,"BARTIN":42,"ARDAHAN":8,"IĞDIR":30,"YALOVA":75,"KARABÜK":50,"KİLİS":21,"OSMANİYE":201,"DÜZCE":95},
+    "2026-02":{"ADANA":402,"ADIYAMAN":98,"AFYONKARAHİSAR":142,"AĞRI":66,"AMASYA":100,"ANKARA":1068,"ANTALYA":828,"ARTVİN":20,"AYDIN":332,"BALIKESİR":293,"BİLECİK":53,"BİNGÖL":53,"BİTLİS":55,"BOLU":68,"BURDUR":68,"BURSA":639,"ÇANAKKALE":124,"ÇANKIRI":51,"ÇORUM":114,"DENİZLİ":280,"DİYARBAKIR":215,"EDİRNE":57,"ELAZIĞ":102,"ERZİNCAN":48,"ERZURUM":107,"ESKİŞEHİR":176,"GAZİANTEP":348,"GİRESUN":62,"GÜMÜŞHANE":15,"HAKKARİ":15,"HATAY":432,"ISPARTA":96,"MERSİN":517,"İSTANBUL":2723,"İZMİR":874,"KARS":30,"KASTAMONU":61,"KAYSERİ":322,"KIRKLARELİ":61,"KIRŞEHİR":40,"KOCAELİ":477,"KONYA":517,"KÜTAHYA":91,"MALATYA":129,"MANİSA":378,"KAHRAMANMARAŞ":202,"MARDİN":121,"MUĞLA":373,"MUŞ":28,"NEVŞEHİR":74,"NİĞDE":88,"ORDU":163,"RİZE":66,"SAKARYA":228,"SAMSUN":355,"SİİRT":46,"SİNOP":55,"SİVAS":107,"TEKİRDAĞ":257,"TOKAT":135,"TRABZON":167,"TUNCELİ":16,"ŞANLIURFA":264,"UŞAK":75,"VAN":110,"YOZGAT":77,"ZONGULDAK":135,"AKSARAY":84,"BAYBURT":8,"KARAMAN":67,"KIRIKKALE":78,"BATMAN":83,"ŞIRNAK":86,"BARTIN":37,"ARDAHAN":4,"IĞDIR":24,"YALOVA":91,"KARABÜK":46,"KİLİS":40,"OSMANİYE":186,"DÜZCE":103},
+    "2026-03":{"ADANA":561,"ADIYAMAN":131,"AFYONKARAHİSAR":213,"AĞRI":65,"AMASYA":120,"ANKARA":1415,"ANTALYA":1035,"ARTVİN":20,"AYDIN":471,"BALIKESİR":414,"BİLECİK":56,"BİNGÖL":59,"BİTLİS":48,"BOLU":88,"BURDUR":103,"BURSA":808,"ÇANAKKALE":162,"ÇANKIRI":72,"ÇORUM":185,"DENİZLİ":332,"DİYARBAKIR":270,"EDİRNE":103,"ELAZIĞ":129,"ERZİNCAN":52,"ERZURUM":106,"ESKİŞEHİR":251,"GAZİANTEP":479,"GİRESUN":88,"GÜMÜŞHANE":23,"HAKKARİ":23,"HATAY":557,"ISPARTA":167,"MERSİN":638,"İSTANBUL":3262,"İZMİR":1160,"KARS":32,"KASTAMONU":73,"KAYSERİ":373,"KIRKLARELİ":76,"KIRŞEHİR":50,"KOCAELİ":634,"KONYA":667,"KÜTAHYA":169,"MALATYA":165,"MANİSA":446,"KAHRAMANMARAŞ":255,"MARDİN":121,"MUĞLA":496,"MUŞ":36,"NEVŞEHİR":86,"NİĞDE":104,"ORDU":204,"RİZE":82,"SAKARYA":313,"SAMSUN":413,"SİİRT":49,"SİNOP":66,"SİVAS":115,"TEKİRDAĞ":285,"TOKAT":192,"TRABZON":180,"TUNCELİ":11,"ŞANLIURFA":336,"UŞAK":136,"VAN":120,"YOZGAT":89,"ZONGULDAK":138,"AKSARAY":119,"BAYBURT":12,"KARAMAN":60,"KIRIKKALE":106,"BATMAN":115,"ŞIRNAK":69,"BARTIN":63,"ARDAHAN":8,"IĞDIR":30,"YALOVA":105,"KARABÜK":78,"KİLİS":27,"OSMANİYE":241,"DÜZCE":85}
+  }
+};
+
+var FTM_IST_2025=[
+  {no:"73/c",sayi:38429},{no:"46/2-f",sayi:25146},{no:"47/1-c",sayi:20440},
+  {no:"46/2-c",sayi:19945},{no:"47/1-b",sayi:16979},{no:"46/2-h",sayi:14705},
+  {no:"78/1-a",sayi:14143},{no:"54/1-a",sayi:12098},{no:"74/b",sayi:9001},
+  {no:"78/1-b",sayi:7562},{no:"46/2-b",sayi:6337},{no:"72/1",sayi:5813},
+  {no:"73/b",sayi:5225},{no:"57/1-e",sayi:4585},{no:"56/1-a",sayi:4034},
+  {no:"73/a",sayi:3726},{no:"67/1-c",sayi:2895},{no:"61/1-o",sayi:2430}
+];
+
+function fmt(n){return Math.round(n).toLocaleString("tr-TR");}
+
+function getAyKod(){
+  var now=new Date();var y=now.getFullYear();var m=now.getMonth()+1;
+  var found=null;
+  EGM.aylar.slice().reverse().forEach(function(a){
+    if(!found&&(a.yil<y||(a.yil===y&&a.ay<=m)))found=a.kod;
+  });
+  return found||EGM.aylar[EGM.aylar.length-1].kod;
+}
+
+var secilenAy=getAyKod();
+
+function buildMonthInsight(){
+  var el=document.getElementById("monthInsight");if(!el)return;
+  var buAy=new Date().getMonth()+1;
+  var ayInsight={
+    12:{icon:"❄️",baslik:"Aralık riski: Hız + Alkol",metin:"Kış koşullarında hız uyumsuzluğu (8.946 kaza) ve yılbaşı döneminde alkol (21.057 tespit) Aralık ayının başlıca tehlikeleri."},
+    1:{icon:"🌨️",baslik:"Ocak riski: Islak/Buzlu Yol",metin:"Ocak'ta hız kaynaklı kaza (7.533) tüm kusurların %40'ını oluşturuyor. Kış lastiği kontrolü kritik."},
+    2:{icon:"🌧️",baslik:"Şubat riski: Kavşak İhlalleri",metin:"Şubat'ta kavşak ve geçit önceliği ihlalleri (3.183) oransal olarak en yüksek aya ulaşıyor."},
+    3:{icon:"🌸",baslik:"Mart riski: Şerit + Dönüş",metin:"Bahar başında şerit ihlali (2.024) ve dönüş kuralları (1.746) Mart'ta belirgin artış gösteriyor."},
+    4:{icon:"🌿",baslik:"Nisan: Motosiklet Sezonu",metin:"Nisan'da motosiklet kaynaklı kazalar artar. Kask denetimi ve kavşak ihlali öne çıkar."}
+  };
+  var ins=ayInsight[buAy]||ayInsight[3];
+  el.innerHTML='<div class="mi-icon">'+ins.icon+'</div><div><div class="mi-baslik">'+ins.baslik+'</div><div class="mi-metin">'+ins.metin+'</div></div>';
+}
+
+function buildStatsGrid(kod){
+  var el=document.getElementById("statsGrid");if(!el)return;
+  var k=EGM.kaza[kod];var c=EGM.ceza[kod];
+  var idx=EGM.aylar.findIndex(function(a){return a.kod===kod;});
+  var prev=idx>0?EGM.aylar[idx-1].kod:null;
+  var pk=prev?EGM.kaza[prev]:null;
+  function delta(cur,pre,field){
+    if(!pre)return"";
+    var d=cur[field]-pre[field];var pct=Math.round(d/pre[field]*100);
+    var cls=d>0?"delta-up":"delta-dn";var arrow=d>0?"▲":"▼";
+    return'<div class="stat-delta '+cls+'">'+arrow+" "+Math.abs(pct)+"% önceki ay</div>";
+  }
+  el.innerHTML=
+    '<div class="stat-card"><div class="stat-lbl">TOPLAM KAZA</div><div class="stat-val">'+fmt(k.toplam)+"</div>"+(pk?delta(k,pk,"toplam"):"")+"</div>"+
+    '<div class="stat-card"><div class="stat-lbl">HAYATINI KAYBEDEN</div><div class="stat-val red">'+k.olu+"</div>"+(pk?delta(k,pk,"olu"):"")+"</div>"+
+    '<div class="stat-card"><div class="stat-lbl">TOPLAM CEZA</div><div class="stat-val amb">'+(c.toplam/1000000).toFixed(2)+"M</div></div>"+
+    '<div class="stat-card"><div class="stat-lbl">ALKOLLÜ SÜRÜCÜ</div><div class="stat-val ora">'+fmt(c.alkol)+"</div>"+(prev?delta(c,EGM.ceza[prev],"alkol"):"")+"</div>";
+}
+
+function drawTrend(){
+  var canvas=document.getElementById("cTrend");if(!canvas)return;
+  var dpr=window.devicePixelRatio||1;
+  var W=canvas.offsetWidth||360;var H=160;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+"px";canvas.style.height=H+"px";
+  var ctx=canvas.getContext("2d");ctx.scale(dpr,dpr);
+  var series=[
+    {key:"toplam",label:"Toplam kaza",color:"#4cff91",scale:1},
+    {key:"olu",label:"Ölü (×10)",color:"#E24B4A",scale:10},
+    {key:"yarali",label:"Yaralı",color:"#ffc94a",scale:1}
+  ];
+  var allVals=[];
+  EGM.aylar.forEach(function(a){series.forEach(function(s){allVals.push(EGM.kaza[a.kod][s.key]*s.scale);});});
+  var maxV=Math.max.apply(null,allVals)*1.1;var minV=0;
+  var pad={l:48,r:20,t:20,b:36};var gW=W-pad.l-pad.r;var gH=H-pad.t-pad.b;
+  ctx.strokeStyle="rgba(255,255,255,0.06)";ctx.lineWidth=0.5;
+  for(var i=0;i<=4;i++){
+    var gy=pad.t+gH*(1-i/4);
+    ctx.beginPath();ctx.moveTo(pad.l,gy);ctx.lineTo(pad.l+gW,gy);ctx.stroke();
+    ctx.fillStyle="rgba(255,255,255,0.3)";ctx.font="10px monospace";ctx.textAlign="right";
+    ctx.fillText(fmt(minV+(maxV-minV)*i/4),pad.l-4,gy+3);
+  }
+  ctx.fillStyle="rgba(255,255,255,0.4)";ctx.font="10px monospace";ctx.textAlign="center";
+  EGM.aylar.forEach(function(a,i){ctx.fillText(a.ad,pad.l+gW*i/(EGM.aylar.length-1),H-pad.b+16);});
+  series.forEach(function(s){
+    var pts=EGM.aylar.map(function(a,i){return{x:pad.l+gW*i/(EGM.aylar.length-1),y:pad.t+gH*(1-(EGM.kaza[a.kod][s.key]*s.scale-minV)/(maxV-minV))};});
+    ctx.beginPath();ctx.strokeStyle=s.color;ctx.lineWidth=2;
+    pts.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});ctx.stroke();
+    pts.forEach(function(p){ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fillStyle=s.color;ctx.fill();});
+  });
+  var lx=pad.l;
+  series.forEach(function(s){
+    ctx.fillStyle=s.color;ctx.fillRect(lx,6,10,3);
+    ctx.fillStyle="rgba(255,255,255,0.6)";ctx.font="9px monospace";ctx.textAlign="left";
+    ctx.fillText(s.label,lx+13,10);lx+=ctx.measureText(s.label).width+28;
+  });
+}
+
+function drawKusur(ayKod){
+  var el=document.getElementById("kusurWrap");if(!el)return;
+  var k=EGM.kusur[ayKod];
+  var items=[
+    {lbl:"Hız (yol/hava şartları)",val:k.hiz,color:"#E24B4A"},
+    {lbl:"Kavşak/geçit önceliği",val:k.kavsak,color:"#fb923c"},
+    {lbl:"Arkadan çarpma",val:k.arkadan,color:"#ffc94a"},
+    {lbl:"Dönüş kuralları",val:k.dogrultu,color:"#ffc94a"},
+    {lbl:"Şerit ihlali",val:k.serit,color:"#60a5fa"},
+    {lbl:"Manevra",val:k.manevra,color:"#60a5fa"},
+    {lbl:"Taşıt giremez",val:k.tasit,color:"#a78bfa"},
+    {lbl:"Kırmızı ışık",val:k.kirmizi,color:"#4cff91"},
+    {lbl:"Yaya/okul geçidi",val:k.yaya,color:"#4cff91"},
+    {lbl:"Alkol",val:k.alkol,color:"#f472b6"}
+  ].sort(function(a,b){return b.val-a.val;});
+  var maxVal=items[0].val;
+  el.innerHTML=items.map(function(it){
+    var pct=Math.round(it.val/maxVal*100);
+    return'<div class="kusur-bar"><div class="kusur-lbl">'+it.lbl+'</div><div class="kusur-track"><div class="kusur-fill" style="width:'+pct+'%;background:'+it.color+'"></div></div><div class="kusur-val">'+fmt(it.val)+'</div></div>';
+  }).join("");
+}
+
+function drawKorelasyon(){
+  var canvas=document.getElementById("cKorel");if(!canvas)return;
+  var dpr=window.devicePixelRatio||1;
+  var W=canvas.offsetWidth||360;var H=200;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+"px";canvas.style.height=H+"px";
+  var ctx=canvas.getContext("2d");ctx.scale(dpr,dpr);
+  var pad={l:50,r:20,t:24,b:40};
+  var pts=EGM.aylar.map(function(a){return{lbl:a.ad,x:EGM.ceza[a.kod].toplam,y:EGM.kaza[a.kod].toplam,olu:EGM.kaza[a.kod].olu};});
+  var maxX=Math.max.apply(null,pts.map(function(p){return p.x;}))*1.05;
+  var maxY=Math.max.apply(null,pts.map(function(p){return p.y;}))*1.15;
+  var gW=W-pad.l-pad.r;var gH=H-pad.t-pad.b;
+  ctx.strokeStyle="rgba(255,255,255,0.06)";ctx.lineWidth=0.5;
+  for(var i=0;i<=4;i++){
+    var gy=pad.t+gH*(1-i/4);
+    ctx.beginPath();ctx.moveTo(pad.l,gy);ctx.lineTo(pad.l+gW,gy);ctx.stroke();
+    ctx.fillStyle="rgba(255,255,255,0.3)";ctx.font="9px monospace";ctx.textAlign="right";
+    ctx.fillText(fmt(maxY*i/4),pad.l-4,gy+3);
+    var gx=pad.l+gW*i/4;
+    ctx.beginPath();ctx.moveTo(gx,pad.t);ctx.lineTo(gx,pad.t+gH);ctx.stroke();
+    ctx.fillStyle="rgba(255,255,255,0.3)";ctx.font="9px monospace";ctx.textAlign="center";
+    ctx.fillText((maxX*i/4/1000000).toFixed(1)+"M",gx,pad.t+gH+14);
+  }
+  ctx.fillStyle="rgba(255,255,255,0.4)";ctx.font="9px monospace";ctx.textAlign="center";
+  ctx.fillText("Toplam ceza →",pad.l+gW/2,H-4);
+  ctx.save();ctx.translate(12,pad.t+gH/2);ctx.rotate(-Math.PI/2);ctx.fillText("← Kaza",0,0);ctx.restore();
+  pts.forEach(function(p){
+    var px=pad.l+gW*(p.x/maxX);var py=pad.t+gH*(1-p.y/maxY);
+    var r=6+Math.sqrt(p.olu)*0.8;
+    ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fillStyle="rgba(76,255,145,0.2)";ctx.fill();
+    ctx.strokeStyle="#4cff91";ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle="#fff";ctx.font="bold 10px monospace";ctx.textAlign="center";
+    ctx.fillText(p.lbl,px,py-r-4);
+    ctx.fillStyle="#E24B4A";ctx.font="9px monospace";ctx.fillText(p.olu+" ölü",px,py+4);
+  });
+  var n=pts.length;
+  var sumX=pts.reduce(function(s,p){return s+p.x;},0);
+  var sumY=pts.reduce(function(s,p){return s+p.y;},0);
+  var sumXY=pts.reduce(function(s,p){return s+p.x*p.y;},0);
+  var sumX2=pts.reduce(function(s,p){return s+p.x*p.x;},0);
+  var slope=(n*sumXY-sumX*sumY)/(n*sumX2-sumX*sumX);
+  var inter=(sumY-slope*sumX)/n;
+  ctx.beginPath();ctx.strokeStyle="rgba(255,201,74,0.4)";ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.moveTo(pad.l+gW*(0/maxX),pad.t+gH*(1-inter/maxY));
+  ctx.lineTo(pad.l+gW*(maxX/maxX),pad.t+gH*(1-(slope*maxX+inter)/maxY));
+  ctx.stroke();ctx.setLineDash([]);
+}
+
+function drawIller(ayKod){
+  var canvas=document.getElementById("cIller");if(!canvas)return;
+  var dpr=window.devicePixelRatio||1;
+  var W=canvas.offsetWidth||360;var H=240;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+"px";canvas.style.height=H+"px";
+  var ctx=canvas.getContext("2d");ctx.scale(dpr,dpr);
+  var ilData=EGM.il[ayKod];
+  var sorted=Object.keys(ilData).map(function(k){return{il:k,val:ilData[k]};}).sort(function(a,b){return b.val-a.val;}).slice(0,15);
+  var maxVal=sorted[0].val;
+  var rowH=H/sorted.length;var labelW=90;
+  sorted.forEach(function(it,i){
+    var y=i*rowH;var barMax=W-labelW-8-44;var barW=Math.round(barMax*it.val/maxVal);
+    var intensity=it.val/maxVal;
+    var r=Math.round(226*intensity+30*(1-intensity));var g=Math.round(75*intensity+130*(1-intensity));var b=Math.round(74*intensity+200*(1-intensity));
+    var color="rgb("+r+","+g+","+b+")";
+    ctx.fillStyle=color+"22";ctx.fillRect(labelW,y+1,barW,rowH-2);
+    ctx.fillStyle=color;ctx.fillRect(labelW,y+rowH/2-1,barW,2);
+    ctx.fillStyle="rgba(255,255,255,0.75)";ctx.font="10px sans-serif";ctx.textAlign="right";
+    ctx.fillText(it.il,labelW-8,y+rowH/2+4);
+    ctx.fillStyle=color;ctx.font="bold 10px monospace";ctx.textAlign="left";
+    ctx.fillText(fmt(it.val),labelW+barW+4,y+rowH/2+4);
+  });
+}
+
+function buildFtmTable(){
+  var el=document.getElementById("ftmTable");if(!el)return;
+  var rows=FTM_IST_2025.map(function(e,i){
+    return'<tr><td class="rank">'+(i+1)+'</td><td class="madde-no">'+e.no+'</td><td style="font-size:11px;color:var(--mut);padding:8px"></td><td class="sayi">'+e.sayi.toLocaleString("tr-TR")+'</td></tr>';
+  }).join("");
+  el.innerHTML='<thead><tr><th>#</th><th>MADDE</th><th>KONU</th><th style="text-align:right">CEZA</th></tr></thead><tbody>'+rows+"</tbody>";
+}
+
+function selectAy(kod){
+  secilenAy=kod;
+  document.querySelectorAll(".ay-btn").forEach(function(b){b.classList.toggle("active",b.dataset.kod===kod);});
+  document.getElementById("ayLabel").textContent=EGM.aylar.find(function(a){return a.kod===kod;}).ad+" — Sürücü kusurları";
+  document.getElementById("illerLabel").textContent=EGM.aylar.find(function(a){return a.kod===kod;}).ad+" — İl bazlı kaza Top 15";
+  buildStatsGrid(kod);drawKusur(kod);drawIller(kod);
+}
+
+function init(){
+  buildMonthInsight();
+  var btnWrap=document.getElementById("ayBtnlar");
+  EGM.aylar.forEach(function(a){
+    var btn=document.createElement("button");
+    btn.className="ay-btn"+(a.kod===secilenAy?" active":"");
+    btn.dataset.kod=a.kod;btn.textContent=a.ad;
+    btn.onclick=function(){selectAy(a.kod);};
+    btnWrap.appendChild(btn);
+  });
+  buildStatsGrid(secilenAy);
+  buildFtmTable();
+  setTimeout(function(){drawTrend();drawKusur(secilenAy);drawKorelasyon();drawIller(secilenAy);},100);
+}
+
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init);}else{init();}
+</script>
+</body>
+</html>
