@@ -766,8 +766,7 @@ function setEx(t){
 function renderResults(maddeler){
   var el=document.getElementById('results');
   if(!maddeler||!maddeler.length){
-    showEmpty();return;';
-    return;
+    showEmpty();return;
   }
   maddeler.sort(function(a,b){ return b.pct-a.pct; });
   var ftmList=maddeler.filter(function(m){ var d=CEZA_DATA[m.no]; return d&&d.ftm; });
