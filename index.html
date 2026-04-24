@@ -257,6 +257,30 @@ canvas{display:block;width:100%;}
   .card-top-meta{padding:10px 12px 0;}
   .card-acts{padding:8px 12px 10px;}
 }
+.hafiza-tag{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:10px;
+  color:rgba(76,255,145,0.7);
+  background:rgba(76,255,145,0.06);
+  border:1px solid rgba(76,255,145,0.15);
+  border-radius:4px;
+  padding:2px 8px;
+  margin-top:4px;
+}
+.rcard.kol .hafiza-tag{
+  color:rgba(251,146,60,0.7);
+  background:rgba(251,146,60,0.06);
+  border-color:rgba(251,146,60,0.15);
+}
+.grup-tag{
+  font-family:var(--mono);
+  font-size:9px;
+  color:var(--dim);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
 ::selection{background:rgba(76,255,145,0.3);color:#fff;}
 ::-webkit-scrollbar{width:6px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:10px;}
@@ -601,6 +625,16 @@ var CHIP_RESULTS = {
 const WORKER_URL  = 'https://ftm-madde-bulucu.mnuman.workers.dev/';
 const GITHUB_BASE = 'https://raw.githubusercontent.com/mnuman26/ftm-rehber/main/';
 
+var CEZA_DETAY = {};
+fetch(GITHUB_BASE + 'data/ceza-detay.json')
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    d.maddeler.forEach(function(m){
+      CEZA_DETAY[m.madde_no] = m;
+    });
+  })
+  .catch(function(){});
+
 function slug(no){ return no.replace(/\//g,'-'); }
 function dataUrl(no){ return GITHUB_BASE+'data/'+slug(no)+'.json'; }
 function svgUrl(f){ return GITHUB_BASE+'svgs/'+f; }
@@ -718,6 +752,10 @@ function buildCard(m,isFtm,idx){
   var hi=m.pct>=85?' hi':'';
   var authIcon=isFtm?'🛡️':'●';
   var authTxt=isFtm?'FTM YETKİLİ':'Sadece Kolluk';
+  var detay = CEZA_DETAY[m.no] || {};
+  var hafizaHtml = detay.hafiza_kodu
+    ? '<div class="hafiza-tag">💡 ' + detay.hafiza_kodu + '</div>'
+    : '';
   var fineStr=d?(d.tl.toLocaleString('tr-TR')+' TL'):'—';
   var indirimStr=d?((Math.round(d.tl*0.75)).toLocaleString('tr-TR')+' TL (%25 indirimli)'):'';
   var delay=(idx||0)*50;
@@ -733,6 +771,7 @@ function buildCard(m,isFtm,idx){
       +'</div>'
     +'</div>'
     +'<div class="card-body">'
+      +hafizaHtml
       +(m.gerekce?'<div class="gerekce">'+m.gerekce+'</div>':'')
       +(d&&d.konu?'<div class="kanun"><span class="kanun-label">Kanun Metni</span>'+d.konu+'</div>':'')
     +'</div>'
@@ -790,7 +829,28 @@ function renderDrw(no,d){
     body.innerHTML=html; return;
   }
   // 1. ozet
+  if(CEZA_DETAY[no] && CEZA_DETAY[no].grup){
+    html += '<div class="grup-tag">' + CEZA_DETAY[no].grup + '</div>';
+  }
   if(d.ozet) html+='<div class="dsec"><div class="dstit">ÖZET</div><div class="dozet">'+d.ozet+'</div></div>';
+  if(CEZA_DETAY[no] && CEZA_DETAY[no].sadelestirme){
+    html += '<div class="dsec"><div class="dstit">💬 SADE TÜRKÇE</div>'
+      + '<div style="font-size:13px;color:var(--txt);line-height:1.7;padding:12px 14px;background:rgba(76,255,145,0.04);border-radius:8px;border-left:3px solid rgba(76,255,145,0.3)">'
+      + CEZA_DETAY[no].sadelestirme
+      + '</div></div>';
+  }
+  if(CEZA_DETAY[no] && CEZA_DETAY[no].dogru_davranis){
+    html += '<div class="dsec"><div class="dstit">✅ DOĞRU DAVRANIŞ</div>'
+      + '<div style="font-size:12px;color:rgba(76,255,145,0.8);line-height:1.6;padding:10px 14px;background:rgba(76,255,145,0.04);border-radius:8px">'
+      + CEZA_DETAY[no].dogru_davranis
+      + '</div></div>';
+  }
+  if(CEZA_DETAY[no] && CEZA_DETAY[no].yanlis_davranis){
+    html += '<div class="dsec"><div class="dstit">❌ YANLIŞ DAVRANIŞ</div>'
+      + '<div style="font-size:12px;color:rgba(226,75,74,0.8);line-height:1.6;padding:10px 14px;background:rgba(226,75,74,0.04);border-radius:8px">'
+      + CEZA_DETAY[no].yanlis_davranis
+      + '</div></div>';
+  }
   html+=renderIstatistik(d.istatistikler);
   // 2. ceza
   var para=(d.ceza&&d.ceza.para_tl)||(c&&c.tl);
