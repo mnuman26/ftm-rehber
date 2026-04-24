@@ -246,6 +246,16 @@ export default {
       }
     }
 
+    try {
+      if(env.ANALYTICS) {
+        env.ANALYTICS.writeDataPoint({
+          blobs: [query, JSON.stringify(parsed.maddeler.map(function(m){return m.no;}))],
+          doubles: [parsed.maddeler.length],
+          indexes: [new Date().toISOString().slice(0,10)]
+        });
+      }
+    } catch(e) {}
+
     return new Response(JSON.stringify(parsed), { headers });
   },
 };
