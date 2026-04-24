@@ -817,7 +817,25 @@ function renderDrw(no,d){
   if(d&&d.baslik) document.getElementById('dTit').textContent=d.baslik;
   var html='';
   if(!d){
-    html='<div class="dnd">Detaylı içerik henüz eklenmemiş.<br><small style="color:var(--dim);font-family:var(--mono);font-size:11px">data/'+slug(no)+'.json ekleyerek zenginleştirin.</small></div>';
+    var detay=CEZA_DETAY[no]||{};
+    if(detay.sadelestirme){
+      if(detay.grup) html+='<div class="grup-tag">'+detay.grup+'</div>';
+      html+='<div class="dsec"><div class="dstit">💬 SADE TÜRKÇE</div>'
+        +'<div style="font-size:13px;color:var(--txt);line-height:1.7;padding:12px 14px;background:rgba(76,255,145,0.04);border-radius:8px;border-left:3px solid rgba(76,255,145,0.3)">'
+        +detay.sadelestirme+'</div></div>';
+      if(detay.dogru_davranis){
+        html+='<div class="dsec"><div class="dstit">✅ DOĞRU DAVRANIŞ</div>'
+          +'<div style="font-size:12px;color:rgba(76,255,145,0.8);line-height:1.6;padding:10px 14px;background:rgba(76,255,145,0.04);border-radius:8px">'
+          +detay.dogru_davranis+'</div></div>';
+      }
+      if(detay.yanlis_davranis){
+        html+='<div class="dsec"><div class="dstit">❌ YANLIŞ DAVRANIŞ</div>'
+          +'<div style="font-size:12px;color:rgba(226,75,74,0.8);line-height:1.6;padding:10px 14px;background:rgba(226,75,74,0.04);border-radius:8px">'
+          +detay.yanlis_davranis+'</div></div>';
+      }
+    } else {
+      html='<div class="dnd">Bu madde için henüz detay eklenmemiş.<br><small style="color:var(--dim);font-family:var(--mono);font-size:11px">data/'+slug(no)+'.json ekleyerek zenginleştirin.</small></div>';
+    }
     if(c){
       html+='<div class="dsec"><div class="dstit">CEZA BİLGİSİ</div><div class="cgrid">'
         +'<div class="cbox"><div class="clbl">PARA CEZASI</div><div class="cval">'+tl(c.tl)+'</div></div>'
