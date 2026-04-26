@@ -14,6 +14,13 @@
   --blu:#60a5fa; --blu-dk:#0f1f3a; --ora:#fb923c;
   --mono:'IBM Plex Mono',monospace; --sans:'Inter',sans-serif;
 }
+.light-theme {
+  --bg:#f8f9fa; --surf:#ffffff; --surf2:#f1f3f4; --surf3:#e8eaed;
+  --bdr:#dadce0; --bdr2:#bdc1c6; --txt:#202124; --mut:#5f6368; --dim:#80868b;
+  --grn:#34a853; --grn-dk:#e8f5e8; --grn-md:#81c784;
+  --amb:#fbbc04; --red:#ea4335; --red-dk:#fce8e6;
+  --blu:#4285f4; --blu-dk:#e3f2fd; --ora:#fa7b17;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 
@@ -26,9 +33,11 @@ body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:10
 .logo-meta{font-family:var(--sans);font-size:0.75rem;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-top:12px;text-align:center;}
 .logo-link{color:rgba(255,255,255,0.5);text-decoration:none;transition:color .15s;}
 .logo-link:hover{color:#4cff91;}
-.logo-slogan{font-family:var(--sans);font-size:0.9rem;color:rgba(255,255,255,0.4);font-style:normal;font-weight:400;margin-top:12px;text-align:center;max-width:80%;}
+.logo-slogan{font-family:var(--sans);font-size:0.9rem;color:var(--dim);font-style:normal;font-weight:400;margin-top:12px;text-align:center;max-width:80%;}
 .logo-slogan::before{content:'“';}
 .logo-slogan::after{content:'”';}
+.theme-toggle{position:absolute;top:20px;right:20px;background:var(--surf);border:1px solid var(--bdr);color:var(--txt);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.theme-toggle:hover{background:var(--surf2);}
 
 /* SEARCH */
 .search-wrap{width:100%;max-width:640px;position:relative;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:20px;transition:border-color .2s ease,box-shadow .2s ease;}
@@ -296,6 +305,7 @@ canvas{display:block;width:100%;}
     <div class="logo-accent"></div>
     <div class="logo-meta"><a href="https://www.trafik.gov.tr/" target="_blank" rel="noopener" class="logo-link">EGM</a> • <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=2918&MevzuatTur=1&MevzuatTertip=5" target="_blank" rel="noopener" class="logo-link">KTK 2918</a> • 2026</div>
     <div class="logo-slogan" id="sozlerText">Yükleniyor...</div>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Tema değiştir">&#x2600;</button>
   </div>
   <div class="search-wrap">
     <textarea class="search-input" id="query" rows="1"
@@ -1587,6 +1597,35 @@ initDashboard = function() {
   _origInit();
   buildStatsGrid(secilenAy);
 };
+
+// ── THEME TOGGLE ──
+function toggleTheme() {
+  var body = document.body;
+  var btn = document.getElementById('themeToggle');
+  var isLight = body.classList.contains('light-theme');
+  if (isLight) {
+    body.classList.remove('light-theme');
+    btn.innerHTML = '&#x2600;'; // Sun
+    localStorage.setItem('theme', 'dark');
+  } else {
+    body.classList.add('light-theme');
+    btn.innerHTML = '&#x1F319;'; // Moon
+    localStorage.setItem('theme', 'light');
+  }
+}
+
+// Load theme on init
+(function() {
+  var savedTheme = localStorage.getItem('theme');
+  var btn = document.getElementById('themeToggle');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+    if (btn) btn.innerHTML = '&#x1F319;';
+  } else {
+    if (btn) btn.innerHTML = '&#x2600;';
+  }
+})();
+
 
 fetch(GITHUB_BASE+'data/sozler.json')
   .then(function(r){return r.json();})
